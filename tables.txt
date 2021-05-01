@@ -1,1 +1,0 @@
-CREATE TABLE `moet`.`estagiarios` ( `id` INT NOT NULL AUTO_INCREMENT , `email` VARCHAR(50) NOT NULL , `senha` VARCHAR(50) NOT NULL , `nome` VARCHAR(50) NOT NULL , `curso` VARCHAR(50) NOT NULL , `anoDeIngresso` INT NOT NULL , `miniCurriculo` VARCHAR(500) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

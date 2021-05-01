@@ -2,13 +2,25 @@
 
 include './controller/utils.php';
 include './controller/estagiario.php';
+include './controller/validador.php';
+include './controller/empregador.php';
+include './controller/usuario.php';
 include './models/estagiario.php';
+include './models/empregador.php';
 
 $conn = connectDb();
 
-$estag = new Estagiario("email", "senha", "nome", "curso", 2019, "miniCurriculo");
+$estag = new Estagiario("", "email@test.com", "senha231", "Julio Cesar", "Ciencias da Computacao", 2019, "miniCurricsulo", "");
+$empregador = new Empregador("", "empregador@gmail.com", "senha231", "Luca Baasdsada", "Auvo LTDA", "descricaaaao","produtooss", "");
 
-insertOneEstagiario($conn, $estag);
+echo cadastrarEmpregador($empregador);
+
+//insertOneEmpregador($conn, $empregador);
+//insertOneEstagiario($conn, $estag);
+
+if ($resposta == null) {
+  echo "paozinho";
+}
 
 $sql = 'SELECT * FROM estagiarios';
 
