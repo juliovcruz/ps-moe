@@ -10,8 +10,6 @@ $estag = new Estagiario("email", "senha", "nome", "curso", 2019, "miniCurriculo"
 
 insertOneEstagiario($conn, $estag);
 
-echo "<br>" . $result . "<br>";
-
 $sql = 'SELECT * FROM estagiarios';
 
 if ($result = $conn->query($sql)) {

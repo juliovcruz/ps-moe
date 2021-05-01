@@ -1,13 +1,7 @@
 <?php
 
-// include "../models/estagiario";
-
 function insertOneEstagiario($conn, $estagiario) {
-  $hashKey = getenv("DHASH_PASSWORD");
-
-  echo "hashkey:" . $hashKey . "<br>";
-
-  $senha = md5($estagiario->senha . $hashKey);
+  $senha = md5($estagiario->senha);
 
   $sql = "INSERT INTO estagiarios (email, senha, nome, curso, anoDeIngresso, miniCurriculo) VALUES('" . $estagiario->email . "','" . $senha . "','" . $estagiario->nome . "','"  . $estagiario->curso . "'," . $estagiario->anoDeIngresso . ",'"  . $estagiario->miniCurriculo . "')";
   echo $sql . "<br>";

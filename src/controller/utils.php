@@ -12,9 +12,7 @@
   }
 
   function checkIfPasswordIsCorrect($senha, $senhaEncriptada) {
-    $hashKey = getenv("DHASH_PASSWORD");
-
-    if (md5($senha . $hashKey) == $senhaEncriptada) {
+    if (md5($senha) == $senhaEncriptada) {
       return true;
     }
 

@@ -14,5 +14,4 @@ function insertOneEmpregador($conn, $empregador) {
   return $result;
 }
 
-
 ?>

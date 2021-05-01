@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - DHASH_PASSWORD=stringtohashpassword
     ports:
       - 8000:80
     volumes:
