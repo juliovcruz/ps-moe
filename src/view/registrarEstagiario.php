@@ -3,7 +3,7 @@ include_once 'header.php';
 ?>
 
 <div class="row" style="padding-right: 200px;">
-    <form class="col s12 m6 push-m4" style="margin-top: 100px;">
+    <form action="" class="col s12 m6 push-m4" style="margin-top: 100px;">
         <div class="row">
             <h3 class="light col s6 push-m3" style="margin-bottom: 50px">Registrar Estagiário</h3>
         </div>

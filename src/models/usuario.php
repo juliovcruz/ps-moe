@@ -12,7 +12,6 @@
       $this->senha = $senha;
       $this->tipo = $tipo;
     }
-
   }
 
 ?>
