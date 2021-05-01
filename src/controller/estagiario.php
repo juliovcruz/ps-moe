@@ -21,7 +21,7 @@ if ($_POST['action'] == "cadastrarEstagiario") {
 }
 
 function insertOneEstagiario($conn, $estagiario) {
-  $sql = "INSERT INTO estagiarios (id, usuarioID, nome, curso, anoDeIngresso, miniCurriculo) VALUES('" . $estagiario->id . "','" . $estagiario->usuarioID . "','" . $estagiario->nome . "','"  . $estagiario->curso . "'," . $estagiario->anoDeIngresso . ",'"  . $estagiario->miniCurriculo . "')";
+  $sql = "INSERT INTO estagiarios (id, usuarioID, nome, curso, anoDeIngresso, miniCurriculo) VALUES('$estagiario->id','$estagiario->usuarioID','$estagiario->nome','$estagiario->curso',$estagiario->anoDeIngresso,'$estagiario->miniCurriculo')";
 
   $result = $conn->query($sql);
 
@@ -29,7 +29,7 @@ function insertOneEstagiario($conn, $estagiario) {
 }
 
 function estagiarioJaExistente($conn, $estagiario) {
-  $sql = "SELECT * FROM estagiarios WHERE email ='" . $email . "' LIMIT 1";
+  $sql = "SELECT * FROM estagiarios WHERE email ='$email' LIMIT 1";
 
   if ($result = $conn->query($sql)) {
     while ($data = $result->fetch_object()) {
@@ -45,7 +45,7 @@ function estagiarioJaExistente($conn, $estagiario) {
 }
 
 function getEstagiarioPorUsuarioID($conn, $id) {
-  $sql = "SELECT * FROM estagiarios WHERE usuarioID ='" . $id . "' LIMIT 1";
+  $sql = "SELECT * FROM estagiarios WHERE usuarioID ='$id' LIMIT 1";
 
   if ($result = $conn->query($sql)) {
     while ($data = $result->fetch_object()) {

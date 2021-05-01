@@ -7,6 +7,7 @@ class Vaga {
   public $listaDeHabilidadesRequeridas;
   public $quantidadeDeHoras;
   public $remuneracao;
+  public $empregador_id;
 }
 
 ?>

@@ -1,12 +1,6 @@
 <?php
 
   function validarEstagiarioParaRegistro($estagiario) {
-    if (!emailValido($estagiario->email)) {
-      return "email invalido";
-    }
-    if (!tamanhoStringValido($estagiario->senha, 6, 25)) {
-      return "senha invalida";
-    }
     if (!tamanhoStringValido($estagiario->nome, 5, 50)) {
       return "nome invalido";
     }
@@ -24,12 +18,6 @@
   }
 
   function validarEmpregadorParaRegistro($empregador) {
-    if (!emailValido($empregador->email)) {
-      return "email invalido";
-    }
-    if (!tamanhoStringValido($empregador->senha, 6, 25)) {
-      return "senha invalida";
-    }
     if (!tamanhoStringValido($empregador->nomeDoResponsavel, 5, 50)) {
       return "nomeDoResponsavel invalido";
     }

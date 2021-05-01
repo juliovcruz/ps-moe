@@ -3,7 +3,7 @@
 function insertOneUsuario($conn, $usuario) {
   $senha = md5($usuario->senha);
 
-  $sql = "INSERT INTO usuarios (id, email, senha, tipo) VALUES('" . $usuario->id . "','" . $usuario->email . "','" . $usuario->senha . "','" . $usuario->tipo . "')";
+  $sql = "INSERT INTO usuarios (id, email, senha, tipo) VALUES('$usuario->id','$usuario->email','$senha','$usuario->tipo')";
 
   $result = $conn->query($sql);
 

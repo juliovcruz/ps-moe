@@ -13,10 +13,11 @@ include './models/empregador.php';
 
 $conn = connectDb();
 
-$estag = new Estagiario("", "email@test.com", "senha231", "Julio Cesar", "Ciencias da Computacao", 2019, "miniCurricsulo", "");
+$estagiario = new Estagiario("", "email@test.com", "senha231", "Julio Cesar", "Ciencias da Computacao", 2019, "miniCurricsulo", "");
+
 $empregador = new Empregador("", "empregador@gmail.com", "senha231", "Luca Baasdsada", "Auvo LTDA", "descricaaaao","produtooss", "");
 
-echo cadastrarEmpregador($empregador);
+echo cadastrarEstagiario($estagiario);
 
 //insertOneEmpregador($conn, $empregador);
 //insertOneEstagiario($conn, $estag);
