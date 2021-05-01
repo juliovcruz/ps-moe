@@ -1,4 +1,50 @@
 <?php
+session_start();
+include_once 'empregador.php';
+include_once 'estagiario.php';
+include_once 'validador.php';
+include_once 'utils.php';
+include_once '../models/usuario.php';
+include_once '../models/empregador.php';
+
+if ($_POST['action'] == "logarUsuario") {
+  $email = $_POST['email'];
+  $senha = $_POST['senha'];
+
+  $res = logarUsuario($email, $senha);
+
+  if (is_string($res)) {
+    echo $res;
+  }
+}
+
+function logarUsuario($email, $senha) {
+  $conn = connectDb();
+
+  $usuario = loginUsuario($conn, $email, $senha);
+  if (is_string($res)) {
+    echo $res;
+  }
+
+  $res = getEntidadePorUsuarioID($conn, $usuario);
+
+  $_SESSION['logado'] = true;
+  $_SESSION['usuario_id'] = $usuario->id;
+  $_SESSION['id'] = $res->id;
+  
+  header('Location: ../view/vagas.php');
+}
+
+function getEntidadePorUsuarioID($conn, $usuario) {
+  switch ($usuario->tipo) {
+    case "EMPREGADOR":
+      return getEmpregadorPorUsuarioID($conn, $usuario->id);
+      break; 
+    case "ESTAGIARIO":
+      return getEstagiarioPorUsuarioID($conn, $usuario->id);
+      break;
+  }
+}
 
 function insertOneUsuario($conn, $usuario) {
   $senha = md5($usuario->senha);
@@ -11,7 +57,7 @@ function insertOneUsuario($conn, $usuario) {
 }
 
 function usuarioJaExistente($conn, $email) {
-  $sql = "SELECT * FROM usuarios WHERE email ='" . $email . "' LIMIT 1";
+  $sql = "SELECT * FROM usuarios WHERE email ='$email' LIMIT 1";
 
   if ($result = $conn->query($sql)) {
     while ($data = $result->fetch_object()) {
@@ -72,15 +118,15 @@ function loginUsuario($conn, $email, $senha) {
     }
   }
 
-  if($result->num_rows === 0) echo "No result";
+  if($result->num_rows === 0) echo "Usuario nao existe";
 
   echo $result->fetch_object();
 
   if (checkIfPasswordIsCorrect($senha, $objects[0]->senha)) {
-    return new Usuario(objects[0]-> id, objects[0]->email, "", objects[0]->tipo);
+    return new Usuario($objects[0]->id, $objects[0]->email, "", $objects[0]->tipo);
   }
 
-  return null;
+  return "Nao foi possivel logar";
 }
 
 ?>

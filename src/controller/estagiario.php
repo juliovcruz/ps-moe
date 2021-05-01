@@ -7,19 +7,22 @@ include_once '../models/usuario.php';
 include_once '../models/estagiario.php';
 
 if ($_POST['action'] == "cadastrarEstagiario") {
+  $email = $_POST['email'];
+  $senha = $_POST['senha'];
+  $nome = $_POST['nome'];
+  $curso = $_POST['curso'];
+  $anoDeIngresso = (int)$_POST['anoDeIngresso'];
+  $minicurriculo = $_POST['minicurriculo'];
 
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-    $nome = $_POST['nome'];
-    $curso = $_POST['curso'];
-    $anoDeIngresso = (int)$_POST['anoDeIngresso'];
-    $minicurriculo = $_POST['minicurriculo'];
+  echo $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo;
+  
+  $estagiario = new Estagiario("", $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo, "");
 
-    echo $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo;
-    
-    $estagiario = new Estagiario("", $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo, "");
+  $res = cadastrarEstagiario($estagiario);
 
-    echo cadastrarEstagiario($estagiario);
+  if (is_string($res)) {
+    echo $res;
+  }
 }
 
 function insertOneEstagiario($conn, $estagiario) {
@@ -59,11 +62,7 @@ function getEstagiarioPorUsuarioID($conn, $id) {
 
   echo $result->fetch_object();
 
-  if (checkIfPasswordIsCorrect($senha, $objects[0]->senha)) {
-    return new Estagiario(objects[0]->id, objects[0]->email, "", objects[0]->nome, objects[0]->curso, objects[0]->anoDeIngresso, objects[0]->miniCurriculo, objects[0]->usuarioID);
-  }
-
-  return null;
+  return new Estagiario(objects[0]->id, objects[0]->email, "", objects[0]->nome, objects[0]->curso, objects[0]->anoDeIngresso, objects[0]->miniCurriculo, objects[0]->usuarioID);
 }
 
 function cadastrarEstagiario($estagiario) {

@@ -11,7 +11,7 @@
     return $conn;
   }
 
-  function checkIfPasswordIsCorrect($senha, $senhaEncriptada): bool {
+  function checkIfPasswordIsCorrect($senha, $senhaEncriptada) {
     if (md5($senha) == $senhaEncriptada) {
       return true;
     }

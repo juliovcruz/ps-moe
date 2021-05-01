@@ -11,16 +11,7 @@ include './controller/usuario.php';
 include './models/estagiario.php';
 include './models/empregador.php';
 
-$conn = connectDb();
-
-$estagiario = new Estagiario("", "email@test.com", "senha231", "Julio Cesar", "Ciencias da Computacao", 2019, "miniCurricsulo", "");
-
-$empregador = new Empregador("", "empregador@gmail.com", "senha231", "Luca Baasdsada", "Auvo LTDA", "descricaaaao","produtooss", "");
-
 echo cadastrarEstagiario($estagiario);
-
-//insertOneEmpregador($conn, $empregador);
-//insertOneEstagiario($conn, $estag);
 
 if ($resposta == null) {
   echo "paozinho";
@@ -43,7 +34,6 @@ echo $result->fetch_object();
 foreach ($estags as $estag) {
   echo "<br>";
   echo $estag->nome . " " . $estag->id;
-  echo "" . checkIfPasswordIsCorrect("senhaa", $estag->senha) . "<br>";
   echo "<br>";
 }
 

@@ -1,26 +1,41 @@
 <?php
 
+include_once 'usuario.php';
+include_once 'validador.php';
+include_once 'utils.php';
+include_once '../models/usuario.php';
+include_once '../models/empregador.php';
+
 if ($_POST['action'] == "cadastrarEmpregador") {
   $email = $_POST['email'];
   $senha = $_POST['senha'];
   $nomeDoResponsavel = $_POST['nomeDoResponsavel'];
   $nomeDaEmpresa = $_POST['nomeDaEmpresa'];
-  $produtos = $_POST['produtos'];
+  $produtos = processText($_POST['produtos']);
   $descricao = $_POST['descricao'];
 
-  $empregador = new Empregador("", "empregador@gmail.com", "senha231", "Luca Baasdsada", "Auvo LTDA", "descricaaaao","produtooss", "");
+  $empregador = new Empregador("", $email, $senha, $nomeDoResponsavel, $nomeDaEmpresa, $descricao,$produtos, "");
 
   $res = cadastrarEmpregador($empregador);
 
-  if (is_string($res)) {}
+  if (is_string($res)) {
+    echo $res;
+  }
+}
+
+function processText($text) {
+  $text = strip_tags($text);
+  $text = trim($text);
+  $text = htmlspecialchars($text);
+  return $text;
 }
 
 function insertOneEmpregador($conn, $empregador) {
   $sql = "INSERT INTO empregadores (id, usuarioID, nomeDoResponsavel, nomeDaEmpresa, descricao, produtos) VALUES('$empregador->id','$empregador->usuarioID','$empregador->nomeDoResponsavel','$empregador->nomeDaEmpresa','$empregador->descricao','$empregador->produtos')";
-  
+
   $result = $conn->query($sql);
 
-  return $result;
+  return null;
 }
 
 function cadastrarEmpregador($empregador) {
@@ -35,7 +50,7 @@ function cadastrarEmpregador($empregador) {
 
   $resUsuario = cadastrarUsuario($conn, $usuario);
   if (is_string( $resUsuario) ) {
-    return $resUsuario . "<br>";
+    return $resUsuario;
   }
   
   $empregador->usuarioID = $usuario->id;
@@ -52,6 +67,7 @@ function cadastrarEmpregador($empregador) {
 
 function getEmpregadorPorUsuarioID($conn, $id) {
   $sql = "SELECT * FROM empregadores WHERE usuarioID ='$id' LIMIT 1";
+  
 
   if ($result = $conn->query($sql)) {
     while ($data = $result->fetch_object()) {
@@ -61,13 +77,9 @@ function getEmpregadorPorUsuarioID($conn, $id) {
 
   if($result->num_rows === 0) echo "No result";
 
-  echo $result->fetch_object();
+  echo $result->fetch_object();  
 
-  if (checkIfPasswordIsCorrect($senha, $objects[0]->senha)) {
-    return new Empregador(objects[0]->id, objects[0]->email, "", objects[0]->nome, objects[0]->nomeDoResponsavel, objects[0]->nomeDaEmpresa, objects[0]->descricao, objects[0]->produtos, objects[0]->usuarioID);
-  }
-
-  return null;
+  return new Empregador($objects[0]->id, $objects[0]->email, "", $objects[0]->nome, $objects[0]->nomeDoResponsavel, $objects[0]->nomeDaEmpresa, $objects[0]->descricao, $objects[0]->produtos, $objects[0]->usuarioID);
 }
 
 ?>
