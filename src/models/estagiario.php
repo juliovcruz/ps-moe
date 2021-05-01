@@ -1,6 +1,6 @@
 <?php
 
-include './models/usuario.php';
+include_once '../models/estagiario.php';
 
 class Estagiario extends Usuario {
   public $nome;
