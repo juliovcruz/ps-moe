@@ -1,5 +1,27 @@
 <?php
 
+include_once 'usuario.php';
+include_once 'validador.php';
+include_once 'utils.php';
+include_once '../models/usuario.php';
+include_once '../models/estagiario.php';
+
+if ($_POST['action'] == "cadastrarEstagiario") {
+
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $nome = $_POST['nome'];
+    $curso = $_POST['curso'];
+    $anoDeIngresso = (int)$_POST['anoDeIngresso'];
+    $minicurriculo = $_POST['minicurriculo'];
+
+    echo $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo;
+    
+    $estagiario = new Estagiario("", $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo, "");
+
+    echo cadastrarEstagiario($estagiario);
+}
+
 function insertOneEstagiario($conn, $estagiario) {
   $sql = "INSERT INTO estagiarios (id, usuarioID, nome, curso, anoDeIngresso, miniCurriculo) VALUES('$estagiario->id','$estagiario->usuarioID','$estagiario->nome','$estagiario->curso',$estagiario->anoDeIngresso,'$estagiario->miniCurriculo')";
 
