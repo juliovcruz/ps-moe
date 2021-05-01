@@ -4,7 +4,7 @@ include_once 'header.php';
 ?>
 
 <div class="row" style="padding-right: 200px;">
-    <form action="../controller/usuario.php" method="POST" class="col s12 m6 push-m4" style="margin-top: 200px;">
+    <form action="../controller/usuario.php" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
         <div class="row">
             <h3 class="light col s6 push-m3" style="margin-bottom: 50px">Login</h3>
         </div>
@@ -16,7 +16,7 @@ include_once 'header.php';
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira sua senha" id="senha" type="text" class="validate" name="senha">
+                <input placeholder="Insira sua senha" id="senha" type="password" class="validate" name="senha">
                 <label for="senha">Senha</label>
             </div>
         </div>

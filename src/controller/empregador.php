@@ -16,11 +16,7 @@ if ($_POST['action'] == "cadastrarEmpregador") {
 
   $empregador = new Empregador("", $email, $senha, $nomeDoResponsavel, $nomeDaEmpresa, $descricao,$produtos, "");
 
-  $res = cadastrarEmpregador($empregador);
-
-  if (is_string($res)) {
-    echo $res;
-  }
+  cadastrarEmpregador($empregador);
 }
 
 function processText($text) {
@@ -41,7 +37,9 @@ function insertOneEmpregador($conn, $empregador) {
 function cadastrarEmpregador($empregador) {
   $validador = validarEmpregadorParaRegistro($empregador);
   if ($validador != null) {
-    return $validador;
+    $arr = array('sucesso' => false, 'mensagem' => $validador);
+    echo json_encode($arr);
+    return;
   }
 
   $conn = connectDb();
@@ -50,19 +48,22 @@ function cadastrarEmpregador($empregador) {
 
   $resUsuario = cadastrarUsuario($conn, $usuario);
   if (is_string( $resUsuario) ) {
-    return $resUsuario;
+    $arr = array('sucesso' => false, 'mensagem' => $resUsuario);
+    echo json_encode($arr);
+    return;
   }
   
   $empregador->usuarioID = $usuario->id;
   $empregador->id = uniqid("em_");
 
   if (insertOneEmpregador($conn, $empregador) != null) {
-    return "empregador nao inserido";
+    $arr = array('sucesso' => false, 'mensagem' => "empregador nao inserido");
+    echo json_encode($arr);
+    return;
   }
 
-  $empregador->senha = "";
-
-  return $empregador;
+  $arr = array('sucesso' => true);
+  echo json_encode($arr);
 }
 
 function getEmpregadorPorUsuarioID($conn, $id) {
