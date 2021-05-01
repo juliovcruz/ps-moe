@@ -1,5 +1,8 @@
-<?php
+<?php 
+include_once 'view/header.php';
+?>
 
+<?php
 include './controller/utils.php';
 include './controller/estagiario.php';
 include './models/estagiario.php';
@@ -31,4 +34,8 @@ foreach ($estags as $estag) {
   echo "<br>";
 }
 
+?>
+
+<?php 
+include_once 'view/footer.php';
 ?>
