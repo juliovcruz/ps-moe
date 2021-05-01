@@ -15,7 +15,7 @@ include_once 'header.php';
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira sua senha" id="senha" type="text" class="validate" name="senha">
+                <input placeholder="Insira sua senha" id="senha" type="password" class="validate" name="senha">
                 <label for="senha">Senha</label>
             </div>
         </div>
