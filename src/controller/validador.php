@@ -47,8 +47,6 @@
   }
 
   function validarUsuarioParaCadastrar($usuario) {
-    echo $usuario->email . "asda <br>";
-
     if (!emailValido($usuario->email)) {
       return "email invalido";
     }
