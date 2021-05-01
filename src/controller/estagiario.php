@@ -18,7 +18,14 @@ if ($_POST['action'] == "cadastrarEstagiario") {
   
   $estagiario = new Estagiario("", $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo, "");
 
-  $res = cadastrarEstagiario($estagiario);
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $nome = $_POST['nome'];
+    $curso = $_POST['curso'];
+    $anoDeIngresso = (int)$_POST['anoDeIngresso'];
+    $minicurriculo = $_POST['minicurriculo'];
+    
+    $estagiario = new Estagiario("", $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo, "");
 
   if (is_string($res)) {
     echo $res;
@@ -66,9 +73,12 @@ function getEstagiarioPorUsuarioID($conn, $id) {
 }
 
 function cadastrarEstagiario($estagiario) {
+
   $validador = validarEstagiarioParaRegistro($estagiario);
   if ($validador != null) {
-    return $validador;
+    $arr = array('sucesso' => false, 'mensagem' => $validador);
+    echo json_encode($arr);
+    return;
   }
 
   $conn = connectDb();
@@ -77,19 +87,23 @@ function cadastrarEstagiario($estagiario) {
 
   $resUsuario = cadastrarUsuario($conn, $usuario);
   if (is_string( $resUsuario) ) {
-    return $resUsuario . "<br>";
+    $arr = array('sucesso' => false, 'mensagem' => $resUsuario);
+    echo json_encode($arr);
+    return;
   }
   
   $estagiario->usuarioID = $usuario->id;
   $estagiario->id = uniqid("es_");
 
   if (insertOneEstagiario($conn, $estagiario) != null) {
-    return "estagiario nao inserido";
+    $arr = array('sucesso' => false, 'mensagem' => "estagiario nao inserido");
+    echo json_encode($arr);
+    return;
   }
 
   $estagiario->senha = "";
 
-  return $estagiario;
+  $arr = array('sucesso' => true);
+  echo json_encode($arr);
 }
-
 ?>
