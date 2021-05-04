@@ -1,5 +1,31 @@
 <?php
 
+function validarVagaParaRegistro($vaga) {
+    if (!tamanhoStringValido($vaga->titulo, 1, 25)) {
+        return "titulo invalido";
+    }
+    if (!tamanhoStringValido($vaga->descricao, 1, 250)) {
+        return "descricao invalido";
+    }
+    if (!tamanhoStringValido($vaga->listaDeAtividades, 1, 250)) {
+        return "listaDeAtividades invalido";
+    }
+    if (!tamanhoStringValido($vaga->listaDeHabilidadesRequeridas, 1, 250)) {
+        return "listaDeHabilidadesRequeridas invalido";
+    }
+    if (!is_int($vaga->semestreRequerido)) {
+        return "semestreRequerido invalido";
+    }
+    if (!is_int($vaga->quantidadeDeHoras)) {
+        return "quantidadeDeHoras invalido";
+    }
+    if (!is_float($vaga->remuneracao)) {
+        return "remuneracao invalido";
+    }
+
+    return null;
+}
+
   function validarEstagiarioParaRegistro($estagiario) {
     if (!tamanhoStringValido($estagiario->nome, 5, 50)) {
       return "nome invalido";

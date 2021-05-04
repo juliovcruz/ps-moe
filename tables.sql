@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: May 01, 2021 at 04:10 PM
+-- Generation Time: May 04, 2021 at 02:12 AM
 -- Server version: 10.3.28-MariaDB-1:10.3.28+maria~focal
 -- PHP Version: 7.4.16
 
@@ -28,20 +28,26 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `empregadores` (
-  `id` varchar(24) NOT NULL,
-  `nomeDoResponsavel` varchar(50) NOT NULL,
-  `nomeDaEmpresa` varchar(50) NOT NULL,
-  `descricao` varchar(250) NOT NULL,
-  `produtos` varchar(250) NOT NULL,
-  `usuarioID` varchar(24) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+                                `id` varchar(24) COLLATE utf8_bin NOT NULL,
+                                `nomeDoResponsavel` varchar(50) COLLATE utf8_bin NOT NULL,
+                                `nomeDaEmpresa` varchar(50) COLLATE utf8_bin NOT NULL,
+                                `descricao` varchar(250) COLLATE utf8_bin NOT NULL,
+                                `produtos` varchar(250) COLLATE utf8_bin NOT NULL,
+                                `email` varchar(50) COLLATE utf8_bin NOT NULL,
+                                `senha` varchar(60) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `empregadores`
 --
 
-INSERT INTO `empregadores` (`id`, `nomeDoResponsavel`, `nomeDaEmpresa`, `descricao`, `produtos`, `usuarioID`) VALUES
-('em_608d7adb6f352', 'Luca Baasdsada', 'Auvo LTDA', 'descricaaaao', 'produtooss', 'us_608d7adb6e004');
+INSERT INTO `empregadores` (`id`, `nomeDoResponsavel`, `nomeDaEmpresa`, `descricao`, `produtos`, `email`, `senha`) VALUES
+('em_6090a35b0d15e', 'nomeDoResponsavel', 'nomeDaEmpresa', 'descricao', 'produtos', 'julio@gmail.com', '0c7d2830d586c7a2946b484e68eb2754'),
+('em_6090a476371dc', 'nomeDoResponsavel', 'nomeDaEmpresa', 'descricao', 'produtos', 'julio@empregador.com', '0c7d2830d586c7a2946b484e68eb2754'),
+('em_6090a786c06c7', 'Julio Cesar', 'Auvo LTDA', 'DESCRICAO', 'PRODUTOS', 'cto@auvo.com', '0c7d2830d586c7a2946b484e68eb2754'),
+('em_6090a8292c6ee', 'Julio Cesar', 'AUVO ltda', 'steansada', 'sdasdasda', 'teste@auvo.com', '0c7d2830d586c7a2946b484e68eb2754'),
+('em_6090ad33beb03', 'TesteResponsa', 'TesteEpresa', 'DESCRICAO', 'Produtos', 'teste@teste.com', '0c7d2830d586c7a2946b484e68eb2754'),
+('em_6090ad65dffaf', 'TesteResponsa', 'TesteEpresa', 'DESCRICAO', 'Produtos', 'teste@test1.com', '0c7d2830d586c7a2946b484e68eb2754');
 
 -- --------------------------------------------------------
 
@@ -50,41 +56,50 @@ INSERT INTO `empregadores` (`id`, `nomeDoResponsavel`, `nomeDaEmpresa`, `descric
 --
 
 CREATE TABLE `estagiarios` (
-  `id` varchar(24) COLLATE utf8_bin NOT NULL,
-  `nome` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `curso` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `anoDeIngresso` int(11) NOT NULL,
-  `miniCurriculo` varchar(500) CHARACTER SET latin1 NOT NULL,
-  `usuarioID` varchar(24) COLLATE utf8_bin NOT NULL
+                               `id` varchar(24) COLLATE utf8_bin NOT NULL,
+                               `nome` varchar(50) COLLATE utf8_bin NOT NULL,
+                               `curso` varchar(50) COLLATE utf8_bin NOT NULL,
+                               `anoDeIngresso` int(11) NOT NULL,
+                               `miniCurriculo` varchar(500) COLLATE utf8_bin NOT NULL,
+                               `email` varchar(50) COLLATE utf8_bin NOT NULL,
+                               `senha` varchar(60) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `estagiarios`
 --
 
-INSERT INTO `estagiarios` (`id`, `nome`, `curso`, `anoDeIngresso`, `miniCurriculo`, `usuarioID`) VALUES
-('es_608d77072339c', 'Julio Cesar', 'Ciencias da Computacao', 2019, 'miniCurricsulo', 'us_608d770721a28');
+INSERT INTO `estagiarios` (`id`, `nome`, `curso`, `anoDeIngresso`, `miniCurriculo`, `email`, `senha`) VALUES
+('es_6090a4dcdb121', 'nomeDaPessoa', 'Curso', 2019, 'miniCUrriculo', 'julio@estagiario.com', '0c7d2830d586c7a2946b484e68eb2754'),
+('es_6090a806c13f8', 'Julio Cesar', 'Ciencias da Computacao', 2019, 'mini curriculo', 'julio@upnid.com', '0c7d2830d586c7a2946b484e68eb2754'),
+('es_6090ad857ce16', 'NomeEstag', 'Cursoa', 2020, 'asdsadasdasda', 'teste@estag.com', '0c7d2830d586c7a2946b484e68eb2754');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuarios`
+-- Table structure for table `vagas`
 --
 
-CREATE TABLE `usuarios` (
-  `id` varchar(24) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `senha` varchar(25) NOT NULL,
-  `tipo` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `vagas` (
+                         `id` varchar(24) COLLATE utf8_bin NOT NULL,
+                         `empregadorID` varchar(24) COLLATE utf8_bin NOT NULL,
+                         `descricao` varchar(250) COLLATE utf8_bin NOT NULL,
+                         `listaDeAtividades` varchar(250) COLLATE utf8_bin NOT NULL,
+                         `listaDeHabilidadesRequeridas` varchar(250) COLLATE utf8_bin NOT NULL,
+                         `semestreRequerido` int(11) NOT NULL,
+                         `quantidadeDeHoras` int(11) NOT NULL,
+                         `remuneracao` double(10,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `usuarios`
+-- Dumping data for table `vagas`
 --
 
-INSERT INTO `usuarios` (`id`, `email`, `senha`, `tipo`) VALUES
-('us_608d770721a28', 'email@test.com', 'senha231', 'ESTAGIARIO'),
-('us_608d7adb6e004', 'empregador@gmail.com', 'senha231', 'EMPREGADOR');
+INSERT INTO `vagas` (`id`, `empregadorID`, `descricao`, `listaDeAtividades`, `listaDeHabilidadesRequeridas`, `semestreRequerido`, `quantidadeDeHoras`, `remuneracao`) VALUES
+('id', 'empregadorID', 'descricao', 'listaDeAtividades', 'listaDeHabilidadesRequeridas', 5, 30, 801),
+('id3', 'empregadorID', 'descricao', 'listaDeAtividades', 'listaDeHabilidadesRequeridas', 5, 30, 800),
+('id4', 'empregadorID', 'descricao', 'listaDeAtividades', 'listaDeHabilidadesRequeridas', 5, 30, 800),
+('ida', 'empregadorID', 'descricao', 'listaDeAtividades', 'listaDeHabilidadesRequeridas', 5, 30, 800);
 
 --
 -- Indexes for dumped tables
@@ -94,19 +109,21 @@ INSERT INTO `usuarios` (`id`, `email`, `senha`, `tipo`) VALUES
 -- Indexes for table `empregadores`
 --
 ALTER TABLE `empregadores`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `estagiarios`
 --
 ALTER TABLE `estagiarios`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indexes for table `usuarios`
+-- Indexes for table `vagas`
 --
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `vagas`
+    ADD PRIMARY KEY (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,13 +1,11 @@
 <?php
 
-include_once 'usuario.php';
 include_once 'validador.php';
 include_once 'utils.php';
-include_once '../models/usuario.php';
+include_once 'empregador.php';
 include_once '../models/estagiario.php';
 
 if ($_POST['action'] == "cadastrarEstagiario") {
-
     $email = $_POST['email'];
     $senha = $_POST['senha'];
     $nome = $_POST['nome'];
@@ -15,37 +13,25 @@ if ($_POST['action'] == "cadastrarEstagiario") {
     $anoDeIngresso = (int)$_POST['anoDeIngresso'];
     $minicurriculo = $_POST['minicurriculo'];
     
-    $estagiario = new Estagiario("", $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo, "");
+    $estagiario = new Estagiario("", $email, $senha, $nome, $curso, $anoDeIngresso, $minicurriculo);
 
     echo cadastrarEstagiario($estagiario);
 }
 
 function insertOneEstagiario($conn, $estagiario) {
-  $sql = "INSERT INTO estagiarios (id, usuarioID, nome, curso, anoDeIngresso, miniCurriculo) VALUES('$estagiario->id','$estagiario->usuarioID','$estagiario->nome','$estagiario->curso',$estagiario->anoDeIngresso,'$estagiario->miniCurriculo')";
+    $senha = md5($estagiario->senha);
 
-  $result = $conn->query($sql);
+    $sql = "INSERT INTO estagiarios (id, nome, curso, anoDeIngresso, miniCurriculo, email, senha) VALUES('$estagiario->id','$estagiario->nome','$estagiario->curso',$estagiario->anoDeIngresso,'$estagiario->miniCurriculo', '$estagiario->email', '$senha')";
 
-  return null;
-}
-
-function estagiarioJaExistente($conn, $estagiario) {
-  $sql = "SELECT * FROM estagiarios WHERE email ='$email' LIMIT 1";
-
-  if ($result = $conn->query($sql)) {
-    while ($data = $result->fetch_object()) {
-      $objects[] = $data;
+    if(!$conn->query($sql)) {
+        return $conn->error;
     }
-  }
 
-  if($result->num_rows === 0) {
-    return false;
-  }
-
-  return true;
+    return null;
 }
 
-function getEstagiarioPorUsuarioID($conn, $id) {
-  $sql = "SELECT * FROM estagiarios WHERE usuarioID ='$id' LIMIT 1";
+function getEstagiarioPorID($conn, $id) {
+  $sql = "SELECT * FROM estagiarios WHERE id ='$id' LIMIT 1";
 
   if ($result = $conn->query($sql)) {
     while ($data = $result->fetch_object()) {
@@ -57,15 +43,26 @@ function getEstagiarioPorUsuarioID($conn, $id) {
 
   echo $result->fetch_object();
 
-  if (checkIfPasswordIsCorrect($senha, $objects[0]->senha)) {
-    return new Estagiario(objects[0]->id, objects[0]->email, "", objects[0]->nome, objects[0]->curso, objects[0]->anoDeIngresso, objects[0]->miniCurriculo, objects[0]->usuarioID);
-  }
+    return new Estagiario($objects[0]->id, $objects[0]->email, "", $objects[0]->nome, $objects[0]->curso, $objects[0]->anoDeIngresso, $objects[0]->miniCurriculo);
+}
 
-  return null;
+function getEstagiarioPorEmail($conn, $email) {
+    $sql = "SELECT * FROM estagiarios WHERE email ='$email' LIMIT 1";
+
+    if ($result = $conn->query($sql)) {
+        while ($data = $result->fetch_object()) {
+            $objects[] = $data;
+        }
+    }
+
+    if($result->num_rows === 0) return null;
+
+    echo $result->fetch_object();
+
+    return new Estagiario($objects[0]->id, $objects[0]->email, "", $objects[0]->nome, $objects[0]->curso, $objects[0]->anoDeIngresso, $objects[0]->miniCurriculo);
 }
 
 function cadastrarEstagiario($estagiario) {
-
   $validador = validarEstagiarioParaRegistro($estagiario);
   if ($validador != null) {
     $arr = array('sucesso' => false, 'mensagem' => $validador);
@@ -75,7 +72,13 @@ function cadastrarEstagiario($estagiario) {
 
   $conn = connectDb();
 
-  $usuario = new Usuario(uniqid("us_"), $estagiario->email, $estagiario->senha, "ESTAGIARIO");
+  if (getEstagiarioPorEmail($conn, $estagiario->email) != null || getEmpregadorPorEmail($conn, $estagiario->email) != null) {
+      $arr = array('sucesso' => false, 'mensagem' => "email ja cadastrado");
+      echo json_encode($arr);
+      return;
+  }
+
+  /* $usuario = new Usuario(uniqid("us_"), $estagiario->email, $estagiario->senha, "ESTAGIARIO");
 
   $resUsuario = cadastrarUsuario($conn, $usuario);
   if (is_string( $resUsuario) ) {
@@ -83,8 +86,9 @@ function cadastrarEstagiario($estagiario) {
     echo json_encode($arr);
     return;
   }
-  
   $estagiario->usuarioID = $usuario->id;
+  */
+
   $estagiario->id = uniqid("es_");
 
   if (insertOneEstagiario($conn, $estagiario) != null) {
@@ -93,9 +97,42 @@ function cadastrarEstagiario($estagiario) {
     return;
   }
 
-  $estagiario->senha = "";
-
   $arr = array('sucesso' => true);
   echo json_encode($arr);
+}
+
+function logarEstagiario($email, $senha) {
+    $conn = connectDb();
+
+    $estagiario = loginEstagiario($conn, $email, $senha);
+    if (is_string($estagiario)) {
+        echo $estagiario;
+    }
+
+    $_SESSION['logado'] = true;
+    $_SESSION['id'] = $estagiario->id;
+    $_SESSION['nome'] = $estagiario->nome;
+
+    header('Location: ../view/vagas.php');
+}
+
+function loginEstagiario($conn, $email, $senha) {
+    $sql = "SELECT * FROM estagiarios WHERE email ='$email' LIMIT 1";
+
+    if ($result = $conn->query($sql)) {
+        while ($data = $result->fetch_object()) {
+            $objects[] = $data;
+        }
+    }
+
+    if($result->num_rows === 0) return "Cadastro nao encontrado";
+
+    $result->fetch_object();
+
+    if (checkIfPasswordIsCorrect($senha, $objects[0]->senha)) {
+        return new Estagiario($objects[0]->id, $objects[0]->email, "", $objects[0]->nome, $objects[0]->curso, $objects[0]->anoDeIngresso, $objects[0]->miniCurriculo);
+    }
+
+    return "Nao foi possivel logar";
 }
 ?>

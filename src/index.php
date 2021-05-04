@@ -3,39 +3,21 @@ include_once 'view/header.php';
 ?>
 
 <?php
-include './controller/utils.php';
-include './controller/estagiario.php';
-include './controller/validador.php';
-include './controller/empregador.php';
-include './controller/usuario.php';
-include './models/estagiario.php';
-include './models/empregador.php';
+include_once './controller/utils.php';
+include_once './controller/empregador.php';
+include_once './models/empregador.php';
+include_once './controller/estagiario.php';
+include_once './models/estagiario.php';
 
-echo cadastrarEstagiario($estagiario);
+//$empregador = new Empregador("id2", "julio@empregador.com", "senhaa", "nomeDoResponsavel", "nomeDaEmpresa", "descricao", "produtos", "usuarioID");
 
-if ($resposta == null) {
-  echo "paozinho";
-}
+//cadastrarEmpregador($empregador);
 
-$sql = 'SELECT * FROM estagiarios';
+$estagiario = New Estagiario("id1","julio@estagiario.com", "senhaa", "nomeDaPessoa", "Curso", 2019, "miniCUrriculo", "usuarioID");
 
-if ($result = $conn->query($sql)) {
-  while ($data = $result->fetch_object()) {
-    $estags[] = $data;
-  }
-}
+cadastrarEstagiario($estagiario);
 
-if($result->num_rows === 0) echo "No result";
-
-echo "RESULT SELECT: " . mysqli_num_rows($result);
-
-echo $result->fetch_object();
-
-foreach ($estags as $estag) {
-  echo "<br>";
-  echo $estag->nome . " " . $estag->id;
-  echo "<br>";
-}
+//getAllVagas($conn, 0, 100);
 
 ?>
 

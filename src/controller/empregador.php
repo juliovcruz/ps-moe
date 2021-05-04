@@ -1,9 +1,8 @@
 <?php
 
-include_once 'usuario.php';
 include_once 'validador.php';
+include_once 'estagiario.php';
 include_once 'utils.php';
-include_once '../models/usuario.php';
 include_once '../models/empregador.php';
 
 if ($_POST['action'] == "cadastrarEmpregador") {
@@ -11,76 +10,105 @@ if ($_POST['action'] == "cadastrarEmpregador") {
   $senha = $_POST['senha'];
   $nomeDoResponsavel = $_POST['nomeDoResponsavel'];
   $nomeDaEmpresa = $_POST['nomeDaEmpresa'];
-  $produtos = processText($_POST['produtos']);
+  $produtos = $_POST['produtos'];
   $descricao = $_POST['descricao'];
 
-  $empregador = new Empregador("", $email, $senha, $nomeDoResponsavel, $nomeDaEmpresa, $descricao,$produtos, "");
+  $empregador = new Empregador("", $email, $senha, $nomeDoResponsavel, $nomeDaEmpresa, $descricao, $produtos);
 
   cadastrarEmpregador($empregador);
 }
 
-function processText($text) {
-  $text = strip_tags($text);
-  $text = trim($text);
-  $text = htmlspecialchars($text);
-  return $text;
-}
-
 function insertOneEmpregador($conn, $empregador) {
-  $sql = "INSERT INTO empregadores (id, usuarioID, nomeDoResponsavel, nomeDaEmpresa, descricao, produtos) VALUES('$empregador->id','$empregador->usuarioID','$empregador->nomeDoResponsavel','$empregador->nomeDaEmpresa','$empregador->descricao','$empregador->produtos')";
+    $senha = md5($empregador->senha);
 
-  $result = $conn->query($sql);
+    $sql = "INSERT INTO empregadores (id, nomeDoResponsavel, nomeDaEmpresa, descricao, produtos, email, senha) VALUES('$empregador->id','$empregador->nomeDoResponsavel','$empregador->nomeDaEmpresa','$empregador->descricao','$empregador->produtos', '$empregador->email', '$senha')";
+
+    if(!$conn->query($sql)) {
+        return $conn->error;
+    }
 
   return null;
 }
 
 function cadastrarEmpregador($empregador) {
-  $validador = validarEmpregadorParaRegistro($empregador);
-  if ($validador != null) {
-    $arr = array('sucesso' => false, 'mensagem' => $validador);
-    echo json_encode($arr);
-    return;
-  }
-
-  $conn = connectDb();
-
-  $usuario = new Usuario(uniqid("us_"), $empregador->email, $empregador->senha, "EMPREGADOR");
-
-  $resUsuario = cadastrarUsuario($conn, $usuario);
-  if (is_string( $resUsuario) ) {
-    $arr = array('sucesso' => false, 'mensagem' => $resUsuario);
-    echo json_encode($arr);
-    return;
-  }
-  
-  $empregador->usuarioID = $usuario->id;
-  $empregador->id = uniqid("em_");
-
-  if (insertOneEmpregador($conn, $empregador) != null) {
-    $arr = array('sucesso' => false, 'mensagem' => "empregador nao inserido");
-    echo json_encode($arr);
-    return;
-  }
-
-  $arr = array('sucesso' => true);
-  echo json_encode($arr);
-}
-
-function getEmpregadorPorUsuarioID($conn, $id) {
-  $sql = "SELECT * FROM empregadores WHERE usuarioID ='$id' LIMIT 1";
-  
-
-  if ($result = $conn->query($sql)) {
-    while ($data = $result->fetch_object()) {
-      $objects[] = $data;
+    $validador = validarEmpregadorParaRegistro($empregador);
+    if ($validador != null) {
+        $arr = array('sucesso' => false, 'mensagem' => $validador);
+        echo json_encode($arr);
+        return;
     }
-  }
 
-  if($result->num_rows === 0) echo "No result";
+    $conn = connectDb();
 
-  echo $result->fetch_object();  
+    if (getEstagiarioPorEmail($conn, $empregador->email) != null || getEmpregadorPorEmail($conn, $empregador->email) != null) {
+        $arr = array('sucesso' => false, 'mensagem' => "email ja cadastrado");
+        echo json_encode($arr);
+        return;
+    }
 
-  return new Empregador($objects[0]->id, $objects[0]->email, "", $objects[0]->nome, $objects[0]->nomeDoResponsavel, $objects[0]->nomeDaEmpresa, $objects[0]->descricao, $objects[0]->produtos, $objects[0]->usuarioID);
+
+    $empregador->id = uniqid("em_");
+
+    if (insertOneEmpregador($conn, $empregador) != null) {
+        $arr = array('sucesso' => false, 'mensagem' => "empregador nao inserido");
+        echo json_encode($arr);
+        return;
+    }
+
+    $arr = array('sucesso' => true);
+    echo json_encode($arr);
 }
+
+function getEmpregadorPorEmail($conn, $email) {
+    $sql = "SELECT * FROM empregadores WHERE email ='$email' LIMIT 1";
+    if ($result = $conn->query($sql)) {
+        while ($data = $result->fetch_object()) {
+          $objects[] = $data;
+        }
+    }
+
+    if($result->num_rows === 0) return null;
+
+    $result->fetch_object();
+
+    return new Empregador($objects[0]->id, "", "", $objects[0]->nome, $objects[0]->nomeDoResponsavel, $objects[0]->nomeDaEmpresa, $objects[0]->descricao, $objects[0]->produtos);
+}
+
+function loginEmpregador($conn, $email, $senha) {
+    $sql = "SELECT * FROM empregadores WHERE email ='$email' LIMIT 1";
+
+    if ($result = $conn->query($sql)) {
+        while ($data = $result->fetch_object()) {
+            $objects[] = $data;
+        }
+    }
+
+    if($result->num_rows === 0) return "Cadastro nao encontrado";
+
+    $result->fetch_object();
+
+    if (checkIfPasswordIsCorrect($senha, $objects[0]->senha)) {
+        return new Empregador($objects[0]->id, $objects[0]->email, "", $objects[0]->nomeDoResponsavel, $objects[0]->nomeDaEmpresa, $objects[0]->descricao, $objects[0]->produtos);
+    }
+
+    return "Nao foi possivel logar";
+}
+
+/*
+function logarEmpregador($email, $senha) {
+    $conn = connectDb();
+
+    $empregador = loginEmpregador($conn, $email, $senha);
+    if (is_string($empregador)) {
+        echo $empregador;
+    }
+
+    $_SESSION['logado'] = true;
+    $_SESSION['id'] = $empregador->id;
+    $_SESSION['nome'] = $empregador->nome;
+
+    header('Location: ../view/vagas.php');
+}
+*/
 
 ?>
