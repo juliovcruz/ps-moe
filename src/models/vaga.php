@@ -21,5 +21,3 @@ class Vaga {
         $this->remuneracao = $remuneracao;
         }
 }
-
-?>

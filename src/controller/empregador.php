@@ -6,16 +6,16 @@ include_once 'utils.php';
 include_once '../models/empregador.php';
 
 if ($_POST['action'] == "cadastrarEmpregador") {
-  $email = $_POST['email'];
-  $senha = $_POST['senha'];
-  $nomeDoResponsavel = $_POST['nomeDoResponsavel'];
-  $nomeDaEmpresa = $_POST['nomeDaEmpresa'];
-  $produtos = $_POST['produtos'];
-  $descricao = $_POST['descricao'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $nomeDoResponsavel = $_POST['nomeDoResponsavel'];
+    $nomeDaEmpresa = $_POST['nomeDaEmpresa'];
+    $produtos = $_POST['produtos'];
+    $descricao = $_POST['descricao'];
 
-  $empregador = new Empregador("", $email, $senha, $nomeDoResponsavel, $nomeDaEmpresa, $descricao, $produtos);
+    $empregador = new Empregador("", $email, $senha, $nomeDoResponsavel, $nomeDaEmpresa, $descricao, $produtos);
 
-  cadastrarEmpregador($empregador);
+    cadastrarEmpregador($empregador);
 }
 
 function insertOneEmpregador($conn, $empregador) {
@@ -31,7 +31,7 @@ function insertOneEmpregador($conn, $empregador) {
 }
 
 function cadastrarEmpregador($empregador) {
-    $validador = validarEmpregadorParaRegistro($empregador);
+    $validador = validarEmpregadorParaCadastro($empregador);
     if ($validador != null) {
         $arr = array('sucesso' => false, 'mensagem' => $validador);
         echo json_encode($arr);
@@ -93,22 +93,5 @@ function loginEmpregador($conn, $email, $senha) {
 
     return "Nao foi possivel logar";
 }
-
-/*
-function logarEmpregador($email, $senha) {
-    $conn = connectDb();
-
-    $empregador = loginEmpregador($conn, $email, $senha);
-    if (is_string($empregador)) {
-        echo $empregador;
-    }
-
-    $_SESSION['logado'] = true;
-    $_SESSION['id'] = $empregador->id;
-    $_SESSION['nome'] = $empregador->nome;
-
-    header('Location: ../view/vagas.php');
-}
-*/
 
 ?>

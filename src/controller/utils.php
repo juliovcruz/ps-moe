@@ -28,6 +28,7 @@ function logar($email, $senha) {
         $_SESSION['logado'] = true;
         $_SESSION['id'] = $empregador->id;
         $_SESSION['nome'] = $empregador->nomeDoResponsavel;
+        $_SESSION['email'] = $empregador->email;
 
         header('Location: ../view/vagas.php');
     }
@@ -36,28 +37,26 @@ function logar($email, $senha) {
         $_SESSION['logado'] = true;
         $_SESSION['id'] = $estagiario->id;
         $_SESSION['nome'] = $estagiario->nome;
+        $_SESSION['email'] = $estagiario->email;
 
         header('Location: ../view/vagas.php');
     }
 }
 
-  function connectDb() {
+function connectDb() {
     $conn = new mysqli("db", "root", "pass", "moet");
 
     if($conn->connect_error) {
-      echo "<br>";
-      die("No connected: " . $conn->connect_error);
+        die("No connected: $conn->connect_error");
     }
 
     return $conn;
-  }
+}
 
-  function checkIfPasswordIsCorrect($senha, $senhaEncriptada) {
+function checkIfPasswordIsCorrect($senha, $senhaEncriptada) {
     if (md5($senha) == $senhaEncriptada) {
-      return true;
+        return true;
     }
 
     return false;
-  }
-
-?>
+}

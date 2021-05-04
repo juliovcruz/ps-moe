@@ -6,5 +6,3 @@ class CoordenadorDeEstagio {
   public $nome;
   public $nomeDaInstituicao;
 }
-
-?>

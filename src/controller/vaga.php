@@ -15,7 +15,7 @@ function insertOneVaga($conn, $vaga) {
 }
 
 function cadastrarVaga($vaga) {
-    $validador = validarVagaParaRegistro($vaga);
+    $validador = validarVagaParaCadastro($vaga);
     if ($validador != null) {
         $arr = array('sucesso' => false, 'mensagem' => $validador);
         echo json_encode($arr);

@@ -1,6 +1,6 @@
 <?php
 
-function validarVagaParaRegistro($vaga) {
+function validarVagaParaCadastro($vaga) {
     if (!tamanhoStringValido($vaga->titulo, 1, 25)) {
         return "titulo invalido";
     }
@@ -26,7 +26,7 @@ function validarVagaParaRegistro($vaga) {
     return null;
 }
 
-  function validarEstagiarioParaRegistro($estagiario) {
+  function validarEstagiarioParaCadastro($estagiario) {
     if (!tamanhoStringValido($estagiario->nome, 5, 50)) {
       return "nome invalido";
     }
@@ -43,7 +43,7 @@ function validarVagaParaRegistro($vaga) {
     return null;
   }
 
-  function validarEmpregadorParaRegistro($empregador) {
+  function validarEmpregadorParaCadastro($empregador) {
     if (!tamanhoStringValido($empregador->nomeDoResponsavel, 5, 50)) {
       return "nomeDoResponsavel invalido";
     }
@@ -55,17 +55,6 @@ function validarVagaParaRegistro($vaga) {
     }
     if (!tamanhoStringValido($empregador->produtos, 5, 500)) {
       return "produtos invalido";
-    }
-
-    return null;
-  }
-
-  function validarUsuarioParaCadastrar($usuario) {
-    if (!emailValido($usuario->email)) {
-      return "email invalido";
-    }
-    if (!tamanhoStringValido($usuario->senha, 6, 25)) {
-      return "senha invalida";
     }
 
     return null;
@@ -86,5 +75,3 @@ function validarVagaParaRegistro($vaga) {
 
     return true;
   }
-
-?>
