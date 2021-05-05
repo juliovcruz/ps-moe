@@ -18,6 +18,94 @@ if ($_POST['action'] == "cadastrarEstagiario") {
     echo cadastrarEstagiario($estagiario);
 }
 
+if ($_POST['action'] == "editarEstagiario") {
+    $id = $_POST['id'];
+    $email = $_POST['email'];
+    $emailAtual = $_POST['emailAtual'];
+    $senhaAtual = $_POST['senhaAtual'];
+    $senhaNova = $_POST['senhaNova'];
+    $nome = $_POST['nome'];
+    $curso = $_POST['curso'];
+    $anoDeIngresso = (int)$_POST['anoDeIngresso'];
+    $minicurriculo = $_POST['minicurriculo'];
+
+    $estagiario = new Estagiario($id, $email, $senhaNova, $nome, $curso, $anoDeIngresso, $minicurriculo);
+
+    editarCadastroEstagiario($estagiario, $emailAtual, $senhaAtual);
+}
+
+function updateOneEstagiario($conn, $estagiario) {
+    $sql = "UPDATE estagiarios 
+    SET email = '$estagiario->email', nome = '$estagiario->nome', curso = '$estagiario->curso', anoDeIngresso = '$estagiario->anoDeIngresso', miniCurriculo = '$estagiario->miniCurriculo'
+    WHERE id = '$estagiario->id'";
+
+    if(!$conn->query($sql)) {
+        return $conn->error;
+    }
+
+    return null;
+}
+
+function updateSenhaEstagiario($conn, $estagiario) {
+    if (!tamanhoStringValido($estagiario->senha, 4, 60)) {
+        return "senha invalida";
+    }
+
+    $senha = md5($estagiario->senha);
+
+    $sql = "UPDATE estagiarios 
+    SET senha = '$senha'
+    WHERE id = '$estagiario->id'";
+
+    if(!$conn->query($sql)) {
+        return $conn->error;
+    }
+
+    return null;
+}
+
+
+function editarCadastroEstagiario($estagiario, $emailAtual, $senhaAtual) {
+    $validador = validarEstagiarioParaEdicao($estagiario);
+    if ($validador != null) {
+        $arr = array('sucesso' => false, 'mensagem' => $validador);
+        echo json_encode($arr);
+        return;
+    }
+
+    $conn = connectDb();
+
+    $res = loginEstagiario($conn, $emailAtual, $senhaAtual);
+    if (is_string($res)) {
+        $arr = array('sucesso' => false, 'mensagem' => 'senha atual invalida');
+        echo json_encode($arr);
+        return;
+    }
+
+    $resUpdate = updateOneEstagiario($conn, $estagiario);
+    if ($resUpdate != null) {
+        $arr = array('sucesso' => false, 'mensagem' => $resUpdate);
+        echo json_encode($arr);
+        return;
+    }
+
+    if (strlen($estagiario->senha) > 4 ) {
+        $resUpSenha = updateSenhaEstagiario($conn, $estagiario);
+        if ($resUpSenha != null) {
+            $arr = array('sucesso' => false, 'mensagem' => $resUpSenha);
+            echo json_encode($arr);
+            return;
+        }
+    }
+
+    $estagiarioAtualizado = getEstagiarioPorEmail($conn, $estagiario->email);
+
+    $_SESSION['estagiario'] = serialize($estagiarioAtualizado);
+
+    $arr = array('sucesso' => true);
+    echo json_encode($arr);
+}
+
 function insertOneEstagiario($conn, $estagiario) {
     $senha = md5($estagiario->senha);
 

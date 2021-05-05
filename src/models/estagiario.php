@@ -1,6 +1,7 @@
 <?php
 
 class Estagiario {
+    public $id;
     public $email;
     public $senha;
     public $nome;

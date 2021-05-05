@@ -1,6 +1,7 @@
 <?php
 
 class Empregador {
+    public $id;
     public $email;
     public $senha;
     public $nomeDoResponsavel;

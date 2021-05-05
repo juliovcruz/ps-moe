@@ -27,6 +27,12 @@ function validarVagaParaCadastro($vaga) {
 }
 
   function validarEstagiarioParaCadastro($estagiario) {
+    if (!emailValido($estagiario->email)) {
+      return "email invalido";
+    }
+    if (!tamanhoStringValido($estagiario->senha, 4, 60)) {
+      return "senha invalida";
+    }
     if (!tamanhoStringValido($estagiario->nome, 5, 50)) {
       return "nome invalido";
     }
@@ -43,7 +49,33 @@ function validarVagaParaCadastro($vaga) {
     return null;
   }
 
+function validarEstagiarioParaEdicao($estagiario) {
+    if (!emailValido($estagiario->email)) {
+        return "email invalido";
+    }
+    if (!tamanhoStringValido($estagiario->nome, 5, 50)) {
+        return "nome invalido";
+    }
+    if (!tamanhoStringValido($estagiario->curso, 5, 50)) {
+        return "curso invalido";
+    }
+    if (!is_int($estagiario->anoDeIngresso)) {
+        return "anoDeIngresso invalido";
+    }
+    if (!tamanhoStringValido($estagiario->miniCurriculo, 5, 500)) {
+        return "MiniCurriculo invalido";
+    }
+
+    return null;
+}
+
   function validarEmpregadorParaCadastro($empregador) {
+    if (!emailValido($empregador->email)) {
+      return "email invalido";
+    }
+    if (!tamanhoStringValido($empregador->senha, 4, 60)) {
+      return "senha invalida";
+    }
     if (!tamanhoStringValido($empregador->nomeDoResponsavel, 5, 50)) {
       return "nomeDoResponsavel invalido";
     }
@@ -59,6 +91,26 @@ function validarVagaParaCadastro($vaga) {
 
     return null;
   }
+
+function validarEmpregadorParaEdicao($empregador) {
+    if (!emailValido($empregador->email)) {
+        return "email invalido";
+    }
+    if (!tamanhoStringValido($empregador->nomeDoResponsavel, 5, 50)) {
+        return "nomeDoResponsavel invalido";
+    }
+    if (!tamanhoStringValido($empregador->nomeDaEmpresa, 5, 50)) {
+        return "nomeDaEmpresa invalido";
+    }
+    if (!tamanhoStringValido($empregador->descricao, 5, 500)) {
+        return "descricao invalido";
+    }
+    if (!tamanhoStringValido($empregador->produtos, 5, 500)) {
+        return "produtos invalido";
+    }
+
+    return null;
+}
 
   function emailValido($email) {
     if (!preg_match("/^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$/",$email)) {

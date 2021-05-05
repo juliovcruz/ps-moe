@@ -26,20 +26,16 @@ function logar($email, $senha) {
 
     if (!is_string($empregador)) {
         $_SESSION['logado'] = true;
-        $_SESSION['id'] = $empregador->id;
-        $_SESSION['nome'] = $empregador->nomeDoResponsavel;
-        $_SESSION['email'] = $empregador->email;
+        $_SESSION['empregador'] = serialize($empregador);
 
-        header('Location: ../view/vagas.php');
+        header('Location: ../view/dashboardEmpregador.php');
     }
 
     if (!is_string($estagiario)) {
         $_SESSION['logado'] = true;
-        $_SESSION['id'] = $estagiario->id;
-        $_SESSION['nome'] = $estagiario->nome;
-        $_SESSION['email'] = $estagiario->email;
+        $_SESSION['estagiario'] = serialize($estagiario);
 
-        header('Location: ../view/vagas.php');
+        header('Location: ../view/dashboardEstagiario.php');
     }
 }
 
