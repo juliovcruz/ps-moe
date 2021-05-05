@@ -19,32 +19,32 @@ include_once 'header.php';
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira sua senha" id="senha" type="password" class="validate" name="senha">>
+                <input placeholder="Insira sua senha" id="senha" type="password" class="validate" name="senha">
                 <label for="senha">Senha</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira o nome do responsável" id="nomeDoResponsavel" type="text" class="validate" name="nomeDoResponsavel">>
+                <input placeholder="Insira o nome do responsável" id="nomeDoResponsavel" type="text" class="validate" name="nomeDoResponsavel">
                 <label for="nomeDoResponsavel">Nome do Responsável</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira o nome da empresa" id="nomeDaEmpresa" type="text" class="validate" name="nomeDaEmpresa">>
+                <input placeholder="Insira o nome da empresa" id="nomeDaEmpresa" type="text" class="validate" name="nomeDaEmpresa">
                 <label for="nomeDaEmpresa">Nome da Empresa</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a descrição" id="descricao" type="text" class="validate" name="descricao">>
-                <label for="descricao">Descricao</label>
+                <textarea id="descricao" class="materialize-textarea" name="descricao"></textarea>
+                <label for="descricao" type="text" class="validate">Descrição</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira os produtos da empresa" id="produtos" type="text" class="validate" name="produtos">>
-                <label for="produtos">Produtos</label>
+                <textarea id="produtos" class="materialize-textarea" name="produtos"></textarea>
+                <label for="produtos" type="text" class="validate">Produtos</label>
             </div>
         </div>
         <div class="row">

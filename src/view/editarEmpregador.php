@@ -28,37 +28,37 @@ include_once 'header.php';
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o nome do responsável" id="nomeDoResponsavel" type="text" class="validate" name="nomeDoResponsavel" value="<?php echo $empregador->nomeDoResponsavel ?>">>
+                    <input placeholder="Insira o nome do responsável" id="nomeDoResponsavel" type="text" class="validate" name="nomeDoResponsavel" value="<?php echo $empregador->nomeDoResponsavel ?>">
                     <label for="nomeDoResponsavel">Nome do Responsável</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o nome da empresa" id="nomeDaEmpresa" type="text" class="validate" name="nomeDaEmpresa" value="<?php echo $empregador->nomeDaEmpresa ?>">>
+                    <input placeholder="Insira o nome da empresa" id="nomeDaEmpresa" type="text" class="validate" name="nomeDaEmpresa" value="<?php echo $empregador->nomeDaEmpresa ?>">
                     <label for="nomeDaEmpresa">Nome da Empresa</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira a descrição" id="descricao" type="text" class="validate" name="descricao" value="<?php echo $empregador->descricao ?>">>
-                    <label for="descricao">Descricao</label>
+                    <textarea id="descricao" class="materialize-textarea" name="descricao"><?php echo $empregador->descricao ?></textarea>
+                    <label for="descricao" type="text" class="validate">Descrição</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira os produtos da empresa" id="produtos" type="text" class="validate" name="produtos" value="<?php echo $empregador->produtos ?>">>
-                    <label for="produtos">Produtos</label>
+                    <textarea id="produtos" class="materialize-textarea" name="produtos"><?php echo $empregador->produtos ?></textarea>
+                    <label for="produtos" type="text" class="validate">Produtos</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira sua senha atual" id="senhaAtual" type="password" class="validate" name="senhaAtual">>
+                    <input placeholder="Insira sua senha atual" id="senhaAtual" type="password" class="validate" name="senhaAtual">
                     <label for="senhaAtual">Senha Atual</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira sua nova senha" id="senhaNova" type="password" class="validate" name="senhaNova">>
+                    <input placeholder="Insira sua nova senha" id="senhaNova" type="password" class="validate" name="senhaNova">
                     <label for="senhaNova">Nova Senha</label>
                 </div>
             </div>
