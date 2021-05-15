@@ -11,6 +11,8 @@ class Login extends BaseController
 	}
 
 	public function logar(){
+        $session = session();
+
         $data = [];
         helper(['form']);
 
@@ -19,7 +21,6 @@ class Login extends BaseController
                 'email' => 'required|min_length[6]|max_length[50]|valid_email',
                 'senha' => 'required|min_length[8]|max_length[255]',
             ];
-        }
 
         if (!$this->validate($rules))
         {
@@ -34,7 +35,11 @@ class Login extends BaseController
             $estagiario = $estagiarioModel->ObtenhaPorEmail($email);
 
             if ($this->senhaEstaCorreta($senha, $estagiario->senha)) {
-                session()->set(['estagiario' => $estagiario]);
+                session()->set([
+                    'estagiario' => $estagiario,
+                    'logado' => true,
+                ]);
+                $session->setFlashdata('success', 'Successful Registration');
 
                 return redirect()->to('/Estagiario/dash');
             }
@@ -43,18 +48,26 @@ class Login extends BaseController
             $empregador = $empregadorModel->ObtenhaPorEmail($email);
 
             if ($this->senhaEstaCorreta($senha, $empregador->senha)) {
-                session()->set(['empregador' => $empregador]);
+                session()->set([
+                    'empregador' => $empregador,
+                    'logado' => true,
+                ]);
+                $session->setFlashdata('success', 'Successful Registration');
 
                 return redirect()->to('/Empregador/dash');
             }
 
-            $session = session();
-            $session->setFlashdata('success', 'Successful Registration');
             return redirect()->to('/login');
+            }
         }
     }
 
-    public function senhaEstaCorreta($senha, $senhaEncriptada) {
+    public function logout() {
+        session()->destroy();
+        return redirect()->to('/login');
+    }
+
+    private function senhaEstaCorreta($senha, $senhaEncriptada) {
         if (md5($senha) == $senhaEncriptada) {
             return true;
         }

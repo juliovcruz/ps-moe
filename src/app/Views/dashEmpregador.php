@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+<?php
+    if(session()->get('empregador') == null) return redirect()->to('Login');
+?>
+
 <head>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -11,7 +15,7 @@
 </head>
 <body>
 
-<form action="logout.php" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
+<form action="/Login/logout" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
     <div class="row">
         <h1 class="light col s6 push-m3"> Olá <?php if(isset($empregador)) echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h1>
     </div>

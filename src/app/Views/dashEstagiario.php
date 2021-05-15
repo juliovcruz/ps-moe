@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<?php
+if(session()->get('estagiario') == null) return redirect()->to('Login');
+?>
 <head>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
