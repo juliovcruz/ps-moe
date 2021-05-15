@@ -56,4 +56,45 @@ class Estagiario extends BaseController
 		}
 		echo view('registrarEstagiario', $data);
 	}
+
+    public function dash() {
+        $data = [];
+        helper(['form']);
+
+        if ($this->request->getMethod() == 'post') {
+            $data = [
+                'id' => md5(uniqid(rand(), true)),
+                'email' => $this->request->getVar('email'),
+                'senha' => md5($this->request->getVar('senha')),
+                'nome' => $this->request->getVar('nome'),
+                'curso' => $this->request->getVar('curso'),
+                'anoDeIngresso' => (int)$this->request->getVar('anoDeIngresso'),
+                'miniCurriculo' => $this->request->getVar('minicurriculo'),
+                'token' => md5(uniqid(rand(), true)),
+                'emailConfirmado' => false
+            ];
+        }
+
+        $db = \Config\Database::connect();
+        $query = $db->query('SELECT * FROM empregadores');
+        $results = $query->getResult();
+
+        $data['empregadores'][] = $results;
+
+        $session = session();
+        $session->setFlashdata('success', 'Successful Registration');
+
+        //$this->load->view('dashEstagiario', $data);
+        //return redirect()->to('/dashEstagiario');
+
+        echo view('dashEstagiario', $data);
+    }
+
+    public function ObtenhaPorEmail($email){
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM estagiarios WHERE email='$email'");
+        $result = $query->getResult();
+
+        return $result[0];
+    }
 }
