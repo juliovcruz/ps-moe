@@ -26,16 +26,22 @@ class EstagiarioModel extends Model {
     protected $skipValidation = true;
 
     public function ObtenhaPorId($id) {
-
         $db = \Config\Database::connect();
         $query = $db->query("SELECT * FROM estagiarios WHERE id='$id'");
         $result = $query->getResult();
         return $result[0];
     }
 
+    public function ObtenhaPorEmail($email) {
+      $db = \Config\Database::connect();
+      $query = $db->query("SELECT * FROM estagiarios WHERE email='$email'");
+      $result = $query->getResult();
+      return $result[0];
+    }
+
     public function AtualizeToken($id) {
       $db = \Config\Database::connect();
       $sql = "UPDATE estagiarios set emailConfirmado = 1 WHERE id='$id'";
       $this->db->query($sql);
-  }
+    }
 }
