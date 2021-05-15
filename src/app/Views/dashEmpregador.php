@@ -25,7 +25,7 @@
             <button type="submit" class='btn'>Logout</button>
         </div>
         <div class="row col s12 push-m3">
-            <a href="editarEstagiario.php" class="">Editar Cadastro</a>
+            <a href="editar" class="">Editar Cadastro</a>
             <a href="/Vaga/register" class="">Registrar Vaga</a>
         </div>
     </div>

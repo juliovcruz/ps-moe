@@ -14,7 +14,7 @@ if(!session()->get('estagiario')) return redirect()->to('Login');
 </head>
     <body>
 
-    <form action="login/logout" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
+    <form action="/login/logout" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
         <div class="row">
             <h1 class="light col s6 push-m3"> Olá  <?php if(isset($estagiario)) echo $estagiario->nome ?>! Bem vindo à tela de vagas </h1>
         </div>
@@ -48,7 +48,7 @@ echo "<tr>
                 <button type="submit" class='btn'>Logout</button>
             </div>
             <div class="row col s12 push-m3">
-                <a href="editarEstagiario.php" class="">Editar Cadastro</a>
+                <a href="editar" class="">Editar Cadastro</a>
             </div>
         </div>
     </body>

@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Models\EstagiarioModel;
 use CodeIgniter\Email\Email;
 use CodeIgniter\HTTP\RequestInterface;
+use function Sodium\add;
 
 class Estagiario extends BaseController
 {
@@ -14,7 +16,6 @@ class Estagiario extends BaseController
 	}
 
 	public function register() {
-
 		$data = [];
 		helper(['form', 'email']);
 
@@ -22,18 +23,55 @@ class Estagiario extends BaseController
 
 			$rules = [
 				'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[estagiarios.email]|is_unique[empregadores.email]',
-				'senha' => 'required|min_length[8]|max_length[255]',
+				'senha' => 'required|min_length[6]|max_length[250]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/]',
 				'confirmacaoSenha' => 'matches[senha]',
-				'nome' => 'required|min_length[3]|max_length[20]',
-				'curso' => 'required|min_length[3]|max_length[20]',
-				'anoDeIngresso' => 'required|min_length[3]|max_length[4]',
-				'minicurriculo' => 'required|min_length[3]|max_length[20]',
+				'nome' => 'required|min_length[3]|max_length[50]',
+				'curso' => 'required|min_length[3]|max_length[50]',
+				'anoDeIngresso' => 'required|exact_length[4]|integer',
+				'minicurriculo' => 'required|min_length[3]|max_length[250]',
 			];
+            $errorMessages = [
+                'email' => [
+                    'required' => 'É necessário fornecer um email',
+                    'min_length' => 'O email deve ter ao menos 6 caracteres',
+                    'max_length' => 'O email deve ter no máximo 50 caracteres',
+                    'valid_email' => 'O email deve ser válido',
+                    'is_unique' => 'Já existe um cadastro com este email'
+                ],
+                'senha' => [
+                    'required' => 'É necessário fornecer uma senha',
+                    'min_length' => 'O email deve ter ao menos 6 caracteres',
+                    'max_length' => 'A senha deve ter no máximo 250 caracteres',
+                    'regex_match' => 'A senha precisa ter ao menos uma letra minúscula, uma letra maisculua e um caracter especial'
+                ],
+                'confirmacaoSenha' => [
+                    'matches' => 'A confirmação de senha deve ser igual a senha'
+                ],
+                'nome' => [
+                    'required' => 'É necessário fornecer o nome',
+                    'min_length' => 'O nome deve ter ao menos 3 caracteres',
+                    'max_length' => 'O nome deve ter no máximo 50 caracteres'
+                ],
+                'curso' => [
+                    'required' => 'É necessário fornecer o curso',
+                    'min_length' => 'O curso deve ter ao menos 3 caracteres',
+                    'max_length' => 'O curso deve ter no máximo 50 caracteres'
+                ],
+                'anoDeIngresso' => [
+                    'required' => 'É necessário fornecer o ano de ingresso',
+                    'exact_length' => 'O ano de ingresso deve ter exatamente 4 caracteres',
+                    'integer' => 'O ano de ingresso deve ser um número inteiro'
+                ],
+                'minicurriculo' => [
+                    'required' => 'É necessário fornecer o mini currículo',
+                    'min_length' => 'O mini currículo devem ter ao menos 3 caracteres',
+                    'max_length' => 'O mini currículo devem ter no máximo 250 caracteres'
+                ],
+            ];
 
-			if (!$this->validate($rules)) 
-			{
-				$data['validation'] = $this->validator;
-			}
+            if (!$this->validate($rules, $errorMessages)) {
+                $data['validation'] = $this->validator->setRules($rules, $errorMessages);
+            }
 			else
 			{
 				$nome = $this->request->getVar('nome');
@@ -53,7 +91,6 @@ class Estagiario extends BaseController
 				];
 		
 				$estagiarioModel = new \App\Models\EstagiarioModel();
-		
 				$estagiarioModel->insert($data);
 				
 				$dadosEmail = [
@@ -81,11 +118,8 @@ class Estagiario extends BaseController
 
         $data = ['estagiario' => $_SESSION['estagiario']];
 
-        $db = \Config\Database::connect();
-        $query = $db->query('SELECT * FROM empregadores');
-        $results = $query->getResult();
-
-        $data['empregadores'][] = $results;
+        $empregadorModel = new \App\Models\EmpregadorModel();
+        $data['empregadores'][] = $empregadorModel->ObtenhaTodos();
 
         // TODO: Empregadores que estagiario segue
         $data['empregadoresSeguindo'][] = ['TODO'];
@@ -94,6 +128,100 @@ class Estagiario extends BaseController
         $session->setFlashdata('success', 'Successful Registration');
 
         echo view('dashEstagiario', $data);
+    }
+
+    public function editar() {
+        if(!session()->get('estagiario')) return redirect('/');
+
+        $data = [];
+        helper(['form', 'email']);
+
+        if ($this->request->getMethod() == 'post') {
+            $session = session();
+
+            $rules = [
+                'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[estagiarios.email]|is_unique[empregadores.email]',
+                'senha' => 'required|min_length[6]|max_length[250]',
+                'confirmacaoSenha' => 'matches[senha]',
+                'nome' => 'required|min_length[3]|max_length[50]',
+                'curso' => 'required|min_length[3]|max_length[50]',
+                'anoDeIngresso' => 'required|exact_length[4]|integer',
+                'minicurriculo' => 'required|min_length[3]|max_length[250]',
+                'senhaAntiga' => 'required|min_length[8]|max_length[255]'
+            ];
+            $errorMessages = [
+                'email' => [
+                    'required' => 'É necessário fornecer um email',
+                    'min_length' => 'O email deve ter ao menos 6 caracteres',
+                    'max_length' => 'O email deve ter no máximo 50 caracteres',
+                    'valid_email' => 'O email deve ser válido',
+                    'is_unique' => 'Já existe um cadastro com este email'
+                ],
+                'senha' => [
+                    'min_length' => 'O email deve ter ao menos 6 caracteres',
+                    'max_length' => 'A senha deve ter no máximo 250 caracteres',
+                ],
+                'confirmacaoSenha' => [
+                    'matches' => 'A confirmação de senha deve ser igual a senha'
+                ],
+                'nome' => [
+                    'required' => 'É necessário fornecer o nome',
+                    'min_length' => 'O nome deve ter ao menos 3 caracteres',
+                    'max_length' => 'O nome deve ter no máximo 50 caracteres'
+                ],
+                'curso' => [
+                    'required' => 'É necessário fornecer o curso',
+                    'min_length' => 'O curso deve ter ao menos 3 caracteres',
+                    'max_length' => 'O curso deve ter no máximo 50 caracteres'
+                ],
+                'anoDeIngresso' => [
+                    'required' => 'É necessário fornecer o ano de ingresso',
+                    'exact_length' => 'O ano de ingresso deve ter exatamente 4 caracteres',
+                    'integer' => 'O ano de ingresso deve ser um número inteiro'
+                ],
+                'minicurriculo' => [
+                    'required' => 'É necessário fornecer o mini currículo',
+                    'min_length' => 'O mini currículo devem ter ao menos 3 caracteres',
+                    'max_length' => 'O mini currículo devem ter no máximo 250 caracteres'
+                ],
+                'senhaAntiga' => [
+                    'required' => 'É necessário fornecer a senha atual',
+                ],
+            ];
+
+            if (!$this->validate($rules, $errorMessages)) {
+                $data['validation'] = $this->validator->setRules($rules, $errorMessages);
+            } else {
+                $estagiario = session()->get('estagiario');
+                $senhaAntiga = $this->request->getVar('senhaAntiga');
+
+                $data = [
+                    'email' => $this->request->getVar('email'),
+                    'nome' => $this->request->getVar('nome'),
+                    'curso' => $this->request->getVar('curso'),
+                    'anoDeIngresso' => (int)$this->request->getVar('anoDeIngresso'),
+                    'miniCurriculo' => $this->request->getVar('minicurriculo'),
+                ];
+
+                if(strlen($this->request->getVar('senha')) >= 6 ) {
+                    $data['senha'] = md5($this->request->getVar('senha'));
+                }
+
+                $estagiarioModel = new \App\Models\EstagiarioModel();
+
+                if (!$estagiarioModel->senhaEstaCorreta($estagiario->email, $senhaAntiga)) {
+                    $session->setFlashdata('erro', 'Senha incorreta!');
+
+                    return redirect()->to('/estagiario/editar');
+                }
+
+                $estagiarioModel->update($estagiario->id, $data);
+
+                $session->setFlashdata('success', 'Cadastro alterado com sucesso!');
+                return redirect()->to('/estagiario/dash');
+            }
+        }
+        echo view('editarEstagiario', $data);
     }
 
     public function ObtenhaPorEmail($email){

@@ -11,7 +11,7 @@ if (!function_exists('EnviaEmailCadastro'))
 				
 		$email->initialize($config);
 		$email->setFrom('ufg.projetodesoftware@hotmail.com');
-		$email->setTo('lucabbenetti@hotmail.com');
+		//$email->setTo('lucabbenetti@hotmail.com');
 				
 		$email->setSubject('teste4');
 		$email->setMessage("<!DOCTYPE html>

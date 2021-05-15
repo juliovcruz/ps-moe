@@ -42,4 +42,14 @@ class EstagiarioModel extends Model {
       $sql = "UPDATE estagiarios set emailConfirmado = 1 WHERE id='$id'";
       $this->db->query($sql);
     }
+
+    public function senhaEstaCorreta($email, $senha) {
+        $estagiario = $this->ObtenhaPorEmail($email);
+
+        if (md5($senha) == $estagiario->senha) {
+            return true;
+        }
+
+        return false;
+    }
 }

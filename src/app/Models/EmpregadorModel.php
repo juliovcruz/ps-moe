@@ -43,4 +43,20 @@ class EmpregadorModel extends Model {
         $result = $query->getResult();
         return $result[0];
     }
+
+    public function senhaEstaCorreta($email, $senha) {
+        $empregador = $this->ObtenhaPorEmail($email);
+
+        if (md5($senha) == $empregador->senha) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function ObtenhaTodos(){
+        $db = \Config\Database::connect();
+        $query = $db->query('SELECT * FROM empregadores');
+        return $query->getResult();
+    }
 }

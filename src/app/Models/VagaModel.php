@@ -23,4 +23,18 @@ class VagaModel extends Model {
     protected $validationRules = [];
     protected $validationMessages = [];
     protected $skipValidation = true;
+
+    public function ObtenhaPorId($id) {
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM vagas WHERE id='$id'");
+        $result = $query->getResult();
+        return $result[0];
+    }
+
+    public function ObtenhaTodasDeEmpregador($empregadorID){
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM vagas WHERE empregadorID = '$empregadorID'");
+        return $query->getResult();
+    }
 }
+
