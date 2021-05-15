@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php
-if(session()->get('estagiario') == null) return redirect()->to('Login');
+if(!session()->get('estagiario')) return redirect()->to('Login');
 ?>
 <head>
     <!--Import Google Icon Font-->
@@ -14,7 +14,7 @@ if(session()->get('estagiario') == null) return redirect()->to('Login');
 </head>
     <body>
 
-    <form action="logout.php" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
+    <form action="login/logout" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
         <div class="row">
             <h1 class="light col s6 push-m3"> Olá  <?php if(isset($estagiario)) echo $estagiario->nome ?>! Bem vindo à tela de vagas </h1>
         </div>

@@ -77,9 +77,12 @@ class Empregador extends BaseController
 
         $data = ['empregador' => $_SESSION['empregador']];
 
-       echo $_SESSION['empregador']->email;
+        echo $_SESSION['empregador']->email;
 
         $session->setFlashdata('success', 'Successful Registration');
+        if(!session()->get('empregador')) return redirect('/');
+
         echo view('dashEmpregador', $data);
+
     }
 }
