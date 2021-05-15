@@ -13,14 +13,14 @@
 
 <body>
 
-    <?php if (isset($validation)): ?>
-    <div class="card-panel red lighten-2" id="erro" style="">
-        <?= $validation->listErrors() ?>
+    <?php if (session()->get('success')): ?>
+    <div class="card-panel teal lighten-2 white-text" id="sucesso">
+        Registro feito com sucesso!
+        <?= session()->get('success') ?>
     </div>
     <?php endif; ?>
 
-    <div class="card-panel teal lighten-2 white-text" id="sucesso" style="display:none;">Registro feito com sucesso!
-    </div>
+
 
     <div class="row" style="padding-right: 200px;">
         <form action="/Estagiario/register" method="post" class="col s12 m6 push-m4" style="margin-top: 50px;">
