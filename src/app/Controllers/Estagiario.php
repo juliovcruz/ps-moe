@@ -90,6 +90,7 @@ class Estagiario extends BaseController
         // TODO: Empregadores que estagiario segue
         $data['empregadoresSeguindo'][] = ['TODO'];
 
+        if(!session()->get('estagiario')) return redirect('/');
         $session->setFlashdata('success', 'Successful Registration');
 
         echo view('dashEstagiario', $data);
