@@ -24,16 +24,16 @@ class EmpregadorModel extends Model {
     protected $validationMessages = [];
     protected $skipValidation = true;
 
-    protected function beforeInsert(array $data){
-        echo $data;
-        $data = $this->passwordHash($data);
-        return $data;
+    public function ObtenhaPorId($id) {
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM empregadores WHERE id='$id'");
+        $result = $query->getResult();
+        return $result[0];
     }
 
-    protected function passwordHash(array $data){
-        if(isset($data['data']['senha']))
-            $data['data']['senha'] = password_hash($data['data']['senha'], PASSWORD_DEFAULT);
-
-        return $data;
+    public function AtualizeToken($id) {
+        $db = \Config\Database::connect();
+        $sql = "UPDATE empregadores set emailConfirmado = 1 WHERE id='$id'";
+        $this->db->query($sql);
     }
 }

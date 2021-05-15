@@ -13,7 +13,7 @@ class Empregador extends BaseController
     public function register() {
 
         $data = [];
-        helper(['form']);
+        helper(['form', 'email']);
 
         if ($this->request->getMethod() == 'post') {
 
@@ -33,25 +33,40 @@ class Empregador extends BaseController
             }
             else
             {
+                $id = md5(uniqid(rand(), true));
+                $token = md5(uniqid(rand(), true));
+                $nome = $this->request->getVar('nomeDaEmpresa');
                 $data = [
-                    'id' => md5(uniqid(rand(), true)),
+                    'id' => $id,
                     'email' => $this->request->getVar('email'),
                     'senha' => md5($this->request->getVar('senha')),
                     'nomeDoResponsavel' => $this->request->getVar('nomeDoResponsavel'),
                     'nomeDaEmpresa' => $this->request->getVar('nomeDaEmpresa'),
-                    'descricao' => (int)$this->request->getVar('descricao'),
+                    'descricao' => $this->request->getVar('descricao'),
                     'produtos' => $this->request->getVar('produtos'),
-                    'token' => md5(uniqid(rand(), true)),
+                    'token' => $token,
                     'emailConfirmado' => false
                 ];
 
                 $empregadorModel = new \App\Models\EmpregadorModel();
 
                 $empregadorModel->insert($data);
-                $session = session();
-                $session->setFlashdata('success', 'Successful Registration');
-                return redirect()->to('/login');
 
+                $dadosEmail = [
+					'id' => $id,
+					'token' => $token,
+					'nome' => $nome,
+				];
+
+				$session = session();
+				
+				if(!EnviaEmailCadastro($dadosEmail)) {
+					$session->setFlashdata('erroEmail', 'Ocorreu um erro, contate nosso suporte.');
+					return view('registrarEmpregador');
+				}
+				
+				$session->setFlashdata('success', 'Registro feito com sucesso, confirme seu email para poder acessar!');				
+				return redirect()->to('/login');
             }
         }
         echo view('registrarEmpregador', $data);

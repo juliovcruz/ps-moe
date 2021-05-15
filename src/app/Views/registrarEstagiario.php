@@ -19,6 +19,12 @@
     </div>
     <?php endif; ?>
 
+    <?php if (session()->get('erroEmail')): ?>
+    <div class="card-panel red lighten-2" id="erro">
+        <?= session()->get('erroEmail') ?>
+    </div>
+    <?php endif; ?>
+
     <div class="card-panel teal lighten-2 white-text" id="sucesso" style="display:none;">Registro feito com sucesso!
     </div>
 

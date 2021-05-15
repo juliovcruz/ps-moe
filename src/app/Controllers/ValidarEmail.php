@@ -13,18 +13,25 @@ class ValidarEmail extends BaseController
             $token = $this->request->getVar('token');
 
             $estagiarioModel = new \App\Models\EstagiarioModel();
+            $empregadorModel = new \App\Models\EmpregadorModel();
             
             $estagiario = $estagiarioModel->ObtenhaPorId($id);
+            $empregador = $empregadorModel->ObtenhaPorId($id);
 
             $session = session();
 
-            if(!is_null($estagiario) && $estagiario->token == $token) {
+            if(empty($id) || empty($token)) {
+                $session->setFlashdata('erro', 'Ocorreu algum erro, não foi possível confirmar o seu email.');
+            }
+
+            else if(!is_null($estagiario) && $estagiario->token == $token) {
                 $estagiarioModel->AtualizeToken($estagiario->id);
                 $session->setFlashdata('success', 'Email confirmado com sucesso, você pode realizar o login agora.');
             }
 
-            else {
-                $session->setFlashdata('erro', 'Ocorreu algum erro, não foi possível confirmar o seu email.');
+            else if(!is_null($empregador) && $empregador->token == $token) {
+                $empregadorModel->AtualizeToken($empregador->id);
+                $session->setFlashdata('success', 'Email confirmado com sucesso, você pode realizar o login agora.');
             }
 
             return redirect()->to('/login');
