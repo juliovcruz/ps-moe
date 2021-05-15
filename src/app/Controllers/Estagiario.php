@@ -2,11 +2,14 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\Email\Email;
+use CodeIgniter\HTTP\RequestInterface;
+
 class Estagiario extends BaseController
 {
 	public function index()
 	{
-		helper(['form']);
+		helper(['form', 'url']);
 		return view('registrarEstagiario');
 	}
 
@@ -33,25 +36,57 @@ class Estagiario extends BaseController
 			}
 			else
 			{
+				$nome = $this->request->getVar('nome');
+				$id = md5(uniqid(rand(), true));
+				$token = md5(uniqid(rand(), true));
+
 				$data = [
-					'id' => md5(uniqid(rand(), true)),
+					'id' => $id,
 					'email' => $this->request->getVar('email'),
 					'senha' => md5($this->request->getVar('senha')),
-					'nome' => $this->request->getVar('nome'),
+					'nome' => $nome,
 					'curso' => $this->request->getVar('curso'),
 					'anoDeIngresso' => (int)$this->request->getVar('anoDeIngresso'),
 					'miniCurriculo' => $this->request->getVar('minicurriculo'),
-					'token' => md5(uniqid(rand(), true)),
+					'token' => $token,
 					'emailConfirmado' => false
 				];
 		
 				$estagiarioModel = new \App\Models\EstagiarioModel();
 		
 				$estagiarioModel->insert($data);
-				$session = session();
-				$session->setFlashdata('success', 'Successful Registration');
-				return redirect()->to('/login');
+				
+				$linkConfirmacao = base_url() . $linkConfirmacao = "/ValidarEmail?id=" . $id . "&token=" . $token;
+				
+				$email = \Config\Services::email();
 
+				$config['mailType'] = 'html';
+				
+				$email->initialize($config);
+				$email->setFrom('ufg.projetodesoftware@hotmail.com');
+				$email->setTo('lucabbenetti@hotmail.com');
+				
+				$email->setSubject('teste4');
+				$email->setMessage("<!DOCTYPE html>
+				<html lang='en' dir='ltr'>
+				  <head>
+					<meta charset='utf-8'>
+					<title></title>
+				  </head>
+				  <body>
+					  Olá <strong>" . $nome . "!</strong> Para confimar seu registro e ter acesso ao mural de estágios, <a href=" . $linkConfirmacao . ">clique aqui</a>.
+				  </body>
+			  </html>");
+
+				$email->send();
+				
+				$session = session();
+				$session->setFlashdata('success', 'Registro feito com sucesso, confirme seu email para poder acessar!');
+
+				if(!empty($email->printDebugger())) {
+				}			
+				
+				return redirect()->to('/login');
 			}
 		}
 		echo view('registrarEstagiario', $data);

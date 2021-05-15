@@ -15,7 +15,6 @@
 
     <?php if (session()->get('success')): ?>
     <div class="card-panel teal lighten-2 white-text" id="sucesso">
-        Registro feito com sucesso!
         <?= session()->get('success') ?>
     </div>
     <?php endif; ?>
