@@ -15,71 +15,42 @@
 
     <?php if (session()->get('success')): ?>
     <div class="card-panel teal lighten-2 white-text" id="sucesso">
-        Registro feito com sucesso!
         <?= session()->get('success') ?>
     </div>
     <?php endif; ?>
 
-
+    <?php if (session()->get('erro')): ?>
+    <div class="card-panel red lighten-2" id="erro" style="">
+    <?= session()->get('erro') ?>
+    </div>
+    <?php endif; ?>
 
     <div class="row" style="padding-right: 200px;">
-        <form action="/Estagiario/register" method="post" class="col s12 m6 push-m4" style="margin-top: 50px;">
+        <form action="../controller/usuario.php" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
             <div class="row">
-                <h3 class="light col s6 push-m3" style="margin-bottom: 50px">Registrar Estagiário</h3>
+                <h3 class="light col s6 push-m3" style="margin-bottom: 50px">Login</h3>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o seu email" id="email" type="text" class="validate" name="email"
-                        value="<?= set_value('email') ?>">
+                    <input placeholder="Insira o seu email" id="email" type="text" class="validate" name="email">
                     <label for="email">Email</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira sua senha" id="senha" type="password" class="validate" name="senha"
-                        value="">
+                    <input placeholder="Insira sua senha" id="senha" type="password" class="validate" name="senha">
                     <label for="senha">Senha</label>
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira novamente sua senha" id="confirmacaoSenha" type="password"
-                        class="validate" name="confirmacaoSenha" value="">
-                    <label for="confirmacaoSenha">Confirmação Senha</label>
+                <div class="row col s12 m12 push-m7">
+                    <button type="submit" class="btn" name="btnLogin">Login</button>
+                    <input type="hidden" name="action" value="logarUsuario" />
                 </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o seu nome" id="nome" type="text" class="validate" name="nome"
-                        value="<?= set_value('nome') ?>">
-                    <label for="nome">Nome</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira seu curso" id="curso" type="text" class="validate" name="curso"
-                        value="<?= set_value('curso') ?>">
-                    <label for="curso">Curso</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o seu ano de ingresso" id="anoDeIngresso" type="text" class="validate"
-                        name="anoDeIngresso" value="<?= set_value('anoDeIngresso') ?>">
-                    <label for="anoDeIngresso">Ano de ingresso</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6 push-m3">
-                    <textarea id="minicurriculo" class="materialize-textarea" name="minicurriculo"
-                        value="<?= set_value('minicurriculo') ?>"></textarea>
-                    <label for="minicurriculo" type="text" class="validate">Minicurrículo</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s12 m6 push-m7">
-                    <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">Criar</button>
-                    <input type="hidden" name="action" value="cadastrarEstagiario" />
+                <div class="row col s12 push-m3">
+                    <a href="/Estagiario/register" class="">Registrar Estagiário</a>
+                    <span class=""> | </span>
+                    <a href="registrarEmpregador" class="">Registrar Empregador</a>
                 </div>
             </div>
         </form>
