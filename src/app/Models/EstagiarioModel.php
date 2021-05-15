@@ -4,7 +4,12 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EstagiarioModel extends Model {
+interface IObserver
+{
+    public function Notifique();
+}
+
+class EstagiarioModel extends Model implements IObserver {
     protected $table = 'estagiarios';
 
     protected $primaryKey = 'id';
@@ -22,6 +27,10 @@ class EstagiarioModel extends Model {
     protected $validationRules = [];
     protected $validationMessages = [];
     protected $skipValidation = true;
+
+    public function Notifique() {
+      
+    }
 
     public function ObtenhaPorId($id) {
         $db = \Config\Database::connect();

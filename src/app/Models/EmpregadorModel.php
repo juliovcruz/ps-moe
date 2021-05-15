@@ -4,8 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EmpregadorModel extends Model {
-    protected $table      = 'empregadores';
+interface ISubject
+{
+    public function ObtenhaOuvintes();
+    public function CadastrarOuvinte($data);
+    public function DescadastrarOuvinte($data);
+}
+
+class EmpregadorModel extends Model implements ISubject { 
+    protected $table = 'empregadores';
 
     protected $useAutoIncrement = true;
 
@@ -23,6 +30,18 @@ class EmpregadorModel extends Model {
     protected $validationRules = [];
     protected $validationMessages = [];
     protected $skipValidation = true;
+
+    public function ObtenhaOuvintes() {
+
+    }
+
+    public function CadastrarOuvinte($data) {
+
+    }
+
+    public function DescadastrarOuvinte($data) {
+        
+    }
 
     public function ObtenhaPorId($id) {
         $db = \Config\Database::connect();

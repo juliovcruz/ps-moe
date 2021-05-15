@@ -75,7 +75,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <textarea id="produtos" class="materialize-textarea" name="produtos" value="<?= set_value('produtos') ?>">></textarea>
+                    <textarea id="produtos" class="materialize-textarea" name="produtos" value="<?= set_value('produtos') ?>"></textarea>
                     <label for="produtos" type="text" class="validate">Produtos</label>
                 </div>
             </div>
