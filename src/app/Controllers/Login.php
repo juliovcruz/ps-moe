@@ -30,17 +30,36 @@ class Login extends BaseController
             $email = $this->request->getVar('email');
             $senha = $this->request->getVar('senha');
 
-            echo $email;
-
             $estagiarioModel = new \App\Models\EstagiarioModel();
             $estagiario = $estagiarioModel->ObtenhaPorEmail($email);
 
-            echo $estagiario->nome;
+            if ($this->senhaEstaCorreta($senha, $estagiario->senha)) {
+                session()->set(['estagiario' => $estagiario]);
+
+                return redirect()->to('/Estagiario/dash');
+            }
+
+            $empregadorModel = new \App\Models\EmpregadorModel();
+            $empregador = $empregadorModel->ObtenhaPorEmail($email);
+
+            if ($this->senhaEstaCorreta($senha, $empregador->senha)) {
+                session()->set(['empregador' => $empregador]);
+
+                return redirect()->to('/Empregador/dash');
+            }
 
             $session = session();
             $session->setFlashdata('success', 'Successful Registration');
             return redirect()->to('/login');
-
         }
     }
+
+    public function senhaEstaCorreta($senha, $senhaEncriptada) {
+        if (md5($senha) == $senhaEncriptada) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

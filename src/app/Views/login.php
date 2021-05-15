@@ -42,9 +42,9 @@
                     <input type="hidden" name="action" value="logar"/>
                 </div>
                 <div class="row col s12 push-m3">
-                    <a href="registrarEstagiario.php" class="">Registrar Estagiário</a>
+                    <a href="/Estagiario/register" class="">Registrar Estagiário</a>
                     <span class=""> | </span>
-                    <a href="registrarEmpregador.php" class="">Registrar Empregador</a>
+                    <a href="/Empregador/register" class="">Registrar Empregador</a>
                 </div>
             </div>
         </form>

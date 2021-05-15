@@ -18,7 +18,7 @@ class Empregador extends BaseController
         if ($this->request->getMethod() == 'post') {
 
             $rules = [
-                'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[empregadores.email]',
+                'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[empregadores.email]|is_unique[estagiarios.email]',
                 'senha' => 'required|min_length[8]|max_length[255]',
                 'confirmacaoSenha' => 'matches[senha]',
                 'nomeDoResponsavel' => 'required|min_length[3]|max_length[20]',
@@ -39,7 +39,7 @@ class Empregador extends BaseController
                     'senha' => md5($this->request->getVar('senha')),
                     'nomeDoResponsavel' => $this->request->getVar('nomeDoResponsavel'),
                     'nomeDaEmpresa' => $this->request->getVar('nomeDaEmpresa'),
-                    'descricao' => (int)$this->request->getVar('descricao'),
+                    'descricao' => $this->request->getVar('descricao'),
                     'produtos' => $this->request->getVar('produtos'),
                     'token' => md5(uniqid(rand(), true)),
                     'emailConfirmado' => false
@@ -55,5 +55,16 @@ class Empregador extends BaseController
             }
         }
         echo view('registrarEmpregador', $data);
+    }
+
+    public function dash() {
+        $session = session();
+
+        $data = ['empregador' => $_SESSION['empregador']];
+
+       echo $_SESSION['empregador']->email;
+
+        $session->setFlashdata('success', 'Successful Registration');
+        echo view('dashEmpregador', $data);
     }
 }

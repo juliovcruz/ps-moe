@@ -21,7 +21,7 @@ class Estagiario extends BaseController
 		if ($this->request->getMethod() == 'post') {
 
 			$rules = [
-				'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[estagiarios.email]',
+				'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[estagiarios.email]|is_unique[empregadores.email]',
 				'senha' => 'required|min_length[8]|max_length[255]',
 				'confirmacaoSenha' => 'matches[senha]',
 				'nome' => 'required|min_length[3]|max_length[20]',
@@ -81,6 +81,7 @@ class Estagiario extends BaseController
 				$email->send();
 				
 				$session = session();
+                session()->set($data);
 				$session->setFlashdata('success', 'Registro feito com sucesso, confirme seu email para poder acessar!');
 
 				if(!empty($email->printDebugger())) {
@@ -93,22 +94,9 @@ class Estagiario extends BaseController
 	}
 
     public function dash() {
-        $data = [];
-        helper(['form']);
+        $session = session();
 
-        if ($this->request->getMethod() == 'post') {
-            $data = [
-                'id' => md5(uniqid(rand(), true)),
-                'email' => $this->request->getVar('email'),
-                'senha' => md5($this->request->getVar('senha')),
-                'nome' => $this->request->getVar('nome'),
-                'curso' => $this->request->getVar('curso'),
-                'anoDeIngresso' => (int)$this->request->getVar('anoDeIngresso'),
-                'miniCurriculo' => $this->request->getVar('minicurriculo'),
-                'token' => md5(uniqid(rand(), true)),
-                'emailConfirmado' => false
-            ];
-        }
+        $data = ['estagiario' => $_SESSION['estagiario']];
 
         $db = \Config\Database::connect();
         $query = $db->query('SELECT * FROM empregadores');
@@ -116,11 +104,10 @@ class Estagiario extends BaseController
 
         $data['empregadores'][] = $results;
 
-        $session = session();
-        $session->setFlashdata('success', 'Successful Registration');
+        // TODO: Empregadores que estagiario segue
+        $data['empregadoresSeguindo'][] = ['TODO'];
 
-        //$this->load->view('dashEstagiario', $data);
-        //return redirect()->to('/dashEstagiario');
+        $session->setFlashdata('success', 'Successful Registration');
 
         echo view('dashEstagiario', $data);
     }

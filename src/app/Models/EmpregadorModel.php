@@ -24,16 +24,17 @@ class EmpregadorModel extends Model {
     protected $validationMessages = [];
     protected $skipValidation = true;
 
-    protected function beforeInsert(array $data){
-        echo $data;
-        $data = $this->passwordHash($data);
-        return $data;
-    }
-
     protected function passwordHash(array $data){
         if(isset($data['data']['senha']))
             $data['data']['senha'] = password_hash($data['data']['senha'], PASSWORD_DEFAULT);
 
         return $data;
+    }
+
+    public function ObtenhaPorEmail($email) {
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM empregadores WHERE email='$email'");
+        $result = $query->getResult();
+        return $result[0];
     }
 }

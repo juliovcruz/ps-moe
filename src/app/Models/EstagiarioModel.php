@@ -14,8 +14,6 @@ class EstagiarioModel extends Model {
 
     protected $allowedFields = ['id', 'nome', 'curso', 'anoDeIngresso', 'miniCurriculo', 'email', 'senha', 'token', 'emailConfirmado'];
 
-    protected $beforeInsert = ['beforeInsert'];
-
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
