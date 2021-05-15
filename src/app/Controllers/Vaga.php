@@ -18,7 +18,7 @@ class Vaga extends BaseController
         if ($this->request->getMethod() == 'post') {
 
             $rules = [
-                'empregadorID' => 'required|min_length[3]|max_length[250]',
+                // 'empregadorID' => 'required|min_length[3]|max_length[250]',
                 'descricao' => 'required|min_length[3]|max_length[20]',
                 'listaDeAtividades' => 'required|min_length[3]|max_length[20]',
                 'listaDeHabilidadesRequeridas' => 'required|min_length[3]|max_length[20]',
@@ -35,6 +35,7 @@ class Vaga extends BaseController
             {
                 $data = [
                     'id' => md5(uniqid(rand(), true)),
+                    'empregadorID' => session()->get('empregador')->id,
                     'descricao' => $this->request->getVar('descricao'),
                     'listaDeAtividades' => $this->request->getVar('listaDeAtividades'),
                     'listaDeHabilidadesRequeridas' => $this->request->getVar('listaDeHabilidadesRequeridas'),
@@ -47,12 +48,11 @@ class Vaga extends BaseController
 
                 $vagaModel->insert($data);
                 $session = session();
+
+                if(!session()->get('empregador')) return redirect('/');
                 $session->setFlashdata('success', 'Successful Registration');
 
-                // TODO: redirect
-                // TODO: EmpregadorID
-
-                return redirect()->to('/login');
+                return redirect()->to('/empregador/dash');
 
             }
         }

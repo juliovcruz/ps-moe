@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php
-if(session()->get('empregador') == null) return redirect()->to('Login');
+if(!session()->get('empregador')) return redirect()->to('Login');
 ?>
 <head>
     <!--Import Google Icon Font-->

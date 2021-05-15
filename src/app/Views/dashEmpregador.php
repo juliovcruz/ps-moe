@@ -26,6 +26,7 @@
         </div>
         <div class="row col s12 push-m3">
             <a href="editarEstagiario.php" class="">Editar Cadastro</a>
+            <a href="/Vaga/register" class="">Registrar Vaga</a>
         </div>
     </div>
 </body>
