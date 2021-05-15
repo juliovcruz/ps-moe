@@ -19,6 +19,13 @@
     </div>
     <?php endif; ?>
 
+    <?php if (session()->get('erro')): ?>
+    <div class="card-panel red lighten-2" id="erro">
+        <?= session()->get('erro') ?>
+    </div>
+
+    <?php endif; ?>
+
     <div class="row" style="padding-right: 200px;">
         <form action="/Login/logar" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
             <div class="row">
@@ -39,7 +46,7 @@
             <div class="row">
                 <div class="row col s12 m12 push-m7">
                     <button type="submit" class="btn" name="btnLogin">Login</button>
-                    <input type="hidden" name="action" value="logar"/>
+                    <input type="hidden" name="action" value="logar" />
                 </div>
                 <div class="row col s12 push-m3">
                     <a href="/Estagiario/register" class="">Registrar Estagiário</a>

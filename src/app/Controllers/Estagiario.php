@@ -16,7 +16,7 @@ class Estagiario extends BaseController
 	public function register() {
 
 		$data = [];
-		helper(['form']);
+		helper(['form', 'email']);
 
 		if ($this->request->getMethod() == 'post') {
 
@@ -49,44 +49,27 @@ class Estagiario extends BaseController
 					'anoDeIngresso' => (int)$this->request->getVar('anoDeIngresso'),
 					'miniCurriculo' => $this->request->getVar('minicurriculo'),
 					'token' => $token,
-					'emailConfirmado' => false
+					'emailConfirmado' => false,
 				];
 		
 				$estagiarioModel = new \App\Models\EstagiarioModel();
 		
 				$estagiarioModel->insert($data);
 				
-				$linkConfirmacao = base_url() . $linkConfirmacao = "/ValidarEmail?id=" . $id . "&token=" . $token;
-				
-				$email = \Config\Services::email();
+				$dadosEmail = [
+					'id' => $id,
+					'token' => $token,
+					'nome' => $nome,
+				];
 
-				$config['mailType'] = 'html';
-				
-				$email->initialize($config);
-				$email->setFrom('ufg.projetodesoftware@hotmail.com');
-				$email->setTo('lucabbenetti@hotmail.com');
-				
-				$email->setSubject('teste4');
-				$email->setMessage("<!DOCTYPE html>
-				<html lang='en' dir='ltr'>
-				  <head>
-					<meta charset='utf-8'>
-					<title></title>
-				  </head>
-				  <body>
-					  Olá <strong>" . $nome . "!</strong> Para confimar seu registro e ter acesso ao mural de estágios, <a href=" . $linkConfirmacao . ">clique aqui</a>.
-				  </body>
-			  </html>");
-
-				$email->send();
-				
 				$session = session();
-                session()->set($data);
-				$session->setFlashdata('success', 'Registro feito com sucesso, confirme seu email para poder acessar!');
-
-				if(!empty($email->printDebugger())) {
-				}			
 				
+				if(!EnviaEmailCadastro($dadosEmail)) {
+					$session->setFlashdata('erroEmail', 'Ocorreu um erro, contate nosso suporte.');
+					return view('registrarEstagiario');
+				}
+				
+				$session->setFlashdata('success', 'Registro feito com sucesso, confirme seu email para poder acessar!');				
 				return redirect()->to('/login');
 			}
 		}
