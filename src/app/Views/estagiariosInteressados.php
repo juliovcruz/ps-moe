@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html>
 <?php
-if(!session()->get('empregador') && !session()->get('estagiario')) return redirect()->to('Login');
+if(!session()->get('empregador')) return redirect()->to('Login');
 
 $empregador = session()->get('empregador');
-$vagas = session()->get('vagas');
-$estagiario = session()->get('estagiario');
-
-if (isset($_GET['id'])) {
-    if($_GET['id'] == $empregador->id) {
-        $empregadorAdmin = true;
-    }
-}
+$estagiarios = session()->get('estagiarios');
 
 ?>
 <head>
@@ -25,54 +18,45 @@ if (isset($_GET['id'])) {
 </head>
 <body>
 
-<?php
-if($estagiario) echo "<nav>
-    <div class='nav-wrapper grey darken-3'>
-        <a href='#!' class='brand-logo center'>MOE</a>
-        <ul class='right hide-on-med-and-down'>
-            <li><a href='/estagiario/dash'><i class='material-icons'>home</i></a></li>
-            <li><a href='/estagiario/editar'><i class='material-icons'>person</i></a></li>
-            <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
-        </ul>
-    </div>
-</nav>";
-else if($empregador) echo "<nav>
+<nav>
     <div class='nav-wrapper grey darken-3'>
         <a href='#!' class='brand-logo center'>MOE</a>
         <ul class='right hide-on-med-and-down'>
             <li><a href='/empregador/dash'><i class='material-icons'>home</i></a></li>
             <li><a href='/vaga/register'><i class='material-icons'>library_add</i></a></li>
-            <li><a href='/vaga/vagasEmpregador?id=$empregador->id'><i class='material-icons'>library_books</i></a></li>
-            <li><a href='/empregador/estagiariosInteressados?id=$empregador->id'><i class='material-icons'>people</i></a></li>
+            <li><a href='/vaga/vagasEmpregador?id=<?php echo $empregador->id ?>'><i class='material-icons'>library_books</i></a></li>
+            <li><a href='/empregador/estagiariosInteressados?id=<?php echo $empregador->id ?>'><i class='material-icons'>people</i></a></li>
             <li><a href='/empregador/editar'><i class='material-icons'>person</i></a></li>
             <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
         </ul>
     </div>
-</nav>";
-?>
+</nav>
 
-    <div class="container">
-        <h2 class="light col s3 push-m2"> Olá  <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h2>
+    <div class="row">
+        <h2 class="light col s6 push-m3"> Olá  <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h2>
     </div>
 
     <div class="container">
         <table class="striped">
             <thead>
             <tr>
-                <th>Título</th>
-                <th>Descrição</th>
-                <th>Remuneração</th>
+                <th>Nome</th>
+                <th>Curso</th>
+                <th>Ano de Ingresso</th>
+                <th>Mini-currículo</th>
+                <th>E-mail</th>
             </tr>
             </thead>
             <tbody>
 
             <?php
-                foreach ($vagas as $vaga) {
+                foreach ($estagiarios as $estagiario) {
 echo "<tr>
-<th>$vaga->titulo</th>
-<th>$vaga->descricao</th>
-<th>$vaga->remuneracao</th>";
-if ($empregadorAdmin) echo "<th><a href='/vaga/editar?id=$vaga->id' class='icon-block green-text'><i class='material-icons'>create</i></a></th>";
+<th>$estagiario->nome</th>
+<th>$estagiario->curso</th>
+<th>$estagiario->anoDeIngresso</th>
+<th>$estagiario->miniCurriculo</th>
+<th>$estagiario->email</th>";
 
 echo "</tr>";
                 }

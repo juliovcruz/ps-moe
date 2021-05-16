@@ -14,7 +14,7 @@ class Login extends BaseController
         $session = session();
 
         $data = [];
-        helper(['form']);
+        helper(['form', 'validate']);
 
         if ($this->request->getMethod() == 'post') {
             $rules = [
@@ -22,9 +22,9 @@ class Login extends BaseController
                 'senha' => 'required|min_length[8]|max_length[255]',
             ];
 
-        if (!$this->validate($rules))
+        if (!$this->validate($rules, getErrorMessages()))
         {
-            $data['validation'] = $this->validator;
+            $data['validation'] = $this->validator->setRules($rules, getErrorMessages());
         }
         else
         {
@@ -34,32 +34,40 @@ class Login extends BaseController
             $estagiarioModel = new \App\Models\EstagiarioModel();
             $estagiario = $estagiarioModel->ObtenhaPorEmail($email);
 
-            if ($this->senhaEstaCorreta($senha, $estagiario->senha)) {
-                session()->set([
-                    'estagiario' => $estagiario,
-                    'logado' => true,
-                ]);
-                $session->setFlashdata('success', 'Successful Registration');
 
-                return redirect()->to('/Estagiario/dash');
+            if ($estagiario != null) {
+                if ($this->senhaEstaCorreta($senha, $estagiario->senha)) {
+                    session()->set([
+                        'estagiario' => $estagiario,
+                        'logado' => true,
+                    ]);
+                    $session->setFlashdata('success', 'Successful Registration');
+
+                    return redirect()->to('/Estagiario/dash');
+                }
             }
 
             $empregadorModel = new \App\Models\EmpregadorModel();
             $empregador = $empregadorModel->ObtenhaPorEmail($email);
 
-            if ($this->senhaEstaCorreta($senha, $empregador->senha)) {
-                session()->set([
-                    'empregador' => $empregador,
-                    'logado' => true,
-                ]);
-                $session->setFlashdata('success', 'Successful Registration');
+            if ($empregador != null) {
+                if ($this->senhaEstaCorreta($senha, $empregador->senha)) {
+                    session()->set([
+                        'empregador' => $empregador,
+                        'logado' => true,
+                    ]);
+                    $session->setFlashdata('success', 'Successful Registration');
 
-                return redirect()->to('/Empregador/dash');
+                    return redirect()->to('/Empregador/dash');
+                }
             }
 
-            return redirect()->to('/login');
+            $session->setFlashdata('erro', 'Cadastro não encontrado');
+
+            return redirect()->to('/');
             }
         }
+        echo view('login', $data);
     }
 
     public function logout() {

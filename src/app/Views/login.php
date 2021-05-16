@@ -13,6 +13,12 @@
 
 <body>
 
+<?php if (isset($validation)): ?>
+    <div class="card-panel red lighten-2" id="erro" style="">
+        <?= $validation->listErrors() ?>
+    </div>
+<?php endif; ?>
+
     <?php if (session()->get('success')): ?>
     <div class="card-panel teal lighten-2 white-text" id="sucesso">
         <?= session()->get('success') ?>

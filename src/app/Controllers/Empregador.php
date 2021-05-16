@@ -134,4 +134,19 @@ class Empregador extends BaseController
 
         echo view('dashEmpregador', $data);
     }
+
+    public function estagiariosInteressados() {
+        $id = $this->request->getVar('id');
+
+        $estagiarioModel = new \App\Models\EstagiarioModel();
+        $estagiariosIDs = $estagiarioModel->ObtenhaIdsEstagiariosOuvintes($id);
+
+        foreach ($estagiariosIDs as $estagiarioID) {
+            $estagiarios[] = $estagiarioModel->ObtenhaPorId($estagiarioID);
+        }
+
+        session()->set(['estagiarios' => $estagiarios]);
+
+        echo view ('estagiariosInteressados');
+    }
 }
