@@ -82,9 +82,7 @@ class Estagiario extends BaseController
 
         $empregadorModel = new \App\Models\EmpregadorModel();
         $data['empregadores'][] = $empregadorModel->ObtenhaTodos();
-
-        // TODO: Empregadores que estagiario segue
-        $data['empregadoresSeguindo'][] = ['TODO'];
+        $data['empregadoresSeguindo'] = $empregadorModel->ObtenhaIdsEmpregadoresSeguindo(session()->get('estagiario')->id);
 
         if(!session()->get('estagiario')) return redirect('/');
         $session->setFlashdata('success', 'Successful Registration');
@@ -153,4 +151,25 @@ class Estagiario extends BaseController
 
         return $result[0];
     }
+
+	public function SalvaInteresse() {
+		$empregadoresId = $this->request->getVar('empregadores');
+
+		$estagiarioModel = new \App\Models\EstagiarioModel();
+
+		$estagiarioModel->DeleteInteresse(session()->get('estagiario')->id);
+
+		foreach($empregadoresId as $empregadorId) {
+			$data = [
+				'estagiarioId' => session()->get('estagiario')->id,
+				'empregadorId' => $empregadorId,
+			];
+
+			$estagiarioModel->InsertInteresse($data);
+		}
+		
+		header('Content-Type: application/json');
+		echo json_encode($data);
+		
+	}
 }

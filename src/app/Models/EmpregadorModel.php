@@ -78,4 +78,18 @@ class EmpregadorModel extends Model implements ISubject {
         $query = $db->query('SELECT * FROM empregadores');
         return $query->getResult();
     }
+
+    public function ObtenhaIdsEmpregadoresSeguindo($estagiarioId) {
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT empregadorId as id FROM interesse WHERE estagiarioId='$estagiarioId'");
+        $results = $query->getResult();
+
+        $arr = [];
+
+        foreach($results as $result) {
+            array_push($arr, $result->id);
+        }
+
+        return $arr;
+      }
 }
