@@ -80,13 +80,6 @@ $estagiario = session()->get('estagiario');
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira seu curso" id="curso" type="text" class="validate" name="curso"
-                           value="<?php echo $estagiario->curso ?>">
-                    <label for="curso">Curso</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6 push-m3">
                     <input placeholder="Insira o seu ano de ingresso" id="anoDeIngresso" type="text" class="validate"
                         name="anoDeIngresso" value="<?php echo $estagiario->anoDeIngresso ?>">
                     <label for="anoDeIngresso">Ano de ingresso</label>
@@ -105,6 +98,16 @@ $estagiario = session()->get('estagiario');
                            value="">
                     <label for="senhaAntiga">Senha Atual</label>
                 </div>
+            </div>
+            <div class="row">
+                <select class="input-field col s6 push-m3 browser-default"  id="curso" type="text" class="validate" name="curso">
+                    <option value="<?php echo $estagiario->curso ?>">Escolha seu curso</option>
+                    <option value="Engenharia de Computacao">Engenharia de Computação</option>
+                    <option value="Engenharia de Software">Engenharia de Software</option>
+                    <option value="Ciencias da Computacao>Ciências da Computação</option>
+                    <option value="Sistemas de Informacao">Sistemas de Informação</option>
+                    <option value="Inteligencia Artificial">Inteligência Artificial</option>
+                </select>
             </div>
             <div class="row">
                 <div class="col s12 m6 push-m7">

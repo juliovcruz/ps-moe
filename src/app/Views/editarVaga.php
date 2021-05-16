@@ -13,6 +13,8 @@ if (isset($_GET['id'])) {
     }
 }
 
+$vagas = session()->set(['vaga' => $vaga]);
+
 ?>
 <head>
     <!--Import Google Icon Font-->
@@ -40,6 +42,18 @@ if (isset($_GET['id'])) {
     </div>
 </nav>
 
+<?php if (session()->get('success')): ?>
+    <div class="card-panel teal lighten-2 white-text" id="sucesso">
+        <?= session()->get('success') ?>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->get('erro')): ?>
+    <div class="card-panel red lighten-2" id="erro">
+        <?= session()->get('erro') ?>
+    </div>
+
+<?php endif; ?>
 <?php if (isset($validation)): ?>
     <div class="card-panel red lighten-2" id="erro" style="">
         <?= $validation->listErrors() ?>
@@ -51,7 +65,7 @@ if (isset($_GET['id'])) {
 <div class="card-panel red lighten-2" id="erro" style="display:none;"></div>
 
 <div class="row" style="padding-right: 200px;">
-    <form action="/Vaga/editar" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
+    <form action="/vaga/editar" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
         <div class="row">
             <h3 class="light col s6 push-m3" style="margin-bottom: 50px">Alterar Vaga</h3>
         </div>
@@ -92,22 +106,21 @@ if (isset($_GET['id'])) {
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a quantidade de horas semanais" id="quantidadeDeHoras" type="text" class="validate" name="quantidadeDeHoras"
-                       value="<?php echo $vaga->quantidadeDeHoras ?>">
-                <label for="quantidadeDeHoras">Quantidade de horas</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s6 push-m3">
                 <input placeholder="Insira a remuneração" id="remuneracao" type="text" class="validate" name="remuneracao"
                        value="<?php echo $vaga->remuneracao ?>">
                 <label for="remuneracao">Remuneração</label>
             </div>
         </div>
         <div class="row">
+            <select class="input-field col s6 push-m3 browser-default"  id="quantidadeDeHoras" type="text" class="validate" name="quantidadeDeHoras">
+                <option value="<?php echo $vaga->quantidadeDeHoras ?>">Quantidade de Horas</option>
+                <option value="20">20 horas</option>
+                <option value="30">30 horas</option>
+            </select>
+        </div>
+        <div class="row">
             <div class="col s12 m6 push-m7">
-                <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">Criar</button>
-                <input type="hidden" id="vagaID" name="vagaID" value="<?php echo $vaga->id ?>"/>
+                <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">Editar</button>
             </div>
         </div>
     </form>

@@ -31,6 +31,19 @@ $empregador = session()->get('empregador');
     </div>
 </nav>
 
+<?php if (session()->get('success')): ?>
+    <div class="card-panel teal lighten-2 white-text" id="sucesso">
+        <?= session()->get('success') ?>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->get('erro')): ?>
+    <div class="card-panel red lighten-2" id="erro">
+        <?= session()->get('erro') ?>
+    </div>
+
+<?php endif; ?>
+
 <?php if (isset($validation)): ?>
     <div class="card-panel red lighten-2" id="erro" style="">
         <?= $validation->listErrors() ?>
@@ -83,17 +96,17 @@ $empregador = session()->get('empregador');
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a quantidade de horas semanais" id="quantidadeDeHoras" type="text" class="validate" name="quantidadeDeHoras"
-                       value="<?= set_value('quantidadeDeHoras') ?>">
-                <label for="quantidadeDeHoras">Quantidade de horas</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s6 push-m3">
                 <input placeholder="Insira a remuneração" id="remuneracao" type="text" class="validate" name="remuneracao"
                        value="<?= set_value('remuneracao') ?>">
                 <label for="remuneracao">Remuneração</label>
             </div>
+        </div>
+        <div class="row">
+            <select class="input-field col s6 push-m3 browser-default"  id="quantidadeDeHoras" type="text" class="validate" name="quantidadeDeHoras">
+                <option value="">Quantidade de Horas</option>
+                <option value="20">20 horas</option>
+                <option value="30">30 horas</option>
+            </select>
         </div>
         <div class="row">
             <div class="col s12 m6 push-m7">

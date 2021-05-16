@@ -19,18 +19,18 @@
     </div>
 <?php endif; ?>
 
-    <?php if (session()->get('success')): ?>
-    <div class="card-panel teal lighten-2 white-text" id="sucesso">
-        <?= session()->get('success') ?>
-    </div>
-    <?php endif; ?>
+<?php if (session()->get('success')): ?>
+<div class="card-panel teal lighten-2 white-text" id="sucesso">
+    <?= session()->get('success') ?>
+</div>
+<?php endif; ?>
 
-    <?php if (session()->get('erro')): ?>
-    <div class="card-panel red lighten-2" id="erro">
-        <?= session()->get('erro') ?>
-    </div>
+<?php if (session()->get('erro')): ?>
+<div class="card-panel red lighten-2" id="erro">
+    <?= session()->get('erro') ?>
+</div>
 
-    <?php endif; ?>
+<?php endif; ?>
 
     <div class="row" style="padding-right: 200px;">
         <form action="/Login/logar" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">

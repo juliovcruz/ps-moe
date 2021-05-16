@@ -41,7 +41,6 @@ class Login extends BaseController
                         'estagiario' => $estagiario,
                         'logado' => true,
                     ]);
-                    $session->setFlashdata('success', 'Successful Registration');
 
                     return redirect()->to('/Estagiario/dash');
                 }
@@ -56,7 +55,6 @@ class Login extends BaseController
                         'empregador' => $empregador,
                         'logado' => true,
                     ]);
-                    $session->setFlashdata('success', 'Successful Registration');
 
                     return redirect()->to('/Empregador/dash');
                 }

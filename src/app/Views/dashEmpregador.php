@@ -31,6 +31,25 @@ $empregador = session()->get('empregador');
     </div>
 </nav>
 
+<?php if (session()->get('success')): ?>
+    <div class="card-panel teal lighten-2 white-text" id="sucesso">
+        <?= session()->get('success') ?>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->get('erro')): ?>
+    <div class="card-panel red lighten-2" id="erro">
+        <?= session()->get('erro') ?>
+    </div>
+
+<?php endif; ?>
+
+<?php if (isset($validation)): ?>
+    <div class="card-panel red lighten-2" id="erro" style="">
+        <?= $validation->listErrors() ?>
+    </div>
+<?php endif; ?>
+
     <div class="row">
         <h1 class="light col s6 push-m3"> Olá <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h1>
     </div>

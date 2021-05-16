@@ -44,7 +44,7 @@ if (!function_exists('EnviaEmailCadastro'))
 				
 		$email->initialize($config);
 		$email->setFrom('ufg.projetodesoftware@hotmail.com');
-		$email->setTo('lucabbenetti@hotmail.com');
+		//$email->setTo('lucabbenetti@hotmail.com');
 
 		$email->setSubject('Envio vaga');
 		$email->setMessage("<!DOCTYPE html>

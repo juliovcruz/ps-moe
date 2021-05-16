@@ -32,6 +32,24 @@ class Vaga extends BaseController
             else
             {
                 $id = session()->get('empregador')->id;
+                $quantidadeDeHoras = (int)$this->request->getVar('quantidadeDeHoras');
+                $remuneracao = (double)$this->request->getVar('remuneracao');
+
+                if($quantidadeDeHoras != 20 && $quantidadeDeHoras != 30) {
+                    $session->setFlashdata('erro', 'A quantidade de horas deve ser 20 ou 30');
+                    return redirect()->to('/vaga/register');
+                }
+
+                if($quantidadeDeHoras == 20 && $remuneracao < 787.98) {
+                    $session->setFlashdata('erro', 'A remuneração mínima para 20 horas é R$787.98');
+                    return redirect()->to('/vaga/register');
+                }
+
+                if($quantidadeDeHoras == 30 && $remuneracao < 1125.69) {
+                    $session->setFlashdata('erro', 'A remuneração mínima para 30 horas é R$1125.69');
+                    return redirect()->to('/vaga/register');
+                }
+
                 $data = [
                     'id' => md5(uniqid(rand(), true)),
                     'empregadorID' => $id,
@@ -40,12 +58,11 @@ class Vaga extends BaseController
                     'listaDeAtividades' => $this->request->getVar('listaDeAtividades'),
                     'listaDeHabilidadesRequeridas' => $this->request->getVar('listaDeHabilidadesRequeridas'),
                     'semestreRequerido' => (int)$this->request->getVar('semestreRequerido'),
-                    'quantidadeDeHoras' => (int)$this->request->getVar('quantidadeDeHoras'),
-                    'remuneracao' => (double)$this->request->getVar('remuneracao'),
+                    'quantidadeDeHoras' => $quantidadeDeHoras,
+                    'remuneracao' => $remuneracao,
                 ];
 
                 $vagaModel = new \App\Models\VagaModel();
-
                 $vagaModel->insert($data);
 
                 $estagiarioModel = new \App\Models\EstagiarioModel();
@@ -62,10 +79,9 @@ class Vaga extends BaseController
                 }
 
                 if(!session()->get('empregador')) return redirect('/');
-                $session->setFlashdata('success', 'Successful Registration');
+                $session->setFlashdata('success', 'Vaga Registrada com sucesso');
 
                 return redirect()->to('/empregador/dash');
-
             }
         }
         echo view('registrarVaga', $data);
@@ -93,8 +109,25 @@ class Vaga extends BaseController
             if (!$this->validate($rules, getErrorMessages())) {
                 $data['validation'] = $this->validator->setRules($rules, getErrorMessages());
             } else {
-                $id = $this->request->getVar('id');
+                $vaga = session()->get('vaga');
                 $empregadorID = session()->get('empregador')->id;
+                $quantidadeDeHoras = (int)$this->request->getVar('quantidadeDeHoras');
+                $remuneracao = (double)$this->request->getVar('remuneracao');
+
+                if($quantidadeDeHoras != 20 && $quantidadeDeHoras != 30) {
+                    $session->setFlashdata('erro', 'A quantidade de horas deve ser 20 ou 30');
+                    return redirect()->to('/vaga/editar');
+                }
+
+                if($quantidadeDeHoras == 20 && $remuneracao < 787.98) {
+                    $session->setFlashdata('erro', 'A remuneração mínima para 20 horas é R$787.98');
+                    return redirect()->to('/vaga/editar');
+                }
+
+                if($quantidadeDeHoras == 30 && $remuneracao < 1125.69) {
+                    $session->setFlashdata('erro', 'A remuneração mínima para 30 horas é R$1125.69');
+                    return redirect()->to('/vaga/editar');
+                }
 
                 $data = [
                     'empregadorID' => $empregadorID,
@@ -103,18 +136,19 @@ class Vaga extends BaseController
                     'listaDeAtividades' => $this->request->getVar('listaDeAtividades'),
                     'listaDeHabilidadesRequeridas' => $this->request->getVar('listaDeHabilidadesRequeridas'),
                     'semestreRequerido' => (int)$this->request->getVar('semestreRequerido'),
-                    'quantidadeDeHoras' => (int)$this->request->getVar('quantidadeDeHoras'),
-                    'remuneracao' => (double)$this->request->getVar('remuneracao'),
+                    'quantidadeDeHoras' => $quantidadeDeHoras,
+                    'remuneracao' => $remuneracao,
                 ];
 
                 $vagaModel = new \App\Models\VagaModel();
+                $vagaDB = $vagaModel->ObtenhaPorId($vaga->id);
 
-                if ($vagaModel->ObtenhaPorId($id)->empregadorID != $empregadorID) {
-                    $session->setFlashdata('erro', 'Empregador incorreto!');
+                if ($vagaDB->empregadorID != $empregadorID) {
+                    $session->setFlashdata('erro', "Empregador incorreto! $vaga->id + $vagaDB->empregadorID + $empregadorID");
                     return redirect()->to('/empregador/dash');
                 }
 
-                $vagaModel->update($id, $data);
+                $vagaModel->update($vaga->id, $data);
 
                 $session->setFlashdata('success', 'Vaga alterada com sucesso!');
                 return redirect()->to('/empregador/dash');
