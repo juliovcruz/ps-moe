@@ -68,13 +68,16 @@ class Vaga extends BaseController
                 $vagaModel->insert($data);
 
                 $estagiarioModel = new \App\Models\EstagiarioModel();
-
                 $estagiariosIdOuvintes = $estagiarioModel->ObtenhaIdsEstagiariosOuvintes($id);
+
+                $empregadorModel = new \App\Models\EmpregadorModel();
+                $empregador = $empregadorModel->ObtenhaPorId($id);
 
                 foreach($estagiariosIdOuvintes as $estagiarioId) {
                     $conteudo = [
                         'vaga' => $data,
                         'estagiarioId' => $estagiarioId,
+                        'empregador' => $empregador,
                     ];
 
                     $estagiarioModel->Notifique($conteudo);
@@ -83,7 +86,7 @@ class Vaga extends BaseController
                 if(!session()->get('empregador')) return redirect('/');
                 $session->setFlashdata('success', 'Vaga Registrada com sucesso');
 
-                return redirect()->to('/empregador/dash');
+                return redirect()->to("/vaga/vagasEmpregador?id=$id");
             }
         }
         echo view('registrarVaga', $data);
@@ -147,13 +150,13 @@ class Vaga extends BaseController
 
                 if ($vagaDB->empregadorID != $empregadorID) {
                     $session->setFlashdata('erro', "Empregador incorreto! $vaga->id + $vagaDB->empregadorID + $empregadorID");
-                    return redirect()->to('/empregador/dash');
+                    return redirect()->to("/vaga/vagasEmpregador?id=$empregadorID");
                 }
 
                 $vagaModel->update($vaga->id, $data);
 
                 $session->setFlashdata('success', 'Vaga alterada com sucesso!');
-                return redirect()->to('/empregador/dash');
+                return redirect()->to("/vaga/vagasEmpregador?id=$empregadorID");
             }
         }
         echo view('editarVaga', $data);
@@ -167,7 +170,12 @@ class Vaga extends BaseController
         $vagaModel = new \App\Models\VagaModel();
         $vagas = $vagaModel->ObtenhaTodasDeEmpregador($id);
 
-        session()->set(['vagas' => $vagas]);
+        $empregadorModel = new \App\Models\EmpregadorModel();
+        $empregador = $empregadorModel->ObtenhaPorId($id);
+
+        session()->set(['vagas' => $vagas,
+            'empresa' => $empregador]);
+
 
         echo view ('vagasEmpregador');
     }

@@ -4,6 +4,7 @@
 if(!session()->get('empregador') && !session()->get('estagiario')) return redirect()->to('Login');
 
 $empregador = session()->get('empregador');
+$empresa = session()->get('empresa');
 $vagas = session()->get('vagas');
 $estagiario = session()->get('estagiario');
 
@@ -51,7 +52,7 @@ else if($empregador) echo "<nav>
 ?>
 
     <div class="container">
-        <h2 class="light col s3 push-m2"> Olá  <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h2>
+        <h2 class="light col s3 push-m2"> Vagas disponíveis da empresa <?php echo $empresa->nomeDaEmpresa ?></h2>
     </div>
 
     <div class="container">
@@ -60,6 +61,10 @@ else if($empregador) echo "<nav>
             <tr>
                 <th>Título</th>
                 <th>Descrição</th>
+                <th>Lista de Atividades</th>
+                <th>Lista de Habilidades Requeridas</th>
+                <th>Semestre Requerido</th>
+                <th>Quantidade de Horas</th>
                 <th>Remuneração</th>
             </tr>
             </thead>
@@ -70,6 +75,10 @@ else if($empregador) echo "<nav>
 echo "<tr>
 <th>$vaga->titulo</th>
 <th>$vaga->descricao</th>
+<th>$vaga->listaDeAtividades</th>
+<th>$vaga->listaDeHabilidadesRequeridas</th>
+<th>$vaga->semestreRequerido</th>
+<th>$vaga->quantidadeDeHoras</th>
 <th>$vaga->remuneracao</th>";
 if ($empregadorAdmin) echo "<th><a href='/vaga/editar?id=$vaga->id' class='icon-block green-text'><i class='material-icons'>create</i></a></th>";
 

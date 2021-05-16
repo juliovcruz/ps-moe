@@ -38,12 +38,8 @@ class EstagiarioModel extends Model implements IObserver {
     public function Notifique($data) {
       helper('email');
 
-      $msg = $data['estagiarioId'] . $data['vaga']['titulo'];
-
-      log_message('debug', $msg);
-
       $estagiario = $this->ObtenhaPorId($data['estagiarioId']);
-      EnvieEmailVaga($data['vaga'], $estagiario);
+      EnvieEmailVaga($data['vaga'], $estagiario, $data['empregador']);
     }
 
 

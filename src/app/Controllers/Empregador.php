@@ -118,7 +118,7 @@ class Empregador extends BaseController
                 $empregadorModel->update($empregador->id, $data);
 
                 $session->setFlashdata('success', 'Cadastro alterado com sucesso!');
-                return redirect()->to('/empregador/dash');
+                return redirect()->to("/vaga/vagasEmpregador?id=$empregador->id");
             }
         }
         echo view('editarEmpregador', $data);
