@@ -52,7 +52,7 @@ if(!session()->get('estagiario')) return redirect()->to('Login');
                     <th>$empregador->nomeDaEmpresa</th>
                     <th>$empregador->descricao</th>
                     <th>$empregador->produtos</th>
-                    <th><a href='/vaga/vagasEmpregador?id=$empregador->id' class='icon-block'><i class='material-icons'>library_books</i></a></th>
+                    <th><a href='/vaga/vagasEmpregador?id=$empregador->id' class='icon-block green-text'><i class='material-icons'>library_books</i></a></th>
                     </tr>";
                 }
             }

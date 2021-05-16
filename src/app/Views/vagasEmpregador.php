@@ -71,7 +71,7 @@ echo "<tr>
 <th>$vaga->titulo</th>
 <th>$vaga->descricao</th>
 <th>$vaga->remuneracao</th>";
-if ($empregadorAdmin) echo "<th><a href='/vaga/editar?id=$vaga->id' class='icon-block'><i class='material-icons'>create</i></a></th>";
+if ($empregadorAdmin) echo "<th><a href='/vaga/editar?id=$vaga->id' class='icon-block green-text'><i class='material-icons'>create</i></a></th>";
 
 echo "</tr>";
                 }
