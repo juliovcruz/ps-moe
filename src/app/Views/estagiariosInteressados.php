@@ -22,10 +22,9 @@ $estagiarios = session()->get('estagiarios');
     <div class='nav-wrapper grey darken-3'>
         <a href='#!' class='brand-logo center'>MOE</a>
         <ul class='right hide-on-med-and-down'>
-            <li><a href='/empregador/dash'><i class='material-icons'>home</i></a></li>
-            <li><a href='/vaga/register'><i class='material-icons'>library_add</i></a></li>
             <li><a href='/vaga/vagasEmpregador?id=<?php echo $empregador->id ?>'><i class='material-icons'>library_books</i></a></li>
-            <li><a href='/empregador/estagiariosInteressados?id=<?php echo $empregador->id ?>'><i class='material-icons'>people</i></a></li>
+            <li><a href='/vaga/registrar'><i class='material-icons'>library_add</i></a></li>
+            <li><a href='/empregador/estagiariosInteressados?id=<?php echo $empregador->id ?>'><i class='material-icons green-text'>people</i></a></li>
             <li><a href='/empregador/editar'><i class='material-icons'>person</i></a></li>
             <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
         </ul>

@@ -15,7 +15,7 @@ class Estagiario extends BaseController
 		return view('registrarEstagiario');
 	}
 
-	public function register() {
+	public function registrar() {
 		$data = [];
 		helper(['form', 'email','validate']);
 
@@ -75,7 +75,9 @@ class Estagiario extends BaseController
 		echo view('registrarEstagiario', $data);
 	}
 
-    public function dash() {
+    public function home() {
+        if(!session()->get('estagiario')) return redirect('/');
+
         $session = session();
 
         $data = ['estagiario' => $_SESSION['estagiario']];
@@ -87,7 +89,7 @@ class Estagiario extends BaseController
         if(!session()->get('estagiario')) return redirect('/');
         $session->setFlashdata('success', 'Successful Registration');
 
-        echo view('dashEstagiario', $data);
+        echo view('homeEstagiario', $data);
     }
 
     public function editar() {
@@ -138,7 +140,7 @@ class Estagiario extends BaseController
                 $estagiarioModel->update($estagiario->id, $data);
 
                 $session->setFlashdata('success', 'Cadastro alterado com sucesso!');
-                return redirect()->to('/estagiario/dash');
+                return redirect()->to('/estagiario/home');
             }
         }
         echo view('editarEstagiario', $data);

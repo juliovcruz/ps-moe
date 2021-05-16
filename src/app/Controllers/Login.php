@@ -42,7 +42,7 @@ class Login extends BaseController
                         'logado' => true,
                     ]);
 
-                    return redirect()->to('/Estagiario/dash');
+                    return redirect()->to('/estagiario/home');
                 }
             }
 
@@ -56,7 +56,7 @@ class Login extends BaseController
                         'logado' => true,
                     ]);
 
-                    return redirect()->to('/Empregador/dash');
+                    return redirect()->to("/vaga/vagasEmpregador?id=$empregador->id");
                 }
             }
 

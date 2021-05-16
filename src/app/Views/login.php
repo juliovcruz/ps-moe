@@ -50,14 +50,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="row col s12 m12 push-m7">
+                <div class="row col s12 m12 push-m8">
                     <button type="submit" class="btn" name="btnLogin">Login</button>
                     <input type="hidden" name="action" value="logar" />
                 </div>
-                <div class="row col s12 push-m3">
-                    <a href="/Estagiario/register" class="">Registrar Estagiário</a>
+                <div class="row col s12 push-m5">
+                    <a href="/Estagiario/registrar" class="">Registrar Estagiário</a>
                     <span class=""> | </span>
-                    <a href="/Empregador/register" class="">Registrar Empregador</a>
+                    <a href="/Empregador/registrar" class="">Registrar Empregador</a>
                 </div>
             </div>
         </form>

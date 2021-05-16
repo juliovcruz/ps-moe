@@ -23,11 +23,10 @@ $empregador = session()->get('empregador');
     <div class='nav-wrapper grey darken-3'>
         <a href='#!' class='brand-logo center'>MOE</a>
         <ul class='right hide-on-med-and-down'>
-            <li><a href='/empregador/dash'><i class='material-icons'>home</i></a></li>
-            <li><a href='/vaga/register'><i class='material-icons'>library_add</i></a></li>
             <li><a href='/vaga/vagasEmpregador?id=<?php echo $empregador->id ?>'><i class='material-icons'>library_books</i></a></li>
+            <li><a href='/vaga/registrar'><i class='material-icons'>library_add</i></a></li>
             <li><a href='/empregador/estagiariosInteressados?id=<?php echo $empregador->id ?>'><i class='material-icons'>people</i></a></li>
-            <li><a href='/empregador/editar'><i class='material-icons'>person</i></a></li>
+            <li><a href='/empregador/editar'><i class='material-icons green-text'>person</i></a></li>
             <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
         </ul>
     </div>
@@ -56,7 +55,7 @@ $empregador = session()->get('empregador');
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o seu email" id="email" type="text" class="validate" name="email"
+                    <input placeholder="Insira o seu email" id="email" type="text" class="validate" name="email" data-length="50"
                            value="<?php echo $empregador->email ?>">
                     <label for="email">Email</label>
                 </div>
@@ -77,27 +76,27 @@ $empregador = session()->get('empregador');
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o nome do responsável" id="nomeDoResponsavel" type="text" class="validate" name="nomeDoResponsavel"
+                    <input placeholder="Insira o nome do responsável" id="nomeDoResponsavel" type="text" class="validate" name="nomeDoResponsavel" data-length="50"
                            value="<?php echo $empregador->nomeDoResponsavel ?>">
                     <label for="nomeDoResponsavel">Nome do Responsável</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o nome da empresa" id="nomeDaEmpresa" type="text" class="validate" name="nomeDaEmpresa"
+                    <input placeholder="Insira o nome da empresa" id="nomeDaEmpresa" type="text" class="validate" name="nomeDaEmpresa" data-length="50"
                            value="<?php echo $empregador->nomeDaEmpresa ?>">
                     <label for="nomeDaEmpresa">Nome da Empresa</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <textarea id="descricao" class="materialize-textarea" name="descricao" value="<?= set_value('descricao') ?>"><?php echo $empregador->descricao ?></textarea>
+                    <textarea id="descricao" class="materialize-textarea" name="descricao" data-length="250" value="<?= set_value('descricao') ?>"><?php echo $empregador->descricao ?></textarea>
                     <label for="descricao" type="text" class="validate">Descrição</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <textarea id="produtos" class="materialize-textarea" name="produtos" value="<?= set_value('produtos') ?>"><?php echo $empregador->produtos ?></textarea>
+                    <textarea id="produtos" class="materialize-textarea" name="produtos" data-length="250" value="<?= set_value('produtos') ?>"><?php echo $empregador->produtos ?></textarea>
                     <label for="produtos" type="text" class="validate">Produtos</label>
                 </div>
             </div>
@@ -109,9 +108,8 @@ $empregador = session()->get('empregador');
                 </div>
             </div>
             <div class="row">
-                <div class="col s12 m6 push-m7">
-                    <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">Editar</button>
-                    <input type="hidden" name="action" value="cadastrarEmpregador"/>
+                <div class="col s6 push-m5">
+                    <button type="submit" class="btn center" id="btnRegistro" name="btnRegistro">Editar</button>
                 </div>
             </div>
         </form>

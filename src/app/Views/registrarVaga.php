@@ -21,9 +21,8 @@ $empregador = session()->get('empregador');
     <div class='nav-wrapper grey darken-3'>
         <a href='#!' class='brand-logo center'>MOE</a>
         <ul class='right hide-on-med-and-down'>
-            <li><a href='/empregador/dash'><i class='material-icons'>home</i></a></li>
-            <li><a href='/vaga/register'><i class='material-icons'>library_add</i></a></li>
             <li><a href='/vaga/vagasEmpregador?id=<?php echo $empregador->id ?>'><i class='material-icons'>library_books</i></a></li>
+            <li><a href='/vaga/registrar'><i class='material-icons green-text'>library_add</i></a></li>
             <li><a href='/empregador/estagiariosInteressados?id=<?php echo $empregador->id ?>'><i class='material-icons'>people</i></a></li>
             <li><a href='/empregador/editar'><i class='material-icons'>person</i></a></li>
             <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
@@ -55,48 +54,48 @@ $empregador = session()->get('empregador');
 <div class="card-panel red lighten-2" id="erro" style="display:none;"></div>
 
 <div class="row" style="padding-right: 200px;">
-    <form action="/Vaga/register" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
+    <form action="/Vaga/registrar" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
         <div class="row">
             <h3 class="light col s6 push-m3" style="margin-bottom: 50px">Registrar Vaga</h3>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira o titulo" id="titulo" type="text" class="validate" name="titulo"
+                <input placeholder="Insira o titulo" id="titulo" type="text" class="validate" name="titulo" data-length="50"
                        value="<?= set_value('titulo') ?>">
                 <label for="titulo">Titulo</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a descricao" id="descricao" type="text" class="validate" name="descricao"
+                <input placeholder="Insira a descricao" id="descricao" type="text" class="validate" name="descricao" data-length="250"
                        value="<?= set_value('descricao') ?>">
                 <label for="descricao">Descrição</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a lista de atividades" id="listaDeAtividades" type="text" class="validate" name="listaDeAtividades"
+                <input placeholder="Insira a lista de atividades" id="listaDeAtividades" type="text" class="validate" name="listaDeAtividades" data-length="250"
                        value="<?= set_value('listaDeAtividades') ?>">
                 <label for="listaDeAtividades">Lista de atividades</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira lista de habilidades requeridas" id="listaDeHabilidadesRequeridas" type="text" class="validate" name="listaDeHabilidadesRequeridas"
+                <input placeholder="Insira lista de habilidades requeridas" id="listaDeHabilidadesRequeridas" type="text" class="validate" name="listaDeHabilidadesRequeridas" data-length="250"
                        value="<?= set_value('listaDeHabilidadesRequeridas') ?>">
                 <label for="listaDeHabilidadesRequeridas">Lista de habilidades requeridas</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira o semestre requerido" id="semestreRequerido" type="text" class="validate" name="semestreRequerido"
+                <input placeholder="Insira o semestre requerido" id="semestreRequerido" type="text" class="validate" name="semestreRequerido" data-length="3"
                        value="<?= set_value('semestreRequerido') ?>">
                 <label for="semestreRequerido">Semestre requerido</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a remuneração" id="remuneracao" type="text" class="validate" name="remuneracao"
+                <input placeholder="Insira a remuneração" id="remuneracao" type="text" class="validate" name="remuneracao" data-length="5"
                        value="<?= set_value('remuneracao') ?>">
                 <label for="remuneracao">Remuneração</label>
             </div>
@@ -109,10 +108,8 @@ $empregador = session()->get('empregador');
             </select>
         </div>
         <div class="row">
-            <div class="col s12 m6 push-m7">
+            <div class="col s6 push-m5">
                 <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">Criar</button>
-                <input type="hidden" name="action" value="cadastrarVaga"/>
-                <input type="hidden" id="empregadorID" name="empregadorID" value="empregadorID"/>
             </div>
         </div>
     </form>

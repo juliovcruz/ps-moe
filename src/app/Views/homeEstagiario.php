@@ -17,7 +17,7 @@ if(!session()->get('estagiario')) return redirect()->to('Login');
         <div class="nav-wrapper grey darken-3">
             <a href="#!" class="brand-logo center">  MOE</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/estagiario/dash"><i class="material-icons">home</i></a></li>
+                <li><a href="/estagiario/home"><i class="material-icons green-text">home</i></a></li>
                 <li><a href="/estagiario/editar"><i class="material-icons">person</i></a></li>
                 <li><a href="/login/logout"><i class="material-icons">exit_to_app</i></a></li>
             </ul>

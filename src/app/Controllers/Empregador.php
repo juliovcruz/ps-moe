@@ -11,7 +11,7 @@ class Empregador extends BaseController
         return view('registrarEmpregador');
     }
 
-    public function register() {
+    public function registrar() {
         $data = [];
         helper(['form', 'email','validate']);
 
@@ -123,15 +123,7 @@ class Empregador extends BaseController
         }
         echo view('editarEmpregador', $data);
     }
-
-    public function dash() {
-        $data = ['empregador' => $_SESSION['empregador']];
-
-        if(!session()->get('empregador')) return redirect('/');
-
-        echo view('dashEmpregador', $data);
-    }
-
+    
     public function estagiariosInteressados() {
         $id = $this->request->getVar('id');
 

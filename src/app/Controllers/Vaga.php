@@ -10,7 +10,9 @@ class Vaga extends BaseController
         return view('registrarVaga');
     }
 
-    public function register() {
+    public function registrar() {
+        if(!session()->get('empregador')) return redirect('/');
+
         $session = session();
 
         $data = [];
@@ -37,17 +39,17 @@ class Vaga extends BaseController
 
                 if($quantidadeDeHoras != 20 && $quantidadeDeHoras != 30) {
                     $session->setFlashdata('erro', 'A quantidade de horas deve ser 20 ou 30');
-                    return redirect()->to('/vaga/register');
+                    return redirect()->to('/vaga/registrar');
                 }
 
                 if($quantidadeDeHoras == 20 && $remuneracao < 787.98) {
                     $session->setFlashdata('erro', 'A remuneração mínima para 20 horas é R$787.98');
-                    return redirect()->to('/vaga/register');
+                    return redirect()->to('/vaga/registrar');
                 }
 
                 if($quantidadeDeHoras == 30 && $remuneracao < 1125.69) {
                     $session->setFlashdata('erro', 'A remuneração mínima para 30 horas é R$1125.69');
-                    return redirect()->to('/vaga/register');
+                    return redirect()->to('/vaga/registrar');
                 }
 
                 $data = [
@@ -158,6 +160,8 @@ class Vaga extends BaseController
     }
 
     public function vagasEmpregador() {
+        if(!session()->get('estagiario') && !session()->get('empregador')) return redirect('/');
+
         $id = $this->request->getVar('id');
 
         $vagaModel = new \App\Models\VagaModel();

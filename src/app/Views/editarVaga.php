@@ -32,9 +32,8 @@ $vagas = session()->set(['vaga' => $vaga]);
     <div class='nav-wrapper grey darken-3'>
         <a href='#!' class='brand-logo center'>MOE</a>
         <ul class='right hide-on-med-and-down'>
-            <li><a href='/empregador/dash'><i class='material-icons'>home</i></a></li>
-            <li><a href='/vaga/register'><i class='material-icons'>library_add</i></a></li>
-            <li><a href='/vaga/vagasEmpregador?id=<?php echo $empregador->id ?>'><i class='material-icons'>library_books</i></a></li>
+            <li><a href='/vaga/vagasEmpregador?id=<?php echo $empregador->id ?>'><i class='material-icons green-text'>library_books</i></a></li>
+            <li><a href='/vaga/registrar'><i class='material-icons'>library_add</i></a></li>
             <li><a href='/empregador/estagiariosInteressados?id=<?php echo $empregador->id ?>'><i class='material-icons'>people</i></a></li>
             <li><a href='/empregador/editar'><i class='material-icons'>person</i></a></li>
             <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
@@ -71,55 +70,55 @@ $vagas = session()->set(['vaga' => $vaga]);
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira o titulo" id="titulo" type="text" class="validate" name="titulo"
+                <input placeholder="Insira o titulo" id="titulo" type="text" class="validate" name="titulo" data-length="50"
                        value="<?php echo $vaga->titulo ?>">
                 <label for="titulo">Titulo</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a descricao" id="descricao" type="text" class="validate" name="descricao"
+                <input placeholder="Insira a descricao" id="descricao" type="text" class="validate" name="descricao" data-length="250"
                        value="<?php echo $vaga->descricao ?>">
                 <label for="descricao">Descrição</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a lista de atividades" id="listaDeAtividades" type="text" class="validate" name="listaDeAtividades"
+                <input placeholder="Insira a lista de atividades" id="listaDeAtividades" type="text" class="validate" name="listaDeAtividades" data-length="250"
                        value="<?php echo $vaga->listaDeAtividades ?>">
                 <label for="listaDeAtividades">Lista de atividades</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira lista de habilidades requeridas" id="listaDeHabilidadesRequeridas" type="text" class="validate" name="listaDeHabilidadesRequeridas"
+                <input placeholder="Insira lista de habilidades requeridas" id="listaDeHabilidadesRequeridas" type="text" class="validate" name="listaDeHabilidadesRequeridas" data-length="250"
                        value="<?php echo $vaga->listaDeHabilidadesRequeridas ?>">
                 <label for="listaDeHabilidadesRequeridas">Lista de habilidades requeridas</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira o semestre requerido" id="semestreRequerido" type="text" class="validate" name="semestreRequerido"
+                <input placeholder="Insira o semestre requerido" id="semestreRequerido" type="text" class="validate" name="semestreRequerido" data-length="3"
                        value="<?php echo $vaga->semestreRequerido ?>">
                 <label for="semestreRequerido">Semestre requerido</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
-                <input placeholder="Insira a remuneração" id="remuneracao" type="text" class="validate" name="remuneracao"
+                <input placeholder="Insira a remuneração" id="remuneracao" type="text" class="validate" name="remuneracao" data-length="5"
                        value="<?php echo $vaga->remuneracao ?>">
                 <label for="remuneracao">Remuneração</label>
             </div>
         </div>
         <div class="row">
-            <select class="input-field col s6 push-m3 browser-default"  id="quantidadeDeHoras" type="text" class="validate" name="quantidadeDeHoras">
+            <select class="input-field col s6 push-m3 browser-default"  id="quantidadeDeHoras" type="text" class="validate" name="quantidadeDeHoras" >
                 <option value="<?php echo $vaga->quantidadeDeHoras ?>">Quantidade de Horas</option>
                 <option value="20">20 horas</option>
                 <option value="30">30 horas</option>
             </select>
         </div>
         <div class="row">
-            <div class="col s12 m6 push-m7">
+            <div class="col s6 push-m5">
                 <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">Editar</button>
             </div>
         </div>

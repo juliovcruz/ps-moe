@@ -23,8 +23,8 @@ $estagiario = session()->get('estagiario');
     <div class='nav-wrapper grey darken-3'>
         <a href='#!' class='brand-logo center'>MOE</a>
         <ul class='right hide-on-med-and-down'>
-            <li><a href='/estagiario/dash'><i class='material-icons'>home</i></a></li>
-            <li><a href='/estagiario/editar'><i class='material-icons'>person</i></a></li>
+            <li><a href='/estagiario/home'><i class='material-icons'>home</i></a></li>
+            <li><a href='/estagiario/editar'><i class='material-icons green-text'>person</i></a></li>
             <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
         </ul>
     </div>
@@ -52,7 +52,7 @@ $estagiario = session()->get('estagiario');
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o seu email" id="email" type="text" class="validate" name="email"
+                    <input placeholder="Insira o seu email" id="email" type="text" class="validate" name="email" data-length="50"
                         value="<?php echo $estagiario->email ?>">
                     <label for="email">Email</label>
                 </div>
@@ -73,21 +73,21 @@ $estagiario = session()->get('estagiario');
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o seu nome" id="nome" type="text" class="validate" name="nome"
+                    <input placeholder="Insira o seu nome" id="nome" type="text" class="validate" name="nome" data-length="50"
                            value="<?php echo $estagiario->nome ?>">
                     <label for="nome">Nome</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o seu ano de ingresso" id="anoDeIngresso" type="text" class="validate"
+                    <input placeholder="Insira o seu ano de ingresso" id="anoDeIngresso" type="text" class="validate" data-length="4"
                         name="anoDeIngresso" value="<?php echo $estagiario->anoDeIngresso ?>">
                     <label for="anoDeIngresso">Ano de ingresso</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <textarea id="minicurriculo" class="materialize-textarea" name="minicurriculo"
+                    <textarea id="minicurriculo" class="materialize-textarea" name="minicurriculo" data-length="250"
                               value="<?php echo $estagiario->miniCurriculo ?>"><?php echo $estagiario->miniCurriculo ?></textarea>
                     <label for="minicurriculo" type="text" class="validate">Minicurrículo</label>
                 </div>
@@ -110,7 +110,7 @@ $estagiario = session()->get('estagiario');
                 </select>
             </div>
             <div class="row">
-                <div class="col s12 m6 push-m7">
+                <div class="col s6 push-m5">
                     <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">EDITAR</button>
                 </div>
             </div>

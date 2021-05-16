@@ -29,13 +29,13 @@
     <div class="card-panel red lighten-2" id="erro" style="display:none;"></div>
 
     <div class="row" style="padding-right: 200px;">
-        <form action="/Empregador/register" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
+        <form action="/Empregador/registrar" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
             <div class="row">
                 <h3 class="light col s6 push-m3" style="margin-bottom: 50px">Registrar Empregador</h3>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o seu email" id="email" type="text" class="validate" name="email"
+                    <input placeholder="Insira o seu email" id="email" type="text" class="validate" name="email" data-length="50"
                            value="<?= set_value('email') ?>">
                     <label for="email">Email</label>
                 </div>
@@ -55,34 +55,33 @@
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o nome do responsável" id="nomeDoResponsavel" type="text" class="validate" name="nomeDoResponsavel"
+                    <input placeholder="Insira o nome do responsável" id="nomeDoResponsavel" type="text" class="validate" name="nomeDoResponsavel" data-length="50"
                            value="<?= set_value('nomeDoResponsavel') ?>">
                     <label for="nomeDoResponsavel">Nome do Responsável</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <input placeholder="Insira o nome da empresa" id="nomeDaEmpresa" type="text" class="validate" name="nomeDaEmpresa"
+                    <input placeholder="Insira o nome da empresa" id="nomeDaEmpresa" type="text" class="validate" name="nomeDaEmpresa" data-length="50"
                            value="<?= set_value('nomeDaEmpresa') ?>">
                     <label for="nomeDaEmpresa">Nome da Empresa</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <textarea id="descricao" class="materialize-textarea" name="descricao" value="<?= set_value('descricao') ?>"></textarea>
+                    <textarea id="descricao" class="materialize-textarea" name="descricao" data-length="250" value="<?= set_value('descricao') ?>"></textarea>
                     <label for="descricao" type="text" class="validate">Descrição</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 push-m3">
-                    <textarea id="produtos" class="materialize-textarea" name="produtos" value="<?= set_value('produtos') ?>"></textarea>
+                    <textarea id="produtos" class="materialize-textarea" name="produtos" data-length="250" value="<?= set_value('produtos') ?>"></textarea>
                     <label for="produtos" type="text" class="validate">Produtos</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s12 m6 push-m7">
-                    <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">Criar</button>
-                    <input type="hidden" name="action" value="cadastrarEmpregador"/>
+                <div class="col s6 push-m5">
+                    <button type="submit" class="btn" id="btnRegistro" name="btnRegistro">Registrar</button>
                 </div>
             </div>
         </form>
