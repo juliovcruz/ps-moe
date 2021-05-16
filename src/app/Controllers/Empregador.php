@@ -129,8 +129,6 @@ class Empregador extends BaseController
 
         $data = ['empregador' => $_SESSION['empregador']];
 
-        echo $_SESSION['empregador']->email;
-
         if(!session()->get('empregador')) return redirect('/');
         $session->setFlashdata('success', 'Successful Registration');
 

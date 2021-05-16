@@ -19,6 +19,17 @@ $estagiario = session()->get('estagiario');
 
 <body>
 
+<nav>
+    <div class='nav-wrapper grey darken-3'>
+        <a href='#!' class='brand-logo center'>MOE</a>
+        <ul class='right hide-on-med-and-down'>
+            <li><a href='/estagiario/dash'><i class='material-icons'>home</i></a></li>
+            <li><a href='/estagiario/editar'><i class='material-icons'>person</i></a></li>
+            <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
+        </ul>
+    </div>
+</nav>
+
     <?php if (isset($validation)): ?>
     <div class="card-panel red lighten-2" id="erro" style="">
         <?= $validation->listErrors() ?>

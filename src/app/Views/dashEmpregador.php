@@ -17,20 +17,21 @@ $empregador = session()->get('empregador');
 </head>
 <body>
 
-<form action="/Login/logout" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
-    <div class="row">
-        <h1 class="light col s6 push-m3"> Olá <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h1>
+<nav>
+    <div class='nav-wrapper grey darken-3'>
+        <a href='#!' class='brand-logo center'>MOE</a>
+        <ul class='right hide-on-med-and-down'>
+            <li><a href='/empregador/dash'><i class='material-icons'>home</i></a></li>
+            <li><a href='/vaga/register'><i class='material-icons'>library_add</i></a></li>
+            <li><a href='/vaga/vagasEmpregador?id=<?php echo $empregador->id ?>'><i class='material-icons'>library_books</i></a></li>
+            <li><a href='/empregador/editar'><i class='material-icons'>person</i></a></li>
+            <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
+        </ul>
     </div>
+</nav>
 
     <div class="row">
-        <div class="col s6 push-m3">
-            <button type="submit" class='btn'>Logout</button>
-        </div>
-        <div class="row col s12 push-m3">
-            <a href="editar" class="">Editar Cadastro</a>
-            <a href="/Vaga/register" class="">Registrar Vaga</a>
-            <a href="/vaga/vagasEmpregador?id=<?php echo $empregador->id?>" class="">Ver Vagas</a>
-        </div>
+        <h1 class="light col s6 push-m3"> Olá <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h1>
     </div>
 </body>
 

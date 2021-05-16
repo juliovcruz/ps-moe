@@ -25,9 +25,33 @@ if (isset($_GET['id'])) {
 </head>
 <body>
 
-<form action="/login/logout" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
+<?php
+if($estagiario) echo "<nav>
+    <div class='nav-wrapper grey darken-3'>
+        <a href='#!' class='brand-logo center'>MOE</a>
+        <ul class='right hide-on-med-and-down'>
+            <li><a href='/estagiario/dash'><i class='material-icons'>home</i></a></li>
+            <li><a href='/estagiario/editar'><i class='material-icons'>person</i></a></li>
+            <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
+        </ul>
+    </div>
+</nav>";
+else if($empregador) echo "<nav>
+    <div class='nav-wrapper grey darken-3'>
+        <a href='#!' class='brand-logo center'>MOE</a>
+        <ul class='right hide-on-med-and-down'>
+            <li><a href='/empregador/dash'><i class='material-icons'>home</i></a></li>
+            <li><a href='/vaga/register'><i class='material-icons'>library_add</i></a></li>
+            <li><a href='/vaga/vagasEmpregador?id=$empregador->id'><i class='material-icons'>library_books</i></a></li>
+            <li><a href='/empregador/editar'><i class='material-icons'>person</i></a></li>
+            <li><a href='/login/logout'><i class='material-icons'>exit_to_app</i></a></li>
+        </ul>
+    </div>
+</nav>";
+?>
+
     <div class="row">
-        <h1 class="light col s6 push-m3"> Olá  <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h1>
+        <h2 class="light col s6 push-m3"> Olá  <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h2>
     </div>
 
     <div class="container">
@@ -47,8 +71,6 @@ echo "<tr>
 <th>$vaga->titulo</th>
 <th>$vaga->descricao</th>
 <th>$vaga->remuneracao</th>";
-
-if ($estagiario) echo "<th><button class='btn'><i class='material-icons'>add_alert</i></button></th>";
 if ($empregadorAdmin) echo "<th><a href='/vaga/editar?id=$vaga->id' class='icon-block'><i class='material-icons'>create</i></a></th>";
 
 echo "</tr>";
@@ -56,15 +78,6 @@ echo "</tr>";
             ?>
             </tbody>
         </table>
-    </div>
-
-    <div class="row">
-        <div class="col s6 push-m3">
-            <button type="submit" class='btn'>Logout</button>
-        </div>
-        <div class="row col s12 push-m3">
-            <a href="editar" class="">Editar Cadastro</a>
-        </div>
     </div>
 </body>
 
