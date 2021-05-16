@@ -31,9 +31,10 @@ class Vaga extends BaseController
             }
             else
             {
+                $id = session()->get('empregador')->id;
                 $data = [
                     'id' => md5(uniqid(rand(), true)),
-                    'empregadorID' => session()->get('empregador')->id,
+                    'empregadorID' => $id,
                     'titulo' => $this->request->getVar('titulo'),
                     'descricao' => $this->request->getVar('descricao'),
                     'listaDeAtividades' => $this->request->getVar('listaDeAtividades'),
@@ -46,6 +47,19 @@ class Vaga extends BaseController
                 $vagaModel = new \App\Models\VagaModel();
 
                 $vagaModel->insert($data);
+
+                $estagiarioModel = new \App\Models\EstagiarioModel();
+
+                $estagiariosIdOuvintes = $estagiarioModel->ObtenhaIdsEstagiariosOuvintes($id);
+
+                foreach($estagiariosIdOuvintes as $estagiarioId) {
+                    $conteudo = [
+                        'vaga' => $data,
+                        'estagiarioId' => $estagiarioId,
+                    ];
+
+                    $estagiarioModel->Notifique($conteudo);
+                }
 
                 if(!session()->get('empregador')) return redirect('/');
                 $session->setFlashdata('success', 'Successful Registration');
