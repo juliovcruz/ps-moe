@@ -13,10 +13,9 @@ class Empregador extends BaseController
 
     public function register() {
         $data = [];
-        helper(['form', 'email']);
+        helper(['form', 'email','validate']);
 
         if ($this->request->getMethod() == 'post') {
-
             $rules = [
                 'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[empregadores.email]|is_unique[estagiarios.email]',
                 'senha' => 'required|min_length[6]|max_length[250]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/]',
@@ -26,48 +25,9 @@ class Empregador extends BaseController
                 'descricao' => 'required|min_length[3]|max_length[250]',
                 'produtos' => 'required|min_length[3]|max_length[250]',
             ];
-            $errorMessages = [
-                'email' => [
-                    'required' => 'É necessário fornecer um email',
-                    'min_length' => 'O email deve ter ao menos 6 caracteres',
-                    'max_length' => 'O email deve ter no máximo 50 caracteres',
-                    'valid_email' => 'O email deve ser válido',
-                    'is_unique' => 'Já existe um cadastro com este email'
-                ],
-                'senha' => [
-                    'required' => 'É necessário fornecer uma senha',
-                    'min_length' => 'O email deve ter ao menos 6 caracteres',
-                    'max_length' => 'A senha deve ter no máximo 250 caracteres',
-                    'regex_match' => 'A senha precisa ter ao menos uma letra minúscula, uma letra maisculua e um caracter especial'
-                ],
-                'confirmacaoSenha' => [
-                    'matches' => 'A confirmação de senha deve ser igual a senha'
-                ],
-                'nomeDoResponsavel' => [
-                    'required' => 'É necessário fornecer o nome do responsável',
-                    'min_length' => 'O nome do responsável deve ter ao menos 3 caracteres',
-                    'max_length' => 'O nome do responsável deve ter no máximo 50 caracteres'
-                ],
-                'nomeDaEmpresa' => [
-                    'required' => 'É necessário fornecer o nome da empresa',
-                    'min_length' => 'O nome da empresa deve ter ao menos 3 caracteres',
-                    'max_length' => 'O nome da empresa deve ter no máximo 50 caracteres'
-                ],
-                'descricao' => [
-                    'required' => 'É necessário fornecer a descrição',
-                    'min_length' => 'A descrição deve ter ao menos 3 caracteres',
-                    'max_length' => 'A descrição deve ter no máximo 250 caracteres'
-                ],
-                'produtos' => [
-                    'required' => 'É necessário fornecer os produtos',
-                    'min_length' => 'Os produtos devem ter ao menos 3 caracteres',
-                    'max_length' => 'Os produtos devem ter no máximo 250 caracteres'
-                ]
-            ];
-            if (!$this->validate($rules, $errorMessages)) {
-                //$data['validation'] = $this->validate($rules, $errorMessages);
 
-                $data['validation'] = $this->validator->setRules($rules, $errorMessages);
+            if (!$this->validate($rules, getErrorMessages())) {
+                $data['validation'] = $this->validator->setRules($rules, getErrorMessages());
             }
             else
             {
@@ -113,7 +73,7 @@ class Empregador extends BaseController
         if(!session()->get('empregador')) return redirect('/');
 
         $data = [];
-        helper(['form', 'email']);
+        helper(['form', 'email','validate']);
 
         if ($this->request->getMethod() == 'post') {
             $session = session();
@@ -128,46 +88,9 @@ class Empregador extends BaseController
                 'produtos' => 'required|min_length[3]|max_length[250]',
                 'senhaAntiga' => 'required',
             ];
-            $errorMessages = [
-                'email' => [
-                    'required' => 'É necessário fornecer um email',
-                    'min_length' => 'O email deve ter ao menos 6 caracteres',
-                    'max_length' => 'O email deve ter no máximo 50 caracteres',
-                    'valid_email' => 'O email deve ser válido',
-                    'is_unique' => 'Já existe um cadastro com este email'
-                ],
-                'senha' => [
-                    'max_length' => 'A senha deve ter no máximo 250 caracteres',
-                ],
-                'confirmacaoSenha' => [
-                    'matches' => 'A confirmação de senha deve ser igual a senha'
-                ],
-                'nomeDoResponsavel' => [
-                    'required' => 'É necessário fornecer o nome do responsável',
-                    'min_length' => 'O nome do responsável deve ter ao menos 3 caracteres',
-                    'max_length' => 'O nome do responsável deve ter no máximo 50 caracteres'
-                ],
-                'nomeDaEmpresa' => [
-                    'required' => 'É necessário fornecer o nome da empresa',
-                    'min_length' => 'O nome da empresa deve ter ao menos 3 caracteres',
-                    'max_length' => 'O nome da empresa deve ter no máximo 50 caracteres'
-                ],
-                'descricao' => [
-                    'required' => 'É necessário fornecer a descrição',
-                    'min_length' => 'A descrição deve ter ao menos 3 caracteres',
-                    'max_length' => 'A descrição deve ter no máximo 250 caracteres'
-                ],
-                'produtos' => [
-                    'required' => 'É necessário fornecer os produtos',
-                    'min_length' => 'Os produtos devem ter ao menos 3 caracteres',
-                    'max_length' => 'Os produtos devem ter no máximo 250 caracteres'
-                ],
-                'senhaAntiga' => [
-                    'required' => 'É necessário fornecer a senha atual',
-                ],
-            ];
-            if (!$this->validate($rules, $errorMessages)) {
-                $data['validation'] = $this->validator->setRules($rules, $errorMessages);
+
+            if (!$this->validate($rules, getErrorMessages())) {
+                $data['validation'] = $this->validator->setRules($rules, getErrorMessages());
             } else {
                 $empregador = session()->get('empregador');
                 $senhaAntiga = $this->request->getVar('senhaAntiga');

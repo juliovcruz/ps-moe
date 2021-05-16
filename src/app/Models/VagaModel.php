@@ -12,7 +12,7 @@ class VagaModel extends Model {
     protected $returnType     = 'array';
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['id', 'empregadorID', 'descricao', 'listaDeAtividades',
+    protected $allowedFields = ['id', 'empregadorID', 'titulo', 'descricao', 'listaDeAtividades',
         'listaDeHabilidadesRequeridas', 'semestreRequerido', 'quantidadeDeHoras', 'remuneracao'];
 
     protected $useTimestamps = false;

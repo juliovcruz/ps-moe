@@ -2,8 +2,16 @@
 <html>
 <?php
 if(!session()->get('empregador')) return redirect()->to('Login');
+$vagas = session()->get('vagas');
 
-$vaga = session()->get('vaga');
+if (isset($_GET['id'])) {
+    foreach ($vagas as $v) {
+        if ($v->id == $_GET['id']) {
+            $vaga = $v;
+        }
+    }
+}
+
 ?>
 <head>
     <!--Import Google Icon Font-->
@@ -31,6 +39,13 @@ $vaga = session()->get('vaga');
     <form action="/Vaga/editar" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
         <div class="row">
             <h3 class="light col s6 push-m3" style="margin-bottom: 50px">Alterar Vaga</h3>
+        </div>
+        <div class="row">
+            <div class="input-field col s6 push-m3">
+                <input placeholder="Insira o titulo" id="titulo" type="text" class="validate" name="titulo"
+                       value="<?php echo $vaga->titulo ?>">
+                <label for="titulo">Titulo</label>
+            </div>
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">

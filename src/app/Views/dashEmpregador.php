@@ -2,6 +2,8 @@
 <html>
 <?php
     if(!session()->get('empregador')) return redirect()->to('Login');
+
+$empregador = session()->get('empregador');
 ?>
 
 <head>
@@ -17,7 +19,7 @@
 
 <form action="/Login/logout" method="POST" class="col s12 m6 push-m4" style="margin-top: 100px;">
     <div class="row">
-        <h1 class="light col s6 push-m3"> Olá <?php if(isset($empregador)) echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h1>
+        <h1 class="light col s6 push-m3"> Olá <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h1>
     </div>
 
     <div class="row">
@@ -27,6 +29,7 @@
         <div class="row col s12 push-m3">
             <a href="editar" class="">Editar Cadastro</a>
             <a href="/Vaga/register" class="">Registrar Vaga</a>
+            <a href="/vaga/vagasEmpregador?id=<?php echo $empregador->id?>" class="">Ver Vagas</a>
         </div>
     </div>
 </body>

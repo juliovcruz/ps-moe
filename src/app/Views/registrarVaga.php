@@ -32,6 +32,13 @@ if(!session()->get('empregador')) return redirect()->to('Login');
         </div>
         <div class="row">
             <div class="input-field col s6 push-m3">
+                <input placeholder="Insira o titulo" id="titulo" type="text" class="validate" name="titulo"
+                       value="<?= set_value('titulo') ?>">
+                <label for="titulo">Titulo</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s6 push-m3">
                 <input placeholder="Insira a descricao" id="descricao" type="text" class="validate" name="descricao"
                        value="<?= set_value('descricao') ?>">
                 <label for="descricao">Descrição</label>

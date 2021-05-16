@@ -17,7 +17,7 @@ class Estagiario extends BaseController
 
 	public function register() {
 		$data = [];
-		helper(['form', 'email']);
+		helper(['form', 'email','validate']);
 
 		if ($this->request->getMethod() == 'post') {
 
@@ -30,47 +30,9 @@ class Estagiario extends BaseController
 				'anoDeIngresso' => 'required|exact_length[4]|integer',
 				'minicurriculo' => 'required|min_length[3]|max_length[250]',
 			];
-            $errorMessages = [
-                'email' => [
-                    'required' => 'É necessário fornecer um email',
-                    'min_length' => 'O email deve ter ao menos 6 caracteres',
-                    'max_length' => 'O email deve ter no máximo 50 caracteres',
-                    'valid_email' => 'O email deve ser válido',
-                    'is_unique' => 'Já existe um cadastro com este email'
-                ],
-                'senha' => [
-                    'required' => 'É necessário fornecer uma senha',
-                    'min_length' => 'O email deve ter ao menos 6 caracteres',
-                    'max_length' => 'A senha deve ter no máximo 250 caracteres',
-                    'regex_match' => 'A senha precisa ter ao menos uma letra minúscula, uma letra maisculua e um caracter especial'
-                ],
-                'confirmacaoSenha' => [
-                    'matches' => 'A confirmação de senha deve ser igual a senha'
-                ],
-                'nome' => [
-                    'required' => 'É necessário fornecer o nome',
-                    'min_length' => 'O nome deve ter ao menos 3 caracteres',
-                    'max_length' => 'O nome deve ter no máximo 50 caracteres'
-                ],
-                'curso' => [
-                    'required' => 'É necessário fornecer o curso',
-                    'min_length' => 'O curso deve ter ao menos 3 caracteres',
-                    'max_length' => 'O curso deve ter no máximo 50 caracteres'
-                ],
-                'anoDeIngresso' => [
-                    'required' => 'É necessário fornecer o ano de ingresso',
-                    'exact_length' => 'O ano de ingresso deve ter exatamente 4 caracteres',
-                    'integer' => 'O ano de ingresso deve ser um número inteiro'
-                ],
-                'minicurriculo' => [
-                    'required' => 'É necessário fornecer o mini currículo',
-                    'min_length' => 'O mini currículo devem ter ao menos 3 caracteres',
-                    'max_length' => 'O mini currículo devem ter no máximo 250 caracteres'
-                ],
-            ];
 
-            if (!$this->validate($rules, $errorMessages)) {
-                $data['validation'] = $this->validator->setRules($rules, $errorMessages);
+            if (!$this->validate($rules, getErrorMessages())) {
+                $data['validation'] = $this->validator->setRules($rules, getErrorMessages());
             }
 			else
 			{
@@ -134,7 +96,7 @@ class Estagiario extends BaseController
         if(!session()->get('estagiario')) return redirect('/');
 
         $data = [];
-        helper(['form', 'email']);
+        helper(['form', 'email','validate']);
 
         if ($this->request->getMethod() == 'post') {
             $session = session();
@@ -149,48 +111,8 @@ class Estagiario extends BaseController
                 'minicurriculo' => 'required|min_length[3]|max_length[250]',
                 'senhaAntiga' => 'required|min_length[8]|max_length[255]'
             ];
-            $errorMessages = [
-                'email' => [
-                    'required' => 'É necessário fornecer um email',
-                    'min_length' => 'O email deve ter ao menos 6 caracteres',
-                    'max_length' => 'O email deve ter no máximo 50 caracteres',
-                    'valid_email' => 'O email deve ser válido',
-                    'is_unique' => 'Já existe um cadastro com este email'
-                ],
-                'senha' => [
-                    'min_length' => 'O email deve ter ao menos 6 caracteres',
-                    'max_length' => 'A senha deve ter no máximo 250 caracteres',
-                ],
-                'confirmacaoSenha' => [
-                    'matches' => 'A confirmação de senha deve ser igual a senha'
-                ],
-                'nome' => [
-                    'required' => 'É necessário fornecer o nome',
-                    'min_length' => 'O nome deve ter ao menos 3 caracteres',
-                    'max_length' => 'O nome deve ter no máximo 50 caracteres'
-                ],
-                'curso' => [
-                    'required' => 'É necessário fornecer o curso',
-                    'min_length' => 'O curso deve ter ao menos 3 caracteres',
-                    'max_length' => 'O curso deve ter no máximo 50 caracteres'
-                ],
-                'anoDeIngresso' => [
-                    'required' => 'É necessário fornecer o ano de ingresso',
-                    'exact_length' => 'O ano de ingresso deve ter exatamente 4 caracteres',
-                    'integer' => 'O ano de ingresso deve ser um número inteiro'
-                ],
-                'minicurriculo' => [
-                    'required' => 'É necessário fornecer o mini currículo',
-                    'min_length' => 'O mini currículo devem ter ao menos 3 caracteres',
-                    'max_length' => 'O mini currículo devem ter no máximo 250 caracteres'
-                ],
-                'senhaAntiga' => [
-                    'required' => 'É necessário fornecer a senha atual',
-                ],
-            ];
-
-            if (!$this->validate($rules, $errorMessages)) {
-                $data['validation'] = $this->validator->setRules($rules, $errorMessages);
+            if (!$this->validate($rules, getErrorMessages())) {
+                $data['validation'] = $this->validator->setRules($rules, getErrorMessages());
             } else {
                 $estagiario = session()->get('estagiario');
                 $senhaAntiga = $this->request->getVar('senhaAntiga');
