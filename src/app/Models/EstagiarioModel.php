@@ -29,7 +29,7 @@ class EstagiarioModel extends Model implements IObserver {
     protected $skipValidation = true;
 
     public function Notifique() {
-      
+
     }
 
     public function ObtenhaPorId($id) {
@@ -60,5 +60,21 @@ class EstagiarioModel extends Model implements IObserver {
         }
 
         return false;
+    }
+
+    public function InsertInteresse($data) {
+      $db = \Config\Database::connect();
+      $estagiarioId = $data['estagiarioId'];
+      $empregadorId = $data['empregadorId'];
+
+      $sql = "INSERT IGNORE INTO interesse (estagiarioId, empregadorId) VALUES ('$estagiarioId', '$empregadorId')";
+      return $this->db->query($sql);
+    }
+
+    public function DeleteInteresse($estagiarioId) {
+      $db = \Config\Database::connect();
+
+      $sql = "DELETE FROM interesse WHERE estagiarioId='$estagiarioId'";
+      return $this->db->query($sql);
     }
 }
