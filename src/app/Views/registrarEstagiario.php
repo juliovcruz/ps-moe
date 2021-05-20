@@ -79,10 +79,8 @@
                 <select class="input-field col s6 push-m3 browser-default"  id="curso" type="text" class="validate" name="curso">
                     <option value="">Escolha seu curso</option>
                     <option value="Engenharia de Computacao">Engenharia de Computação</option>
-                    <option value="Engenharia de Software">Engenharia de Software</option>
-                    <option value="Ciencias da Computacao">Ciências da Computação</option>
                     <option value="Sistemas de Informacao">Sistemas de Informação</option>
-                    <option value="Inteligencia Artificial">Inteligência Artificial</option>
+                    <option value="Engenharia de Software">Inteligência Artificial</option>
                 </select>
             </div>
             <div class="row">

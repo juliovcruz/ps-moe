@@ -32,7 +32,7 @@ $estagiarios = session()->get('estagiarios');
 </nav>
 
     <div class="row">
-        <h2 class="light col s6 push-m3"> Olá  <?php echo $empregador->nomeDoResponsavel ?>! Bem vindo à tela de vagas </h2>
+        <h2 class="light col s6 push-m3"> Estagiários que estão interessados em sua empresa </h2>
     </div>
 
     <div class="container">

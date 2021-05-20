@@ -102,8 +102,8 @@ class Estagiario extends BaseController
             $session = session();
 
             $rules = [
-                'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[estagiarios.email]|is_unique[empregadores.email]',
-                'senha' => 'required|min_length[6]|max_length[250]',
+                'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[empregadores.email]',
+                'senha' => 'max_length[250]',
                 'confirmacaoSenha' => 'matches[senha]',
                 'nome' => 'required|min_length[3]|max_length[50]',
                 'curso' => 'required|min_length[3]|max_length[50]',
