@@ -39,10 +39,10 @@ class Estagiario extends BaseController
 				$nome = $this->request->getVar('nome');
 				$id = md5(uniqid(rand(), true));
 				$token = md5(uniqid(rand(), true));
-
+                $email = $this->request->getVar('email');
 				$data = [
 					'id' => $id,
-					'email' => $this->request->getVar('email'),
+					'email' => $email,
 					'senha' => md5($this->request->getVar('senha')),
 					'nome' => $nome,
 					'curso' => $this->request->getVar('curso'),
@@ -59,6 +59,7 @@ class Estagiario extends BaseController
 					'id' => $id,
 					'token' => $token,
 					'nome' => $nome,
+                    'email' => $email,
 				];
 
 				$session = session();

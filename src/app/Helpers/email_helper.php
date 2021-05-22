@@ -11,9 +11,9 @@ if (!function_exists('EnviaEmailCadastro'))
 				
 		$email->initialize($config);
 		$email->setFrom('ufg.projetodesoftware@hotmail.com');
-		//$email->setTo('lucabbenetti@hotmail.com');
+		$email->setTo($data['email']);
 
-		$email->setSubject('teste4');
+		$email->setSubject('Confirme seu email para ter acesso ao Mural de Estágios');
 		$email->setMessage("<!DOCTYPE html>
 				<html lang='en' dir='ltr'>
 				  <head>
@@ -38,7 +38,7 @@ if (!function_exists('EnviaEmailCadastro'))
 				
 		$email->initialize($config);
 		$email->setFrom('ufg.projetodesoftware@hotmail.com');
-		$email->setTo('juliovcruz0@gmail.com');
+		$email->setTo($estagiario->email);
 
 		$email->setSubject("MOE - $empregador->nomeDaEmpresa tem uma nova vaga de estágio!");
 		$email->setMessage("<!DOCTYPE html>

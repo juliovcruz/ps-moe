@@ -34,9 +34,10 @@ class Empregador extends BaseController
                 $id = md5(uniqid(rand(), true));
                 $token = md5(uniqid(rand(), true));
                 $nome = $this->request->getVar('nomeDaEmpresa');
+                $email = $this->request->getVar('email');
                 $data = [
                     'id' => $id,
-                    'email' => $this->request->getVar('email'),
+                    'email' => $email,
                     'senha' => md5($this->request->getVar('senha')),
                     'nomeDoResponsavel' => $this->request->getVar('nomeDoResponsavel'),
                     'nomeDaEmpresa' => $this->request->getVar('nomeDaEmpresa'),
@@ -53,6 +54,7 @@ class Empregador extends BaseController
 					'id' => $id,
 					'token' => $token,
 					'nome' => $nome,
+                    'email' => $email,
 				];
 
 				$session = session();

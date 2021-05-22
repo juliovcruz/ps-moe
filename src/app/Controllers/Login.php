@@ -36,6 +36,11 @@ class Login extends BaseController
 
 
             if ($estagiario != null) {
+                if(!$estagiario->emailConfirmado) {
+                    $session->setFlashdata('erro', 'Email não confirmado');
+                    return redirect()->to('/');
+                }
+
                 if ($this->senhaEstaCorreta($senha, $estagiario->senha)) {
                     session()->set([
                         'estagiario' => $estagiario,
@@ -50,6 +55,11 @@ class Login extends BaseController
             $empregador = $empregadorModel->ObtenhaPorEmail($email);
 
             if ($empregador != null) {
+                if(!$empregador->emailConfirmado) {
+                    $session->setFlashdata('erro', 'Email não confirmado');
+                    return redirect()->to('/');
+                }
+
                 if ($this->senhaEstaCorreta($senha, $empregador->senha)) {
                     session()->set([
                         'empregador' => $empregador,
