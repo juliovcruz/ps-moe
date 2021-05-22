@@ -155,20 +155,19 @@ class Estagiario extends BaseController
     }
 
 	public function SalvaInteresse() {
-		$empregadoresId = $this->request->getVar('empregadores');
+        $estagiarioModel = new \App\Models\EstagiarioModel();
+        $estagiario = session()->get('estagiario');
+        $empregadoresId = $this->request->getVar('empregadores');
 
-		$estagiarioModel = new \App\Models\EstagiarioModel();
+		$estagiarioModel->DeleteInteresse($estagiario->id);
 
-		$estagiarioModel->DeleteInteresse(session()->get('estagiario')->id);
-
-		foreach($empregadoresId as $empregadorId) {
-			
+		foreach((array) $empregadoresId as $empregadorId) {
 			$data = [
-				'estagiarioId' => session()->get('estagiario')->id,
+				'estagiarioId' => $estagiario->id,
 				'empregadorId' => $empregadorId,
 			];
 
-			$estrategia = $estagiarioModel->ObtenhaStrategy($estagiarioId);
+			$estrategia = $estagiarioModel->ObtenhaStrategy($estagiario->id);
 			$estrategia->InteressarEmEmpregador($data);
 		}
 		

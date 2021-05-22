@@ -15,18 +15,24 @@ interface IStrategy {
 
 class EngenhariaComputacaoStrategy implements IStrategy {
     public function InteressarEmEmpregador($data) {
+        // TODO: regra de negócio
+        $estagiarioModel = new \App\Models\EstagiarioModel();
         $estagiarioModel->InsertInteresse($data);
     }
 }
 
 class EngenhariaSoftwareStrategy implements IStrategy {
     public function InteressarEmEmpregador($data) {
+        // TODO: regra de negócio
+        $estagiarioModel = new \App\Models\EstagiarioModel();
         $estagiarioModel->InsertInteresse($data);
     }
 }
 
 class SistemasInformacaoStrategy implements IStrategy {
     public function InteressarEmEmpregador($data) {
+        // TODO: regra de negócio
+        $estagiarioModel = new \App\Models\EstagiarioModel();
         $estagiarioModel->InsertInteresse($data);
     }
 }
@@ -52,28 +58,28 @@ class EstagiarioModel extends Model implements IObserver {
 
     private $strategy;
 
-    public function ObtenhaStrategy($estagiarioId) {
-       $estagiario = ObtenhaPorId($estagiarioId);
-       $cursoEstagiario = $estagiario->curso;
-
-       if ($cursoEstagiario == "Engenharia de Computacao") {
-          return new EngenhariaComputacaoStrategy();
-       }
-
-       else if ($cursoEstagiario == "Sistemas de Informacao"){
-          return new SistemasInformacaoStrategy();
-       }
-
-       else if ($cursoEstagiario == "Engenharia de Software") {
-          return new EngenhariaSoftwareStrategy();
-       }
-    }
-
     public function ObtenhaPorId($id) {
         $db = \Config\Database::connect();
         $query = $db->query("SELECT * FROM estagiarios WHERE id='$id'");
         $result = $query->getResult();
         return $result[0];
+    }
+
+    public function ObtenhaStrategy($estagiarioId) {
+        $estagiario = $this->ObtenhaPorId($estagiarioId);
+        $cursoEstagiario = $estagiario->curso;
+
+        if ($cursoEstagiario == "Engenharia de Computacao") {
+            return new EngenhariaComputacaoStrategy();
+        }
+
+        else if ($cursoEstagiario == "Sistemas de Informacao"){
+            return new SistemasInformacaoStrategy();
+        }
+
+        else if ($cursoEstagiario == "Engenharia de Software") {
+            return new EngenhariaSoftwareStrategy();
+        }
     }
 
     public function Notifique($data) {
