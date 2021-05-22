@@ -11,7 +11,7 @@ if (!function_exists('getErrorMessages')){
             ],
             'senha' => [
                 'required' => 'É necessário fornecer uma senha',
-                'min_length' => 'O email deve ter ao menos 6 caracteres',
+                'min_length' => 'A senha deve ter ao menos 6 caracteres',
                 'max_length' => 'A senha deve ter no máximo 250 caracteres',
                 'regex_match' => 'A senha precisa ter ao menos uma letra minúscula, uma letra maiúsculua e um caracter especial'
             ],

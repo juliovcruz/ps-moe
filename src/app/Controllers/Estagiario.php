@@ -162,12 +162,14 @@ class Estagiario extends BaseController
 		$estagiarioModel->DeleteInteresse(session()->get('estagiario')->id);
 
 		foreach($empregadoresId as $empregadorId) {
+			
 			$data = [
 				'estagiarioId' => session()->get('estagiario')->id,
 				'empregadorId' => $empregadorId,
 			];
 
-			$estagiarioModel->InsertInteresse($data);
+			$estrategia = $estagiarioModel->ObtenhaStrategy($estagiarioId);
+			$estrategia->InteressarEmEmpregador($data);
 		}
 		
 		header('Content-Type: application/json');

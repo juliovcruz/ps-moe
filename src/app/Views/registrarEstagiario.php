@@ -80,7 +80,7 @@
                     <option value="">Escolha seu curso</option>
                     <option value="Engenharia de Computacao">Engenharia de Computação</option>
                     <option value="Sistemas de Informacao">Sistemas de Informação</option>
-                    <option value="Engenharia de Software">Inteligência Artificial</option>
+                    <option value="Engenharia de Software">Engenharia de Software</option>
                 </select>
             </div>
             <div class="row">

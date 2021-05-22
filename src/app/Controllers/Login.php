@@ -19,7 +19,7 @@ class Login extends BaseController
         if ($this->request->getMethod() == 'post') {
             $rules = [
                 'email' => 'required|min_length[6]|max_length[50]|valid_email',
-                'senha' => 'required|min_length[8]|max_length[255]',
+                'senha' => 'required|min_length[6]|max_length[255]',
             ];
 
         if (!$this->validate($rules, getErrorMessages()))

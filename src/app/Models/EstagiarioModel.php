@@ -9,6 +9,28 @@ interface IObserver
     public function Notifique($data);
 }
 
+interface IStrategy {
+    public function InteressarEmEmpregador($data);
+}
+
+class EngenhariaComputacaoStrategy implements IStrategy {
+    public function InteressarEmEmpregador($data) {
+        $estagiarioModel->InsertInteresse($data);
+    }
+}
+
+class EngenhariaSoftwareStrategy implements IStrategy {
+    public function InteressarEmEmpregador($data) {
+        $estagiarioModel->InsertInteresse($data);
+    }
+}
+
+class SistemasInformacaoStrategy implements IStrategy {
+    public function InteressarEmEmpregador($data) {
+        $estagiarioModel->InsertInteresse($data);
+    }
+}
+
 class EstagiarioModel extends Model implements IObserver {
     protected $table = 'estagiarios';
 
@@ -27,6 +49,25 @@ class EstagiarioModel extends Model implements IObserver {
     protected $validationRules = [];
     protected $validationMessages = [];
     protected $skipValidation = true;
+
+    private $strategy;
+
+    public function ObtenhaStrategy($estagiarioId) {
+       $estagiario = ObtenhaPorId($estagiarioId);
+       $cursoEstagiario = $estagiario->curso;
+
+       if ($cursoEstagiario == "Engenharia de Computacao") {
+          return new EngenhariaComputacaoStrategy();
+       }
+
+       else if ($cursoEstagiario == "Sistemas de Informacao"){
+          return new SistemasInformacaoStrategy();
+       }
+
+       else if ($cursoEstagiario == "Engenharia de Software") {
+          return new EngenhariaSoftwareStrategy();
+       }
+    }
 
     public function ObtenhaPorId($id) {
         $db = \Config\Database::connect();
