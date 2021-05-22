@@ -88,6 +88,16 @@ $("#salvaInteresse").on('click', function(event) {
     var conteudo = {
         "valor": empregadores
     };
+
+    if(empregadores.length === 0) {
+        var divErro = $('#erro');
+                $('#sucesso').hide();
+                divErro.text("É necessário selecionar pelo menos um empregador.");
+                divErro.show();
+                $('html').scrollTop(divErro.offset().top);
+                $('html').scrollLeft(divErro.offset().left);
+        return;
+    }
     
     $.ajax({
         type: 'post',
