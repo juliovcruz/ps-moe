@@ -14,26 +14,81 @@ interface IStrategy {
 }
 
 class EngenhariaComputacaoStrategy implements IStrategy {
+    private $limiteInferior = 2;
+    private $limiteSuperior = 4;
+    private $anoAtual = 2021; 
+
     public function InteressarEmEmpregador($data) {
-        // TODO: regra de negócio
+        
         $estagiarioModel = new \App\Models\EstagiarioModel();
-        $estagiarioModel->InsertInteresse($data);
+        $estagiario = $estagiarioModel->ObtenhaPorId($data['estagiarioId']);
+        $tempoCursado = $this->anoAtual - $estagiario->anoDeIngresso;
+
+        if($tempoCursado >= $this->limiteInferior && $tempoCursado <= $this->limiteSuperior) {
+            $estagiarioModel->InsertInteresse($data);
+            return [
+                'sucesso' => true,
+                'mensagem' => 'Interesses salvos com sucesso'
+            ];
+        }
+
+        return [
+            'sucesso' => false,
+            'mensagem' => 'O aluno de Engenharia de Computação necessita de estar entre 40% e 80% do curso completo para poder selecionar empresas de interesse'
+        ];
     }
 }
 
 class EngenhariaSoftwareStrategy implements IStrategy {
+
+    private $limiteInferior = 1;
+    private $limiteSuperior = 4;
+    private $anoAtual = 2021; 
+
     public function InteressarEmEmpregador($data) {
-        // TODO: regra de negócio
+        
         $estagiarioModel = new \App\Models\EstagiarioModel();
-        $estagiarioModel->InsertInteresse($data);
+        $estagiario = $estagiarioModel->ObtenhaPorId($data['estagiarioId']);
+        $tempoCursado = $this->anoAtual - $estagiario->anoDeIngresso;
+
+        if($tempoCursado >= $this->limiteInferior && $tempoCursado <= $this->limiteSuperior) {
+            $estagiarioModel->InsertInteresse($data);
+            return [
+                'sucesso' => true,
+                'mensagem' => 'Interesses salvos com sucesso'
+            ];
+        }
+
+        return [
+            'sucesso' => false,
+            'mensagem' => 'O aluno de Engenharia de Software necessita de estar entre 20% e 80% do curso completo para poder selecionar empresas de interesse'
+        ];
     }
 }
 
 class SistemasInformacaoStrategy implements IStrategy {
+    private $limiteInferior = 1;
+    private $limiteSuperior = 4;
+    private $anoAtual = 2021; 
+
     public function InteressarEmEmpregador($data) {
-        // TODO: regra de negócio
+        
         $estagiarioModel = new \App\Models\EstagiarioModel();
-        $estagiarioModel->InsertInteresse($data);
+        $estagiario = $estagiarioModel->ObtenhaPorId($data['estagiarioId']);
+        $tempoCursado = $this->anoAtual - $estagiario->anoDeIngresso;
+
+        if($tempoCursado >= $this->limiteInferior && $tempoCursado <= $this->limiteSuperior) {
+            $estagiarioModel->InsertInteresse($data);
+            return [
+                'sucesso' => true,
+                'mensagem' => 'Interesses salvos com sucesso'
+            ];
+        }
+
+        return [
+            'sucesso' => false,
+            'mensagem' => 'O aluno de Sistemas de Informação necessita de estar entre 20% e 80% do curso completo para poder selecionar empresas de interesse'
+        ];
     }
 }
 

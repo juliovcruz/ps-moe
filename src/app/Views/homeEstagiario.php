@@ -25,7 +25,10 @@ if(!session()->get('estagiario')) return redirect()->to('Login');
     </nav>
 
     <div class="card-panel teal lighten-2 white-text" id="sucesso" style="display:none;">
-        Interesses salvos com sucesso!
+    </div>
+
+    <div class="card-panel red lighten-2 white-text" id="erro" style="display:none;">
+    a
     </div>
 
         <div class="row">
@@ -91,11 +94,24 @@ $("#salvaInteresse").on('click', function(event) {
         url: 'http://projeto/Estagiario/SalvaInteresse',
         data: {empregadores:empregadores},
         success: function(data) {
-            console.log(data);
-            $('#sucesso').show();
-            var divSucesso = $('#sucesso');
-            $('html').scrollTop(divSucesso.offset().top);
-            $('html').scrollLeft(divSucesso.offset().left);
+            data = JSON.parse(data);
+
+            if(data.sucesso) {
+                var divSucesso = $('#sucesso');
+                $('#erro').hide();
+                divSucesso.text(data.mensagem);
+                divSucesso.show();
+                $('html').scrollTop(divSucesso.offset().top);
+                $('html').scrollLeft(divSucesso.offset().left);
+                return;
+            }
+
+            var divErro = $('#erro');
+                $('#sucesso').hide();
+                divErro.text(data.mensagem);
+                divErro.show();
+                $('html').scrollTop(divErro.offset().top);
+                $('html').scrollLeft(divErro.offset().left);
         }
     });
 });

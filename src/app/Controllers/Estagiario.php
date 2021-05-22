@@ -109,7 +109,7 @@ class Estagiario extends BaseController
                 'curso' => 'required|min_length[3]|max_length[50]',
                 'anoDeIngresso' => 'required|exact_length[4]|integer',
                 'minicurriculo' => 'required|min_length[3]|max_length[250]',
-                'senhaAntiga' => 'required|min_length[8]|max_length[255]'
+                'senhaAntiga' => 'required|min_length[6]|max_length[255]'
             ];
             if (!$this->validate($rules, getErrorMessages())) {
                 $data['validation'] = $this->validator->setRules($rules, getErrorMessages());
@@ -159,20 +159,23 @@ class Estagiario extends BaseController
         $estagiario = session()->get('estagiario');
         $empregadoresId = $this->request->getVar('empregadores');
 
-		$estagiarioModel->DeleteInteresse($estagiario->id);
+        $estrategia = $estagiarioModel->ObtenhaStrategy($estagiario->id);
 
-		foreach((array) $empregadoresId as $empregadorId) {
-			$data = [
-				'estagiarioId' => $estagiario->id,
-				'empregadorId' => $empregadorId,
-			];
+        if(!is_null($estrategia)) {
 
-			$estrategia = $estagiarioModel->ObtenhaStrategy($estagiario->id);
-			$estrategia->InteressarEmEmpregador($data);
-		}
+            $estagiarioModel->DeleteInteresse($estagiario->id);
+
+            foreach((array) $empregadoresId as $empregadorId) {
+                $data = [
+                    'estagiarioId' => $estagiario->id,
+                    'empregadorId' => $empregadorId,
+                ];
+
+                $retorno = $estrategia->InteressarEmEmpregador($data);
+            }
+        }
 		
 		header('Content-Type: application/json');
-		echo json_encode($data);
-		
+		echo json_encode($retorno);
 	}
 }
