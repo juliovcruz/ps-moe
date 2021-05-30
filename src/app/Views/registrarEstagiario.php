@@ -19,9 +19,9 @@
     </div>
     <?php endif; ?>
 
-    <?php if (session()->get('erroEmail')): ?>
+    <?php if (session()->get('erro')): ?>
     <div class="card-panel red lighten-2" id="erro">
-        <?= session()->get('erroEmail') ?>
+        <?= session()->get('erro') ?>
     </div>
     <?php endif; ?>
 

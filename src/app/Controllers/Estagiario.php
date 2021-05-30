@@ -23,7 +23,7 @@ class Estagiario extends BaseController
 
 			$rules = [
 				'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[estagiarios.email]|is_unique[empregadores.email]',
-				'senha' => 'required|min_length[6]|max_length[250]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/]',
+				'senha' => 'required|min_length[6]|max_length[250]',
 				'confirmacaoSenha' => 'matches[senha]',
 				'nome' => 'required|min_length[3]|max_length[50]',
 				'curso' => 'required|min_length[3]|max_length[50]',
@@ -36,22 +36,35 @@ class Estagiario extends BaseController
             }
 			else
 			{
+                $session = session();
+
+			    $senha = $this->request->getVar('senha');
+                if (!senhaValida($senha)) {
+                    $session->setFlashdata('erro', 'A senha precisa ter ao menos um número, uma letra minúscula, uma letra maiúsculua e um caracter especial');
+                    return view('registrarEstagiario');
+                }
+
 				$nome = $this->request->getVar('nome');
 				$id = md5(uniqid(rand(), true));
 				$token = md5(uniqid(rand(), true));
                 $email = $this->request->getVar('email');
+                $curso = $this->request->getVar('curso');
+
+                $cursoModel = new \App\Models\CursoModel();
+                $cursoID = $cursoModel->ObtenhaPorNome($curso)->id;
+
 				$data = [
 					'id' => $id,
 					'email' => $email,
-					'senha' => md5($this->request->getVar('senha')),
+					'senha' => md5($senha),
 					'nome' => $nome,
-					'curso' => $this->request->getVar('curso'),
+					'cursoID' => $cursoID,
 					'anoDeIngresso' => (int)$this->request->getVar('anoDeIngresso'),
 					'miniCurriculo' => $this->request->getVar('minicurriculo'),
 					'token' => $token,
 					'emailConfirmado' => false,
 				];
-		
+
 				$estagiarioModel = new \App\Models\EstagiarioModel();
 				$estagiarioModel->insert($data);
 				
@@ -61,11 +74,9 @@ class Estagiario extends BaseController
 					'nome' => $nome,
                     'email' => $email,
 				];
-
-				$session = session();
 				
 				if(!EnviaEmailCadastro($dadosEmail)) {
-					$session->setFlashdata('erroEmail', 'Ocorreu um erro, contate nosso suporte.');
+					$session->setFlashdata('erro', 'Ocorreu um erro, contate nosso suporte.');
 					return view('registrarEstagiario');
 				}
 				
@@ -127,7 +138,14 @@ class Estagiario extends BaseController
                 ];
 
                 if(strlen($this->request->getVar('senha')) >= 6 ) {
-                    $data['senha'] = md5($this->request->getVar('senha'));
+                    $senha = $this->request->getVar('senha');
+
+                    if (!senhaValida($senha)) {
+                        $session->setFlashdata('erro', 'A senha precisa ter ao menos um número, uma letra minúscula, uma letra maiúsculua e um caracter especial');
+                        return view('editarEstagiario');
+                    }
+
+                    $data['senha'] = md5($senha);
                 }
 
                 $estagiarioModel = new \App\Models\EstagiarioModel();
@@ -156,27 +174,38 @@ class Estagiario extends BaseController
     }
 
 	public function SalvaInteresse() {
+        $cursoModel = new \App\Models\CursoModel();
         $estagiarioModel = new \App\Models\EstagiarioModel();
         $estagiario = session()->get('estagiario');
         $empregadoresId = $this->request->getVar('empregadores');
 
-        $estrategia = $estagiarioModel->ObtenhaStrategy($estagiario->id);
+        $estagiario = $estagiarioModel->ObtenhaPorId($estagiario->id);
+
+        $estrategia = $cursoModel->ObtenhaStrategy($estagiario->cursoID);
 
         if(!is_null($estrategia)) {
-
             $estagiarioModel->DeleteInteresse($estagiario->id);
 
             foreach((array) $empregadoresId as $empregadorId) {
                 $data = [
                     'estagiarioId' => $estagiario->id,
                     'empregadorId' => $empregadorId,
+                    'anoDeIngresso' => $estagiario->anoDeIngresso,
+                    'cursoId' => $estagiario->cursoID,
                 ];
 
-                $retorno = $estrategia->InteressarEmEmpregador($data);
+                $retorno = $estrategia->habilitaInteresse($data);
+
+                if($retorno['habilitado']) {
+                    $estagiarioModel->InsertInteresse($data);
+                }
             }
         }
 		
 		header('Content-Type: application/json');
-		echo json_encode($retorno);
+		echo json_encode([
+            'sucesso' => $retorno['habilitado'],
+            'mensagem' => $retorno['mensagem'],
+        ]);
 	}
 }

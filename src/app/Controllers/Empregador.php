@@ -18,7 +18,7 @@ class Empregador extends BaseController
         if ($this->request->getMethod() == 'post') {
             $rules = [
                 'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[empregadores.email]|is_unique[estagiarios.email]',
-                'senha' => 'required|min_length[6]|max_length[250]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/]',
+                'senha' => 'required|min_length[6]|max_length[250]',
                 'confirmacaoSenha' => 'matches[senha]',
                 'nomeDoResponsavel' => 'required|min_length[3]|max_length[50]',
                 'nomeDaEmpresa' => 'required|min_length[3]|max_length[50]',
@@ -31,6 +31,14 @@ class Empregador extends BaseController
             }
             else
             {
+                $session = session();
+
+                $senha = $this->request->getVar('senha');
+                if (!senhaValida($senha)) {
+                    $session->setFlashdata('erro', 'A senha precisa ter ao menos um número, uma letra minúscula, uma letra maiúsculua e um caracter especial');
+                    return view('registrarEmpregador');
+                }
+
                 $id = md5(uniqid(rand(), true));
                 $token = md5(uniqid(rand(), true));
                 $nome = $this->request->getVar('nomeDaEmpresa');
@@ -38,7 +46,7 @@ class Empregador extends BaseController
                 $data = [
                     'id' => $id,
                     'email' => $email,
-                    'senha' => md5($this->request->getVar('senha')),
+                    'senha' => md5($senha),
                     'nomeDoResponsavel' => $this->request->getVar('nomeDoResponsavel'),
                     'nomeDaEmpresa' => $this->request->getVar('nomeDaEmpresa'),
                     'descricao' => $this->request->getVar('descricao'),
@@ -56,8 +64,6 @@ class Empregador extends BaseController
 					'nome' => $nome,
                     'email' => $email,
 				];
-
-				$session = session();
 				
 				if(!EnviaEmailCadastro($dadosEmail)) {
 					$session->setFlashdata('erroEmail', 'Ocorreu um erro, contate nosso suporte.');
@@ -106,7 +112,14 @@ class Empregador extends BaseController
                 ];
 
                 if(strlen($this->request->getVar('senha')) >= 6 ) {
-                    $data['senha'] = md5($this->request->getVar('senha'));
+                    $senha = $this->request->getVar('senha');
+
+                    if (!senhaValida($senha)) {
+                        $session->setFlashdata('erro', 'A senha precisa ter ao menos um número, uma letra minúscula, uma letra maiúsculua e um caracter especial');
+                        return view('editarEmpregador');
+                    }
+
+                    $data['senha'] = md5($senha);
                 }
 
                 $empregadorModel = new \App\Models\EmpregadorModel();

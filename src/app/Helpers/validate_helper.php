@@ -1,5 +1,16 @@
 <?php
 if (!function_exists('getErrorMessages')){
+    function senhaValida($senha) {
+        $pattern = '/[\'\/~`\!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\|;:"\<\>,\.\?\\\]/';
+
+        if (preg_match('#[0-9]#', $senha) && preg_match('#[a-z]#', $senha)
+            && preg_match('#[A-Z]#', $senha) && preg_match($pattern, $senha)) {
+            return true;
+        }
+
+        return false;
+    }
+
     function getErrorMessages() {
         return [
             'email' => [

@@ -9,89 +9,6 @@ interface IObserver
     public function Notifique($data);
 }
 
-interface IStrategy {
-    public function InteressarEmEmpregador($data);
-}
-
-class EngenhariaComputacaoStrategy implements IStrategy {
-    private $limiteInferior = 2;
-    private $limiteSuperior = 4;
-    private $anoAtual = 2021; 
-
-    public function InteressarEmEmpregador($data) {
-        
-        $estagiarioModel = new \App\Models\EstagiarioModel();
-        $estagiario = $estagiarioModel->ObtenhaPorId($data['estagiarioId']);
-        $tempoCursado = $this->anoAtual - $estagiario->anoDeIngresso;
-
-        if($tempoCursado >= $this->limiteInferior && $tempoCursado <= $this->limiteSuperior) {
-            $estagiarioModel->InsertInteresse($data);
-            return [
-                'sucesso' => true,
-                'mensagem' => 'Interesses salvos com sucesso'
-            ];
-        }
-
-        return [
-            'sucesso' => false,
-            'mensagem' => 'O aluno de Engenharia de Computação necessita de estar entre 40% e 80% do curso completo para poder selecionar empresas de interesse'
-        ];
-    }
-}
-
-class EngenhariaSoftwareStrategy implements IStrategy {
-
-    private $limiteInferior = 1;
-    private $limiteSuperior = 4;
-    private $anoAtual = 2021; 
-
-    public function InteressarEmEmpregador($data) {
-        
-        $estagiarioModel = new \App\Models\EstagiarioModel();
-        $estagiario = $estagiarioModel->ObtenhaPorId($data['estagiarioId']);
-        $tempoCursado = $this->anoAtual - $estagiario->anoDeIngresso;
-
-        if($tempoCursado >= $this->limiteInferior && $tempoCursado <= $this->limiteSuperior) {
-            $estagiarioModel->InsertInteresse($data);
-            return [
-                'sucesso' => true,
-                'mensagem' => 'Interesses salvos com sucesso'
-            ];
-        }
-
-        return [
-            'sucesso' => false,
-            'mensagem' => 'O aluno de Engenharia de Software necessita de estar entre 20% e 80% do curso completo para poder selecionar empresas de interesse'
-        ];
-    }
-}
-
-class SistemasInformacaoStrategy implements IStrategy {
-    private $limiteInferior = 1;
-    private $limiteSuperior = 4;
-    private $anoAtual = 2021; 
-
-    public function InteressarEmEmpregador($data) {
-        
-        $estagiarioModel = new \App\Models\EstagiarioModel();
-        $estagiario = $estagiarioModel->ObtenhaPorId($data['estagiarioId']);
-        $tempoCursado = $this->anoAtual - $estagiario->anoDeIngresso;
-
-        if($tempoCursado >= $this->limiteInferior && $tempoCursado <= $this->limiteSuperior) {
-            $estagiarioModel->InsertInteresse($data);
-            return [
-                'sucesso' => true,
-                'mensagem' => 'Interesses salvos com sucesso'
-            ];
-        }
-
-        return [
-            'sucesso' => false,
-            'mensagem' => 'O aluno de Sistemas de Informação necessita de estar entre 20% e 80% do curso completo para poder selecionar empresas de interesse'
-        ];
-    }
-}
-
 class EstagiarioModel extends Model implements IObserver {
     protected $table = 'estagiarios';
 
@@ -100,7 +17,7 @@ class EstagiarioModel extends Model implements IObserver {
     protected $returnType     = 'array';
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['id', 'nome', 'curso', 'anoDeIngresso', 'miniCurriculo', 'email', 'senha', 'token', 'emailConfirmado'];
+    protected $allowedFields = ['id', 'nome', 'cursoID', 'anoDeIngresso', 'miniCurriculo', 'email', 'senha', 'token', 'emailConfirmado'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
@@ -118,23 +35,6 @@ class EstagiarioModel extends Model implements IObserver {
         $query = $db->query("SELECT * FROM estagiarios WHERE id='$id'");
         $result = $query->getResult();
         return $result[0];
-    }
-
-    public function ObtenhaStrategy($estagiarioId) {
-        $estagiario = $this->ObtenhaPorId($estagiarioId);
-        $cursoEstagiario = $estagiario->curso;
-
-        if ($cursoEstagiario == "Engenharia de Computacao") {
-            return new EngenhariaComputacaoStrategy();
-        }
-
-        else if ($cursoEstagiario == "Sistemas de Informacao"){
-            return new SistemasInformacaoStrategy();
-        }
-
-        else if ($cursoEstagiario == "Engenharia de Software") {
-            return new EngenhariaSoftwareStrategy();
-        }
     }
 
     public function Notifique($data) {
