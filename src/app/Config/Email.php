@@ -54,14 +54,14 @@ class Email extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $SMTPUser = 'ufg.projetodesoftware@hotmail.com';
+	public $SMTPUser = 'ufg.projetodesoftware1278@hotmail.com';
 
 	/**
 	 * SMTP Password
 	 *
 	 * @var string
 	 */
-	public $SMTPPass = 'ntGi4w*^G8@nvq127';
+	public $SMTPPass = 'ntGi4w*^G8@nvq';
 
 	/**
 	 * SMTP Port
