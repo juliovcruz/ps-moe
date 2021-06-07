@@ -10,7 +10,7 @@ if (!function_exists('EnviaEmailCadastro'))
 		$config['mailType'] = 'html';
 				
 		$email->initialize($config);
-		$email->setFrom('ufg.projetodesoftware@hotmail.com');
+		$email->setFrom('xxx');
 		$email->setTo($data['email']);
 
 		$email->setSubject('Confirme seu email para ter acesso ao Mural de Estágios');
@@ -25,9 +25,11 @@ if (!function_exists('EnviaEmailCadastro'))
 				  </body>
 			  </html>");
 
-		$email->send();
+		log_message('error', $email->send());
 
-        return !empty($email->printDebugger());
+		$a = log_message('error', $email->printDebugger());
+
+        return !empty($a);
     }   
 
 	function EnvieEmailVaga($vaga, $estagiario, $empregador)

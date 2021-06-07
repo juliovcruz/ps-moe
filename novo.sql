@@ -53,14 +53,14 @@ INSERT INTO `cursos` (`id`, `nome`, `limiteInferior`, `limiteSuperior`) VALUES
 
 DROP TABLE IF EXISTS `empregadores`;
 CREATE TABLE IF NOT EXISTS `empregadores` (
-  `id` varchar(24) COLLATE utf8_bin NOT NULL,
+  `id` varchar(32) COLLATE utf8_bin NOT NULL,
   `nomeDoResponsavel` varchar(50) COLLATE utf8_bin NOT NULL,
   `nomeDaEmpresa` varchar(50) COLLATE utf8_bin NOT NULL,
   `descricao` varchar(250) COLLATE utf8_bin NOT NULL,
   `produtos` varchar(250) COLLATE utf8_bin NOT NULL,
   `email` varchar(50) COLLATE utf8_bin NOT NULL,
   `senha` varchar(60) COLLATE utf8_bin NOT NULL,
-  `token` varchar(24) COLLATE utf8_bin NOT NULL,
+  `token` varchar(32) COLLATE utf8_bin NOT NULL,
   `emailConfirmado` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
@@ -97,14 +97,14 @@ INSERT INTO `empregadores` (`id`, `nomeDoResponsavel`, `nomeDaEmpresa`, `descric
 
 DROP TABLE IF EXISTS `estagiarios`;
 CREATE TABLE IF NOT EXISTS `estagiarios` (
-  `id` varchar(24) COLLATE utf8_bin NOT NULL,
+  `id` varchar(32) COLLATE utf8_bin NOT NULL,
   `nome` varchar(50) COLLATE utf8_bin NOT NULL,
   `cursoID` varchar(50) COLLATE utf8_bin NOT NULL,
   `anoDeIngresso` int(11) NOT NULL,
   `miniCurriculo` varchar(500) COLLATE utf8_bin NOT NULL,
   `email` varchar(50) COLLATE utf8_bin NOT NULL,
   `senha` varchar(60) COLLATE utf8_bin NOT NULL,
-  `token` varchar(24) COLLATE utf8_bin NOT NULL,
+  `token` varchar(32) COLLATE utf8_bin NOT NULL,
   `emailConfirmado` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
@@ -193,8 +193,8 @@ INSERT INTO `interesse` (`empregadorId`, `estagiarioId`) VALUES
 
 DROP TABLE IF EXISTS `vagas`;
 CREATE TABLE IF NOT EXISTS `vagas` (
-  `id` varchar(24) COLLATE utf8_bin NOT NULL,
-  `empregadorID` varchar(24) COLLATE utf8_bin NOT NULL,
+  `id` varchar(32) COLLATE utf8_bin NOT NULL,
+  `empregadorID` varchar(32) COLLATE utf8_bin NOT NULL,
   `descricao` varchar(250) COLLATE utf8_bin NOT NULL,
   `listaDeAtividades` varchar(250) COLLATE utf8_bin NOT NULL,
   `listaDeHabilidadesRequeridas` varchar(250) COLLATE utf8_bin NOT NULL,
